@@ -29,6 +29,7 @@
 				padding: 20px;
 				background-color: white;
 				box-shadow: 1px 1px 1px 2px rgb(217, 217, 217);
+                
 			}
 
 			path:hover {
@@ -45,6 +46,8 @@
 
 	</div>
 		
+   
+    <div id="map">
 
 		<script type="text/javascript">
 
@@ -53,10 +56,12 @@
 			//Width and height
 			var width = 500;
 			var height = 400;
+            var transform = "translate(300,300)";
 
             let svg = d3.select("body").append("svg")
                             .attr("width", width)
                             .attr("height", height)
+                            .attr("transform", transform)
                             
 
 			//Define map projection
@@ -86,6 +91,8 @@
 
 		
 		</script>
+    </div>
+
 	</body>
 
 
