@@ -1,1 +1,92 @@
-olè
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" integrity="sha512-4UKI/XKm3xrvJ6pZS5oTRvIQGIzZFoXR71rRBb1y2N+PbwAsKa5tPl2J6WvbEvwN3TxQCm8hMzsl/pO+82iRlg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <style type="text/css">
+
+
+			svg {
+				background-color: white;
+			}
+
+			h1 {
+				color: rgb(115, 115, 115);
+				font-size: 18px;
+				font-family: sans-serif;
+				font-weight: bold;
+				margin: 0;
+				padding-bottom: 10px;
+
+			}
+
+				#container {
+				width: 800px;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: 20px;
+				padding: 20px;
+				background-color: white;
+				box-shadow: 1px 1px 1px 2px rgb(217, 217, 217);
+			}
+
+			path:hover {
+				fill: rgba(8, 81, 156, 0.2);
+				cursor:pointer;
+			}
+		</style>
+    
+    </head>
+    <body>
+
+    <div id="container">
+		<h1>European countries</h1>
+
+	</div>
+		
+
+		<script type="text/javascript">
+
+
+
+			//Width and height
+			var width = 500;
+			var height = 400;
+
+            let svg = d3.select("body").append("svg")
+                            .attr("width", width)
+                            .attr("height", height)
+                            
+
+			//Define map projection
+            let geoJsonUrl = ''
+
+			var europeProjection = d3.geoMercator()
+                                        .center([ 13, 52 ])
+                                        .scale([ width / 1.5 ])
+                                        .translate([ width / 2, height / 2 ])
+            
+            
+			//Define path generator
+			var pathGenerator = d3.geoPath().projection(europeProjection)
+            geoJsonUrl = "https://gist.githubusercontent.com/spiker830/3eab0cb407031bf9f2286f98b9d0558a/raw/7edae936285e77be675366550e20f9166bed0ed5/europe_features.json"
+
+			d3.json(geoJsonUrl).then(geojson => {
+                // Tell D3 to render a path for each GeoJSON feature
+                svg.selectAll("path")
+                    .data(geojson.features)
+                    .enter()
+                    .append("path")
+                    .attr("d", pathGenerator) // This is where the magic happens
+                    .attr("stroke", "grey") // Color of the lines themselves
+                    .attr("fill", "white") // Color uses to fill in the lines
+                })
+
+
+		
+		</script>
+	</body>
+
+
+</html>
