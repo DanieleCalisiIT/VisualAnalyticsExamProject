@@ -60,7 +60,7 @@ d3.csv("Deaths_EU.csv").then(function(data){
             .enter()
             .append("path")
             .attr("d", pathGenerator)
-            .attr("stroke", "grey") 
+            .attr("stroke", "grey")
             .attr("fill", function(d){
                 for(var i=0; i<data.length;i++){
                     if (data[i].Country == d.properties.name ){
@@ -69,12 +69,18 @@ d3.csv("Deaths_EU.csv").then(function(data){
                 }
 <<<<<<< Updated upstream
             })
+<<<<<<< HEAD
 =======
             
             });
            
 >>>>>>> Stashed changes
             
+=======
+            .on("mouseover",function(event,d){
+                console.log(d.properties.name)}
+            )
+>>>>>>> aa55f8147b183d1f1239fd584dbef81d4dbbbad9
         });
      
 
