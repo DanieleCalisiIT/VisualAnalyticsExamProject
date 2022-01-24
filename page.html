@@ -51,6 +51,19 @@
 
 		<script type="text/javascript">
 
+			d3.csv("Deaths_EU.csv").then(function(data){
+				data.forEach(function(d){
+					d["Country"] = d.Entity;
+					d.Year = new Date(+d.Year, 0, 1); //Convert to date
+					d.Unsafe_water_source = +d.Unsafe_water_source; //Convert to number
+
+				});
+
+
+				//CODE HERE
+				console.log(data[0]);
+			});
+
 
 
 			//Width and height
