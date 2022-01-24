@@ -67,20 +67,12 @@ d3.csv("Deaths_EU.csv").then(function(data){
                         return color(data[i].Unsafe_water_source);
                     }
                 }
-<<<<<<< Updated upstream
             })
-<<<<<<< HEAD
-=======
-            
-            });
-           
->>>>>>> Stashed changes
-            
-=======
+
             .on("mouseover",function(event,d){
                 console.log(d.properties.name)}
             )
->>>>>>> aa55f8147b183d1f1239fd584dbef81d4dbbbad9
+
         });
      
 
