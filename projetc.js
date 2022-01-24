@@ -18,6 +18,11 @@ d3.csv("Deaths_EU.csv").then(function(data){
                 .domain([0, 220])
                 .range(["#ffeda0","#f03b20"]);
 
+
+    var mouseOver = function(d){
+        return (console.log(d))
+    };
+
     //Width and height
     var width = 500;
     var height = 400;
@@ -59,8 +64,10 @@ d3.csv("Deaths_EU.csv").then(function(data){
                         return color(data[i].Unsafe_water_source);
                     }
                 }
-                
-            });
+            })
+            .on("mouseover",function(d){
+                mouseOver(d.properties.name)}
+            )
         });
 
 });
