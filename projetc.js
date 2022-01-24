@@ -33,6 +33,7 @@ d3.csv("Deaths_EU.csv").then(function(data){
                     .attr("height", height)
                     .attr("transform", transform)
                     
+                    
 
     //Define map projection
     let geoJsonUrl = ''
@@ -50,7 +51,7 @@ d3.csv("Deaths_EU.csv").then(function(data){
     
     geoJsonUrl = "https://gist.githubusercontent.com/spiker830/3eab0cb407031bf9f2286f98b9d0558a/raw/7edae936285e77be675366550e20f9166bed0ed5/europe_features.json"
     
-
+  
 
     d3.json(geoJsonUrl).then(geoJson=> {
         // Tell D3 to render a path for each GeoJSON feature
@@ -66,9 +67,16 @@ d3.csv("Deaths_EU.csv").then(function(data){
                         return color(data[i].Unsafe_water_source);
                     }
                 }
+<<<<<<< Updated upstream
             })
+=======
+            
+            });
+           
+>>>>>>> Stashed changes
             
         });
+     
 
 });
 
