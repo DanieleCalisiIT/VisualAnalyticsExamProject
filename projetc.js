@@ -6,7 +6,6 @@ d3.csv("Deaths_EU.csv").then(function(data){
 
     });
 
-
     //CODE HERE
     /*for(var i=0; i<data.length;i++){
         if (data[i].Country == "Italy"){
