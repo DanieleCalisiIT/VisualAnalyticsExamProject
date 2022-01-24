@@ -60,19 +60,20 @@ d3.csv("Deaths_EU.csv").then(function(data){
             .enter()
             .append("path")
             .attr("d", pathGenerator)
-            .attr("stroke", "grey")
+            .attr("stroke", "grey") 
             .attr("fill", function(d){
                 for(var i=0; i<data.length;i++){
                     if (data[i].Country == d.properties.name ){
                         return color(data[i].Unsafe_water_source);
                     }
                 }
-            })
-
+            
+            }) 
             .on("mouseover",function(event,d){
                 console.log(d.properties.name)}
             )
-
+           
+            
         });
      
 
