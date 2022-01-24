@@ -57,7 +57,7 @@ d3.csv("Deaths_EU.csv").then(function(data){
             .enter()
             .append("path")
             .attr("d", pathGenerator)
-            .attr("stroke", "grey") 
+            .attr("stroke", "grey")
             .attr("fill", function(d){
                 for(var i=0; i<data.length;i++){
                     if (data[i].Country == d.properties.name ){
@@ -65,8 +65,8 @@ d3.csv("Deaths_EU.csv").then(function(data){
                     }
                 }
             })
-            .on("mouseover",function(d){
-                mouseOver(d.properties.name)}
+            .on("mouseover",function(event,d){
+                console.log(d.properties.name)}
             )
         });
 
