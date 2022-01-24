@@ -42,6 +42,8 @@ d3.csv("Deaths_EU.csv").then(function(data){
                                 .scale([ width / 1.5 ])
                                 .translate([ width / 2, height / 2 ])
 
+    //define function for mouseover/mouseon
+
 
     //Define path generator
     var pathGenerator = d3.geoPath().projection(europeProjection)
@@ -65,13 +67,10 @@ d3.csv("Deaths_EU.csv").then(function(data){
                     }
                 }
             })
-            .on("mouseover",function(d){
-                mouseOver(d.properties.name)}
-            )
+            
         });
 
 });
-
 
 
 
