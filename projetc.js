@@ -49,11 +49,10 @@ d3.csv("Deaths_EU.csv").then(function(data){
         // Tell D3 to render a path for each GeoJSON feature
         svg.selectAll("path")
             .data(geoJson.features)
-            //console.log(geojson.feature)
             .enter()
             .append("path")
-            .attr("d", pathGenerator) // This is where the magic happens
-            .attr("stroke", "grey") // Color of the lines themselves
+            .attr("d", pathGenerator)
+            .attr("stroke", "grey") 
             .attr("fill", function(d){
                 for(var i=0; i<data.length;i++){
                     if (data[i].Country == d.properties.name ){
