@@ -3,7 +3,7 @@
         <meta charset="utf-8">
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" integrity="sha512-4UKI/XKm3xrvJ6pZS5oTRvIQGIzZFoXR71rRBb1y2N+PbwAsKa5tPl2J6WvbEvwN3TxQCm8hMzsl/pO+82iRlg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="projetc.js"></script>
+        <script src="map.js"></script>
         <script src="https://d3js.org/topojson.v1.min.js"></script>
         <style type="text/css">
 
@@ -34,9 +34,17 @@
     
 	
 	<body>
+		<b> Select the type of death to view in the map: </b>
+		<select id = "List_Deaths" >
+			<option selected="selected" value ="Unsafe_water_source" > Unsafe Water Source </option>
+			<option value="Unsafe_sanitation"> Unsafe sanitation </option>
+			<option value="Household_air_pollution_from_solid_fuels"> Household air pollution from solid fuels </option>
+		</select>
 		<h2 id="Country_Name">Country name</h2>
 		<h4 id="Unsafe_water_source">UNS_WAT_S</h4>
 		<h4 id="Unsafe_sanitation">UNS_SANIT</h4>
+		<!-- Qui sono da aggiungere tutte le altre tipologie di morte, magari mettendole all'interno di 3/4 div che rappresentano
+		3/4 colonne di cui ogni riga è una morte-->
 
 
 		
