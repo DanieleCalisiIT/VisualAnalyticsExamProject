@@ -35,6 +35,10 @@
     
 	
 	<body>
+
+		<input id="Slider_Year"type="range" value="2005" min="1990" max="2017" oninput="this.nextElementSibling.value = this.value">
+		<output>2005</output>
+		<br/>
 		<b> Select the type of death to view in the map: </b>
 		<select id = "List_Deaths" >
 			<option selected="selected" value ="Unsafe_water_source" > Unsafe water source </option>
