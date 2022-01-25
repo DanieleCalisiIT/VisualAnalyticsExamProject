@@ -1,7 +1,7 @@
 d3.csv("Deaths_EU.csv").then(function(data){
     data.forEach(function(d){
         d["Country"] = d.Entity;
-        d.Year = new Date(+d.Year, 0, 1); //Convert to date
+        d.Year = +d.Year; //Convert to date
         d.Unsafe_water_source = +d.Unsafe_water_source; //Convert to number
         d.Unsafe_sanitation = +d.Unsafe_sanitation;
         d.Household_air_pollution_from_solid_fuels = +d.Household_air_pollution_from_solid_fuels;
@@ -38,7 +38,17 @@ d3.csv("Deaths_EU.csv").then(function(data){
 }
 
     
-    function MouseOver(event,d,death){
+    var mylist = document.getElementById("List_Deaths");
+    var slider = document.getElementById("Slider_Year");
+
+    mylist.addEventListener('change', Change_In_The_Map);
+    slider.addEventListener('change', Change_In_The_Map);
+
+    
+
+
+
+    function MouseOver(event,d,year_Selected){
         var Country_name = d.properties.name
         d3.select("#Country_name").text(Country_name);
         for(var l=0; l<Array_Deaths.length ; l++){
@@ -46,9 +56,14 @@ d3.csv("Deaths_EU.csv").then(function(data){
             d3.select(H4)
                 .text(function(d){
                     for(var i=0; i<data.length;i++){
-                        if (data[i].Country == Country_name ){
-                            var Death = data[i][Array_Deaths[l]]
-                            return Death;
+                        if (data[i].Country == Country_name){
+                            console.log(Country_name)
+                            console.log(year_Selected)
+                            if(data[i].Year == year_Selected){
+                                var Death = data[i][Array_Deaths[l]]
+                                return Death;
+                            }
+        
                             
 
 
@@ -62,21 +77,17 @@ d3.csv("Deaths_EU.csv").then(function(data){
 
     //Changes based on TIMELINE and Type of Death
 
-    var mylist = document.getElementById("List_Deaths");
-    var slider = document.getElementById("Slider_Year");
-
-    mylist.addEventListener('change', Change_In_The_Map);
-    slider.addEventListener('change', Change_In_The_Map);
-
-
-
     
+
+
+
     function Change_In_The_Map(){
         d3.select("svg").remove();
 
-        
+
         var death_Selected = mylist.options[mylist.selectedIndex].value;
-        console.log(death_Selected)
+        var year_Selected = document.getElementById("Slider_Year").value
+
 
 
           //Width and height
@@ -106,7 +117,7 @@ d3.csv("Deaths_EU.csv").then(function(data){
         geoJsonUrl = "https://gist.githubusercontent.com/spiker830/3eab0cb407031bf9f2286f98b9d0558a/raw/7edae936285e77be675366550e20f9166bed0ed5/europe_features.json"
         
     
-
+        
         d3.json(geoJsonUrl).then(geoJson=> {
             // Tell D3 to render a path for each GeoJSON feature
             svg.selectAll("path")
@@ -118,22 +129,23 @@ d3.csv("Deaths_EU.csv").then(function(data){
                 .attr("fill", function(d){
                     for(var i=0; i<data.length;i++){
                         if (data[i].Country == d.properties.name ){
+                            if (data[i].Year == year_Selected ){
+                                var maxDeath = getMax(data, death_Selected);
 
-                            var maxDeath = getMax(data, death_Selected);
+                                var color = d3.scaleLinear()
+                                    .domain([0, maxDeath[death_Selected]])
+                                    .range(["#ffffb2","#bd0026"]);
+                                
+                                return color(data[i][death_Selected]);
 
-                            console.log(maxDeath[death_Selected])
+                            }
 
-                            var color = d3.scaleLinear()
-                                .domain([0, maxDeath[death_Selected]])
-                                .range(["#ffffb2","#bd0026"]);
-                            
-                            return color(data[i][death_Selected]);
                         }
                     }
                 
                 }) 
-                .on("mouseover",function(_event,d,death){
-                    MouseOver(_event,d,death_Selected);
+                .on("mouseover",function(_event,d){
+                    MouseOver(_event,d,year_Selected);
                 })
             
                 
