@@ -49,7 +49,8 @@ d3.csv("Deaths_EU.csv").then(function(data){
                         if (data[i].Country == Country_name ){
                             var Death = data[i][Array_Deaths[l]]
                             return Death;
-                                
+                            
+
 
                             }
                         }
@@ -58,11 +59,19 @@ d3.csv("Deaths_EU.csv").then(function(data){
 
     }
 
+
+    //Changes based on TIMELINE and Type of Death
+
     var mylist = document.getElementById("List_Deaths");
-    mylist.addEventListener('change', Change_Of_Death);
+    var slider = document.getElementById("Slider_Year");
+
+    mylist.addEventListener('change', Change_In_The_Map);
+    slider.addEventListener('change', Change_In_The_Map);
 
 
-    function Change_Of_Death(){
+
+    
+    function Change_In_The_Map(){
         d3.select("svg").remove();
 
         
@@ -132,7 +141,7 @@ d3.csv("Deaths_EU.csv").then(function(data){
 
     }
 
-    Change_Of_Death();
+    Change_In_The_Map();
 
 
 
