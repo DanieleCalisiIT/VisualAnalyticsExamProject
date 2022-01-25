@@ -22,12 +22,11 @@ d3.csv("Deaths_EU.csv").then(function(data){
         d.Air_pollution = +d.Air_pollution;
         d.Outdoor_air_pollution = +d.Outdoor_air_pollution;
         d.Diet_high_in_sodium = +d.Diet_high_in_sodium;
-        d.Diet_low_in_whole_grains = +d.Diet_low_in_whole_grains;
     });
 
     let Array_Deaths = ["Unsafe_water_source","Unsafe_sanitation","Household_air_pollution_from_solid_fuels","Child_wasting","Low_birth_weight_for_gestation",
         "Secondhand_smoke","Alcohol_use","Drug_use","Diet_low_in_fruits","Unsafe_sex","High_fasting_plasma_glucose","High_body_mass_index","High_systolic_blood_pressure",
-        "Smoking","Iron_deficiency","Vitamin_A_deficiency","Low_bone_mineral_density","Air_pollution","Outdoor_air_pollution","Diet_high_in_sodium","Diet_low_in_whole_grains"];
+        "Smoking","Iron_deficiency","Vitamin_A_deficiency","Low_bone_mineral_density","Air_pollution","Outdoor_air_pollution","Diet_high_in_sodium"];
     
     function getMax(arr, prop) {
     var max;
