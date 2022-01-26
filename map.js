@@ -46,8 +46,6 @@ d3.csv("Deaths_EU.csv").then(function(data){
 
     
 
-
-
     function MouseOver(event,d,year_Selected){
         var Country_name = d.properties.name
         d3.select("#Country_name").text(Country_name);
