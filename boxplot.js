@@ -40,11 +40,12 @@ d3.csv("Deaths_EU.csv").then(function(data){
 
     function getDeathForEachCountry(death_Selected, year_Selected){
         var deathArray = [];
+        var l=0;
         for( var i = 0; i < data.length; i++ ){
             if(data[i].Year == year_Selected){
-                deathArray[i] = parseFloat(data[i][death_Selected])
-                //console.log(deathArray[i]);
-                
+                deathArray[l] = parseFloat(data[i][death_Selected])
+                l++
+                                
             }
         }
         return deathArray;
@@ -80,8 +81,8 @@ d3.csv("Deaths_EU.csv").then(function(data){
         //height = 300 - margin.top - margin.bottom;
     
         // set the dimensions and margins of the graph. Per mettere due grafici width diventerà widthBoxPlot
-        var margin = {top: 10, right: 30, bottom: 30, left: 40},
-        width = 460 - margin.left - margin.right,
+        var margin = {top: 10, right: 30, bottom: 65, left: 50},
+        width = 400 - margin.left - margin.right,
         height = 350 - margin.top - margin.bottom;
 
         // append the svg object to the body of the page
@@ -95,6 +96,7 @@ d3.csv("Deaths_EU.csv").then(function(data){
 
         //statistics
         var data_sorted = dataSelected.sort(d3.ascending)
+        console.log(data_sorted)
         var q1 = d3.quantile(data_sorted, .25)
         var median = d3.quantile(data_sorted, .5)
         var q3 = d3.quantile(data_sorted, .75)
@@ -138,6 +140,19 @@ d3.csv("Deaths_EU.csv").then(function(data){
             .attr("x2", center+width/2)
             .attr("y1", function(d){ return(yscale(d))} )
             .attr("y2", function(d){ return(yscale(d))} )
+            .attr("stroke", "black")
+        
+        var jitterWidth = 50
+        svg.selectAll("indPoints")
+            .data(data_sorted)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d){
+                return(center - jitterWidth/2 + Math.random()*jitterWidth )})
+            .attr("cy", function(d){
+                return(yscale(d))})
+            .attr("r", 4)
+            .style("fill", "white")
             .attr("stroke", "black")
 
     }
