@@ -52,8 +52,8 @@ d3.csv("Deaths_EU.csv").then(function(data){
         var Country_name = d.properties.name
         d3.select("#Country_name").text(Country_name);
         for(var l=0; l<Array_Deaths.length ; l++){
-            var H4 = '#' +  Array_Deaths[l];
-            d3.select(H4)
+            var H6 = '#' +  Array_Deaths[l];
+            d3.select(H6)
                 .text(function(d){
                     for(var i=0; i<data.length;i++){
                         if (data[i].Country == Country_name){
@@ -61,11 +61,8 @@ d3.csv("Deaths_EU.csv").then(function(data){
                             console.log(year_Selected)
                             if(data[i].Year == year_Selected){
                                 var Death = data[i][Array_Deaths[l]]
-                                return Death;
+                                return Math.floor(Death);
                             }
-        
-                            
-
 
                             }
                         }
@@ -80,20 +77,19 @@ d3.csv("Deaths_EU.csv").then(function(data){
     
 
 
-
     function Change_In_The_Map(){
         d3.select("svg").remove();
 
 
         var death_Selected = mylist.options[mylist.selectedIndex].value;
-        var year_Selected = document.getElementById("Slider_Year").value
+        var year_Selected = document.getElementById("Slider_Year").value;
 
 
 
           //Width and height
-        var width = 500;
-        var height = 400;
-        var transform = "translate(50,100)";
+        var width = 700;
+        var height = 500;
+        var transform = "translate(-650,170)";
 
         let svg = d3.select("body").append("svg")
                         .attr("width", width)
@@ -107,8 +103,8 @@ d3.csv("Deaths_EU.csv").then(function(data){
 
         var europeProjection = d3.geoMercator()
                                     .center([ 15, 52 ])
-                                    .scale([ width / 1.5 ])
-                                    .translate([ width / 1.8, height / 2 ])
+                                    .scale([ width / 1.8 ])
+                                    .translate([ width / 2, height / 2 ])
 
 
         //Define path generator
