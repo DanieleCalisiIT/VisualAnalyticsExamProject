@@ -76,8 +76,7 @@ d3.csv("Deaths_EU.csv").then(function(data){
 
 
     function Change_In_The_Map(){
-        d3.select("svg").remove();
-
+        d3.selectAll("svg").remove();
 
         var death_Selected = mylist.options[mylist.selectedIndex].value;
         var year_Selected = document.getElementById("Slider_Year").value;
@@ -87,9 +86,9 @@ d3.csv("Deaths_EU.csv").then(function(data){
           //Width and height
         var width = 700;
         var height = 500;
-        var transform = "translate(-650,170)";
+        var transform = "translate(0,50)";
 
-        let svg = d3.select("body").append("svg")
+        let svg = d3.select("#map").append("svg")
                         .attr("width", width)
                         .attr("height", height)
                         .attr("transform", transform)
