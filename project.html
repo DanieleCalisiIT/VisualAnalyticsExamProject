@@ -4,6 +4,7 @@
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" integrity="sha512-4UKI/XKm3xrvJ6pZS5oTRvIQGIzZFoXR71rRBb1y2N+PbwAsKa5tPl2J6WvbEvwN3TxQCm8hMzsl/pO+82iRlg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="map.js"></script>
+		<script src="boxplot.js"></script>
         <script src="https://d3js.org/topojson.v1.min.js"></script>
         <style type="text/css">
 
@@ -37,8 +38,16 @@
 			}
 			#ColumnDeaths{
 				float: left;
-				width: 12%;
+				width: 25%;
 				
+			}
+			#map{
+				float:left;
+
+			}
+			#boxplot{
+				float:left;
+
 			}
 			
 		</style>
@@ -51,98 +60,106 @@
 		<input id="Slider_Year"type="range" value="2005" min="1990" max="2017" oninput="this.nextElementSibling.value = this.value">
 		<output>2005</output>
 		<br/>
-		<b> Select the type of death to view in the map: </b>
-		<select id = "List_Deaths" >
-			<option selected="selected" value ="Unsafe_water_source" > Unsafe water source </option>
-			<option value="Unsafe_sanitation"> Unsafe sanitation </option>
-			<option value="Household_air_pollution_from_solid_fuels"> Household air pollution from solid fuels </option>
-			<option value="Child_wasting"> Child wasting </option>
-			<option value="Low_birth_weight_for_gestation"> Lowbirth weight for gestation </option>
-			<option value="Secondhand_smoke"> Secondhand smoke </option>
-			<option value="Alcohol_use"> Alcohol use </option>
-			<option value="Drug_use"> Drug use </option>
-			<option value="Diet_low_in_fruits"> Diet low in fruits </option>
-			<option value="Unsafe_sex"> Unsafe sex </option>
-			<option value="High_fasting_plasma_glucose"> High fasting plasma glucose </option>
-			<option value="High_body_mass_index"> High body mass index </option>
-			<option value="High_systolic_blood_pressure"> High systolic blood pressure </option>
-			<option value="Smoking"> Smoking </option>
-			<option value="Iron_deficiency"> Iron deficiency </option>
-			<option value="Vitamin_A_deficiency"> Vitamin A deficiency </option>
-			<option value="Low_bone_mineral_density"> Low bone mineral density </option>
-			<option value="Air_pollution"> Air pollution </option>
-			<option value="Outdoor_air_pollution"> Outdoor air pollution </option>
-			<option value="Diet_high_in_sodium"> Diet high in sodium </option>
-
-		</select>
-		<h2 id="Country_Name">Country name</h2>
-		<div id="Number_Deaths">
-			<div id="ColumnDeaths">
-				<h5 id="nameDeath">Unsafe water source:</h5>
-				<h6 id="Unsafe_water_source">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">Unsafe sanitation:</h5>
-				<h6 id="Unsafe_sanitation">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">Household air pollution:</h5>
-				<h6 id="Household_air_pollution_from_solid_fuels">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">Child wasting:</h5>
-				<h6 id="Child_wasting">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">Low birth weight:</h5>
-				<h6 id="Low_birth_weight_for_gestation">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">Secondhand smoke:</h5>
-				<h6 id="Secondhand_smoke">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">Alcohol use:</h5>
-				<h6 id="Alcohol_use">NULL</h6>
-			</div>
-			<div id="ColumnDeaths">
-				<h5 id="nameDeath">Drug use:</h5>
-				<h6 id="Drug_use">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">Diet low in fruits:</h5>
-				<h6 id="Diet_low_in_fruits">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">Unsafe segs:</h5>
-				<h6 id="Unsafe_sex">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">High plasma glucose:</h5>
-				<h6 id="High_fasting_plasma_glucose">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">High BMI:</h5>
-				<h6 id="High_body_mass_index">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">High systolic blood pressure:</h5>
-				<h6 id="High_systolic_blood_pressure">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">Smoking:</h5>
-				<h6 id="Smoking">NULL</h6>
-			</div>
-			<div id="ColumnDeaths">
-				<h5 id="nameDeath">Iron deficiency:</h5>
-				<h6 id="Iron_deficiency">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">Vit A deficiency:</h5>
-				<h6 id="Vitamin_A_deficiency">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">Air pollution:</h5>
-				<h6 id="Air_pollution">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">Outdoor air pollution:</h5>
-				<h6 id="Outdoor_air_pollution">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">Low bone mineral density:</h5>
-				<h6 id="Low_bone_mineral_density">NULL</h6>
-				<br/>
-				<h5 id="nameDeath">Diet high in sodium:</h5>
-				<h6 id="Diet_high_in_sodium">NULL</h6>
-			</div>
+		<div id="Select_Deaths">
+			<b> Select the type of death to view in the map: </b>
+			<select id = "List_Deaths" >
+				<option selected="selected" value ="Unsafe_water_source" > Unsafe water source </option>
+				<option value="Unsafe_sanitation"> Unsafe sanitation </option>
+				<option value="Household_air_pollution_from_solid_fuels"> Household air pollution from solid fuels </option>
+				<option value="Child_wasting"> Child wasting </option>
+				<option value="Low_birth_weight_for_gestation"> Lowbirth weight for gestation </option>
+				<option value="Secondhand_smoke"> Secondhand smoke </option>
+				<option value="Alcohol_use"> Alcohol use </option>
+				<option value="Drug_use"> Drug use </option>
+				<option value="Diet_low_in_fruits"> Diet low in fruits </option>
+				<option value="Unsafe_sex"> Unsafe sex </option>
+				<option value="High_fasting_plasma_glucose"> High fasting plasma glucose </option>
+				<option value="High_body_mass_index"> High body mass index </option>
+				<option value="High_systolic_blood_pressure"> High systolic blood pressure </option>
+				<option value="Smoking"> Smoking </option>
+				<option value="Iron_deficiency"> Iron deficiency </option>
+				<option value="Vitamin_A_deficiency"> Vitamin A deficiency </option>
+				<option value="Low_bone_mineral_density"> Low bone mineral density </option>
+				<option value="Air_pollution"> Air pollution </option>
+				<option value="Outdoor_air_pollution"> Outdoor air pollution </option>
+				<option value="Diet_high_in_sodium"> Diet high in sodium </option>
+			</select>
 
 		</div>
+		
 
+		<div id="map">
+			<h2 id="Country_Name">Country name</h2>
+			<div id="Number_Deaths">
+				<div id="ColumnDeaths">
+					<h5 id="nameDeath">Unsafe water source:</h5>
+					<h6 id="Unsafe_water_source">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">Unsafe sanitation:</h5>
+					<h6 id="Unsafe_sanitation">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">Household air pollution:</h5>
+					<h6 id="Household_air_pollution_from_solid_fuels">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">Child wasting:</h5>
+					<h6 id="Child_wasting">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">Low birth weight:</h5>
+					<h6 id="Low_birth_weight_for_gestation">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">Secondhand smoke:</h5>
+					<h6 id="Secondhand_smoke">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">Alcohol use:</h5>
+					<h6 id="Alcohol_use">NULL</h6>
+				</div>
+				<div id="ColumnDeaths">
+					<h5 id="nameDeath">Drug use:</h5>
+					<h6 id="Drug_use">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">Diet low in fruits:</h5>
+					<h6 id="Diet_low_in_fruits">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">Unsafe segs:</h5>
+					<h6 id="Unsafe_sex">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">High plasma glucose:</h5>
+					<h6 id="High_fasting_plasma_glucose">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">High BMI:</h5>
+					<h6 id="High_body_mass_index">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">High systolic blood pressure:</h5>
+					<h6 id="High_systolic_blood_pressure">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">Smoking:</h5>
+					<h6 id="Smoking">NULL</h6>
+				</div>
+				<div id="ColumnDeaths">
+					<h5 id="nameDeath">Iron deficiency:</h5>
+					<h6 id="Iron_deficiency">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">Vit A deficiency:</h5>
+					<h6 id="Vitamin_A_deficiency">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">Air pollution:</h5>
+					<h6 id="Air_pollution">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">Outdoor air pollution:</h5>
+					<h6 id="Outdoor_air_pollution">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">Low bone mineral density:</h5>
+					<h6 id="Low_bone_mineral_density">NULL</h6>
+					<br/>
+					<h5 id="nameDeath">Diet high in sodium:</h5>
+					<h6 id="Diet_high_in_sodium">NULL</h6>
+				</div>
+
+			</div>
+		</div>	
+
+	
+		<div id="boxplot"></div>
 		
 
 	</body>
