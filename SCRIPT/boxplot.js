@@ -1,4 +1,4 @@
-d3.csv("Deaths_EU.csv").then(function(data){
+d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     data.forEach(function(d){
         d["Country"] = d.Entity;
         d.Year = +d.Year; //Convert to date
@@ -74,14 +74,8 @@ d3.csv("Deaths_EU.csv").then(function(data){
         });
         //console.log(scaleMinimum)
 
-
-        // Set the dimensions of the canvas / graph
-        // var	margin = {top: 30, right: 20, bottom: 30, left: 50},
-        //width = 400 - margin.left - margin.right,
-        //height = 300 - margin.top - margin.bottom;
-    
         // set the dimensions and margins of the graph. Per mettere due grafici width diventerà widthBoxPlot
-        var margin = {top: 10, right: 30, bottom: 65, left: 50},
+        var margin = {top: 10, right: 30, bottom: 110, left: 50},
         width = 400 - margin.left - margin.right,
         height = 350 - margin.top - margin.bottom;
 
@@ -90,6 +84,7 @@ d3.csv("Deaths_EU.csv").then(function(data){
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
+            .attr("margin-left",200)
             .append("g")
             .attr("transform",
                 "translate(" + margin.left + "," + margin.top + ")");
