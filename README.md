@@ -1,1 +1,1 @@
-# VisualAnalyticsExamProject
+# Visual Analytics Exam Project
