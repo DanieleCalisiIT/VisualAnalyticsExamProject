@@ -90,7 +90,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         //statistics
         var data_sorted = dataSelected.sort(d3.ascending)
-        console.log(data_sorted)
         var q1 = d3.quantile(data_sorted, .25)
         var median = d3.quantile(data_sorted, .5)
         var q3 = d3.quantile(data_sorted, .75)
