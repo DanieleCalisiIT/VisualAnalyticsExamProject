@@ -55,8 +55,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                 .text(function(d){
                     for(var i=0; i<data.length;i++){
                         if (data[i].Country == Country_name){
-                            console.log(Country_name)
-                            console.log(year_Selected)
                             if(data[i].Year == year_Selected){
                                 var Death = data[i][Array_Deaths[l]]
                                 return Math.floor(Death);
