@@ -86,7 +86,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
           //Width and height
         var width = 500;
         var height = 400;
-        var transform = "translate(150,-400)";
+        var transform = "translate(0,0)";
 
         let svg = d3.select("#map").append("svg")
                         .attr("width", width)
@@ -100,8 +100,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         var europeProjection = d3.geoMercator()
                                     .center([ 15, 52 ])
-                                    .scale([ width/1.4 ])
-                                    .translate([ width / 2, height / 2 ])
+                                    .scale([ width/1.3 ])
+                                    .translate([ width / 1.9, height / 2 ])
 
 
         //Define path generator
