@@ -86,7 +86,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
           //Width and height
         var width = 500;
         var height = 400;
-        var transform = "translate(0,0)";
+        var transform = "translate(-50,0)";
 
         let svg = d3.select("#map").append("svg")
                         .attr("width", width)
