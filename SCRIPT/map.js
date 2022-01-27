@@ -1,4 +1,4 @@
-d3.csv("Deaths_EU.csv").then(function(data){
+d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     data.forEach(function(d){
         d["Country"] = d.Entity;
         d.Year = +d.Year; //Convert to date
@@ -84,9 +84,9 @@ d3.csv("Deaths_EU.csv").then(function(data){
 
 
           //Width and height
-        var width = 700;
-        var height = 500;
-        var transform = "translate(0,50)";
+        var width = 500;
+        var height = 400;
+        var transform = "translate(150,-400)";
 
         let svg = d3.select("#map").append("svg")
                         .attr("width", width)
@@ -100,7 +100,7 @@ d3.csv("Deaths_EU.csv").then(function(data){
 
         var europeProjection = d3.geoMercator()
                                     .center([ 15, 52 ])
-                                    .scale([ width / 1.8 ])
+                                    .scale([ width/1.4 ])
                                     .translate([ width / 2, height / 2 ])
 
 
