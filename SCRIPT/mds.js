@@ -28,6 +28,10 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         "Secondhand_smoke","Alcohol_use","Drug_use","Diet_low_in_fruits","Unsafe_sex","High_fasting_plasma_glucose","High_body_mass_index","High_systolic_blood_pressure",
         "Smoking","Iron_deficiency","Vitamin_A_deficiency","Low_bone_mineral_density","Air_pollution","Outdoor_air_pollution","Diet_high_in_sodium"];
 
+    let Countries =["Albania","Austria","Belarus","Belgium","Bosnia","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
+                    "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Malta","Moldova","Montenegro","Netherlands",
+                    "Normway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","Ukraine","UK","Macedonia","Hungary"]
+
     var mylist = document.getElementById("List_Deaths");
     mylist.addEventListener('change', Change_In_MDS);
 
@@ -99,7 +103,23 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     };
 
     
-    
+    function Check_Country(d,row_of_arr,arr_of_data){
+
+        for(var i=0; i<arr_of_data.length; i++){
+            if(row_of_arr[0]== arr_of_data[i][0] && row_of_arr[1]== arr_of_data[i][1]){
+                return Countries[i];
+            }
+
+        }
+
+
+        /*d.append('text')
+                .text(function(d, i) {
+                    return Countries[i];
+                    })
+                .attr("y",12);
+                //.attr("dy",0.5);*/
+    }
     
     
     
@@ -173,7 +193,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             });
             return links_data = links_data.concat(array);
             });
-
+        
         
         points = svg.selectAll('.point').data(points_data);
 
@@ -193,13 +213,34 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             r: 4
           });*/
 
-        enter_points.append('text')
-                .text(function(d, i) {
-                    return keys[i];
-                    })
-                .attr("y",12);
-                //.attr("dy",0.5);
-        
+        /*enter_points.append('text')
+                    .text(function(d, i) {
+                        return Countries[i];
+                        })
+                    .attr("y",12);*/
+
+        var div_Name_C = d3.select('body').append('div')   
+                    .attr('id', 'Country_Name_MDS')     
+                    .style('opacity', 0);
+                    
+
+        enter_points.on("mouseenter",function(d,i){
+                            var name_Country = Check_Country(d,i,points_data);
+                            div_Name_C.transition()        
+                                .duration(400)      
+                                .style('opacity', .9);
+                            div_Name_C.html(name_Country)
+                                .style('left', d.x + 'px')     
+                                .style('top', (d.y - 18) + 'px');    
+                           
+                        });
+        enter_points.on("mouseleave",function(d){
+                            div_Name_C.transition()           
+                                .style('opacity', 0);
+                            div_Name_C.html('')
+
+        });
+                    
 
     }
 
