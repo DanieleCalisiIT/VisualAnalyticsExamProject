@@ -105,8 +105,16 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     
     function Change_In_MDS(){
 
+        MARGIN = 50;
+        height = 300;
+        width = 500;
+
         var death_Selected = mylist.options[mylist.selectedIndex].value;
         var year_Selected = document.getElementById("Slider_Year").value;
+
+        let svg = d3.select("#mds").append("svg")
+                            .attr("width", width)
+                            .attr("height", height);
 
         var Matrix;
         Matrix = Calculate_Proximity_Matrix(year_Selected,death_Selected);
@@ -115,8 +123,83 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         console.log(points_data)
 
+        //Calculate the min and max of the x axis in points_data
+        min_x = d3.min(points_data, function(d) {
+            return d[0];
+        });
+        
+        max_x = d3.max(points_data, function(d) {
+            return d[0];
+          });
+        
+        //Calculate the min and max of the y axis in points_data
+        min_y = d3.min(points_data, function(d) {
+            return d[1];
+            });
+    
+        max_y = d3.max(points_data, function(d) {
+            return d[1];
+            });
+
+        x = d3.scaleLinear()
+                    .domain([max_x, min_x])
+                    .range([MARGIN, width - MARGIN]);
+
+        y = d3.scaleLinear()
+                    .domain([min_y, max_y])
+                    .range([MARGIN, height - MARGIN]);
 
 
+
+        
+        //Per ogni paese fissato dal primo ciclo (source), si calcolano le distanze di source dai successivi paesi (target). 
+        //Le distanze sono i valori di prossimità calcolati con l'MDS
+        
+        links_data = [];
+
+        //forEach automaticamente preleva i dati e l'indice che è possibile utilizzare con function
+
+        points_data.forEach(function(p1, i1) {
+            var array = [];
+            points_data.forEach(function(p2, i2) {
+                //!==	not equal value or not equal type
+                if (i1 !== i2) {
+                return array.push({
+                    source: p1,
+                    target: p2,
+                    dist: Matrix[i1][i2]
+                });
+                }
+            });
+            return links_data = links_data.concat(array);
+            });
+
+        
+        points = svg.selectAll('.point').data(points_data);
+
+
+        var enter_points = points.enter().append('g')
+                                .attr("class",'point')
+                                .attr("transform",function(d) {
+                                            return "translate(" + (x(d[0])) + "," + (y(d[1])) + ")";
+                                            })
+        
+
+        enter_points.append('circle')
+                    .attr("r",6)
+                    .attr("opacity",0.5);
+        
+        /*  enter_points.append('circle').attr({
+            r: 4
+          });*/
+
+        enter_points.append('text')
+                .text(function(d, i) {
+                    return keys[i];
+                    })
+                .attr("y",12);
+                //.attr("dy",0.5);
+        
 
     }
 
