@@ -49,7 +49,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         //Questi supp servono poichè loro tengono memoria della posizione precedentemente salvata nella matrice
         var suppX = 0;
         
-
         //Adesso bisogna ciclare fissando un valore
         for( var i = 0; i < data.length; i++ ){
             if(data[i].Year == year){
@@ -112,13 +111,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         }
 
-
-        /*d.append('text')
-                .text(function(d, i) {
-                    return Countries[i];
-                    })
-                .attr("y",12);
-                //.attr("dy",0.5);*/
     }
     
     
@@ -209,15 +201,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     .attr("r",6)
                     .attr("opacity",0.5);
         
-        /*  enter_points.append('circle').attr({
-            r: 4
-          });*/
-
-        /*enter_points.append('text')
-                    .text(function(d, i) {
-                        return Countries[i];
-                        })
-                    .attr("y",12);*/
 
         var div_Name_C = d3.select('body').append('div')   
                     .attr('id', 'Country_Name_MDS')     
