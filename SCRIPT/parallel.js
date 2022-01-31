@@ -100,15 +100,18 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
         function path(d) {
+            if(Countries.includes(d.Country)){
+                if(years.includes(d.Year)){
+                    return d3.line()(years.map(function(p) { 
+                        //il return restituirà la posizione x quindi l'asse verticale dell'anno scelto(p), la posizione sull'asse y per ogni tipo di morte
+                        //rispetto numero di morti
+                        console.log(years)
+                        return [x(p), y(d[death_Selected])]; 
+                    }));
+                }
 
-            if(years.includes(d.Year)){
-                return d3.line()(years.map(function(p) { 
-                    //il return restituirà la posizione x quindi l'asse verticale dell'anno scelto(p), la posizione sull'asse y per ogni tipo di morte
-                    //rispetto numero di morti
-                    //console.log(d.Country + "  " +  )
-                    return [x(p), y(d[death_Selected])]; 
-                }));
             }
+            
         }
 
         // Draw the lines
