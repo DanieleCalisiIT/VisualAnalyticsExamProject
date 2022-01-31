@@ -133,7 +133,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         points_data = mds_classic(Matrix,2);
 
-        console.log(points_data)
+        //console.log(points_data)
 
         //Calculate the min and max of the x axis in points_data
         min_x = d3.min(points_data, function(d) {
