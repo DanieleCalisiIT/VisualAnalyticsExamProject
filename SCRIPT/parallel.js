@@ -70,45 +70,75 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             .domain(years);
 
         // Highlight the specie that is hovered
-        var highlight = function(d){
-        
-        var selectedCountry = d.Country
+        function highlight(d){
+            
+            var selectedCountry = d.Country
 
-        // first every group turns grey
-        d3.selectAll(".line")
-            .transition().duration(200)
-            .style("stroke", "lightgrey")
-            .style("opacity", "0.2")
-        // Second the hovered country takes its color
-        d3.selectAll("." + selectedCountry)
-            .transition().duration(200)
-            .style("stroke", color(selectedCountry))
-            .style("opacity", "1")
+            // first every group turns grey
+            d3.selectAll(".line")
+                .transition().duration(200)
+
+                .style("opacity", "0.2")
+            // Second the hovered country takes its color
+            d3.selectAll("." + selectedCountry)
+                .transition().duration(200)
+
+                .style("opacity", "1")
         }
 
         //Unhighlight
-        var doNotHighlight = function(d){
-
-        var selectedCountry = d.Country
-        d3.selectAll(".line")
-        .transition().duration(200).delay(1000)
-        .style("stroke", function(d){
-            return( color(selectedCountry))
-            })
-        .style("opacity", "1")
+        function doNotHighlight(d){
+            var selectedCountry = d.Country
+            d3.selectAll(".line")
+            .transition().duration(200).delay(1000)
+            .style("opacity", "1")
         }
+
+
+        function Create_Points(){
+            var dict = {};
+            var Points_Of_Countries = [];
+            for (var i = 0; i<data.length ; i++){
+                if(Countries.includes(data[i].Country)){
+                    if(years.includes(data[i].Year)){
+                        
+                        for(var l=0; l<years.length ; l++){
+                            var x_ = x(years[l]);
+                            var y_ = y(data[i+l][death_Selected]);
+                            var Point = [x_,y_]
+                            Points_Of_Countries.push(Point)
+
+                            }
+                            dict[data[i].Country]=Points_Of_Countries
+                            Points_Of_Countries = []
+                            i = i+years.length;
+
+                        }
+                        
+                    }
+                    
+            }
+
+            return dict;
+        }
+        
+
+
+        
+
 
         // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
         function path(d) {
+            if(Countries.includes(d.Country)){
+                if(years.includes(d.Year)){
+                    var dict = Create_Points();
+                        Points = dict[d.Country]
 
-            if(years.includes(d.Year)){
-                return d3.line()(years.map(function(p) { 
-                    //il return restituirà la posizione x quindi l'asse verticale dell'anno scelto(p), la posizione sull'asse y per ogni tipo di morte
-                    //rispetto numero di morti
-                    //console.log(d.Country + "  " +  )
-                    return [x(p), y(d[death_Selected])]; 
-                }));
+                    return d3.line()(Points)
             }
+        }
+            
+            
         }
 
         // Draw the lines
@@ -117,15 +147,19 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         .data(data)
         .enter()
         .append("path")
-            .attr("class", function (d) { return d.Country } ) // 2 class for each line: 'line' and the group name
+            .attr("class", function (d) { return "line "+ d.Country } ) // 2 class for each line: 'line' and the group name
             .attr("d",  path)
             .style("fill", "none" )
             .style("stroke", function(d){ return( color(d.Country))} )
             .style("opacity", 0.5)
-            .on("mouseover", highlight)
-            .on("mouseleave", doNotHighlight )
+            .on("mouseover", function(_event,d){
+                highlight(d)
+            })
+            .on("mouseleave", function(_event,d){
+                doNotHighlight(d)
+            })
 
-    /*// Draw the axis:
+    // Draw the axis:
         svg.selectAll("myAxis")
         // For each dimension of the dataset I add a 'g' element:
         .data(years).enter()
@@ -134,13 +168,15 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         // I translate this element to its right position on the x axis
         .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
         // And I build the axis with the call function
-        .each(function(d) { d3.select(this).call(d3.axisLeft().ticks(5).scale(y[d])); })
+        .each(function(d) { 
+            d3.select(this)
+            .call(d3.axisLeft(y)); })
         // Add axis title
         .append("text")
             .style("text-anchor", "middle")
             .attr("y", -9)
             .text(function(d) { return d; })
-            .style("fill", "black")*/
+            .style("fill", "black")
     }
 
     Change_In_ParallelPlot();
