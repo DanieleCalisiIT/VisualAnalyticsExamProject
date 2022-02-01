@@ -26,20 +26,23 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
     let Array_Deaths = ["Unsafe_water_source","Unsafe_sanitation","Household_air_pollution_from_solid_fuels","Child_wasting","Low_birth_weight_for_gestation",         "Secondhand_smoke","Alcohol_use","Drug_use","Diet_low_in_fruits","Unsafe_sex","High_fasting_plasma_glucose","High_body_mass_index","High_systolic_blood_pressure",         "Smoking","Iron_deficiency","Vitamin_A_deficiency","Low_bone_mineral_density","Air_pollution","Outdoor_air_pollution","Diet_high_in_sodium"];
 
-    //let Countries =["Albania","Austria","Belarus","Hungary"]
-    let Countries =["Albania","Austria","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
+    let Countries =["Albania","Austria","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark"]
+    /*let Countries =["Albania","Austria","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
                     "Germany","Greece","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Malta","Moldova","Montenegro","Netherlands",
                     "Norway","Poland","Portugal","Romania","Serbia","Slovakia","Slovenia","Spain","Sweden","Switzerland","Ukraine","United Kingdom","Macedonia","Hungary"]
-    
+    */
 
 
     let years = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016,2017];
     
     //Range di colori preso al sito: https://hihayk.github.io/scale/#20/20/17/82/285/47/0/53/3C8C08/223/57/177/white
-    let Colors = ["#009179","#008291","#005B91","#003491","#000E91","#000091","#1E0091","#450091","#6B0091","#8F0090","#90006D","#900049","#900026","#8F0004","#8F1800",
+    /*let Colors = ["#009179","#008291","#005B91","#003491","#000E91","#000091","#1E0091","#450091","#6B0091","#8F0090","#90006D","#900049","#900026","#8F0004","#8F1800",
                   "#8E3B00","#8E5E01","#8E7F03", "#7B8D04", "#5B8D06","#3C8C08","#499112","#56951C","#629A26","#6D9F31","#79A43B","#83A845","#8EAD4F","#98B259","#A1B663",
                     "#ABBB6D","#B3C077","#BCC582","#C3C98C","#CBCE96","#D2D3A0","#D7D7AA","#DCDAB4","#E1DDBE0","#E6E2C8","#EAE6D3"]
-                    
+       */
+    var Colors = ['#00429d', '#3861aa', '#5881b3', '#76a2b6', '#97c4ad', '#d1a439', '#d77748', '#cd4b4b', '#b62246', '#93003a']
+
+            
     //let Colors = ["#009179","#7B8D04","#DCDAB4"]
 
     //var years = [2000, 2001, 2002];
@@ -60,7 +63,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
          // set the dimensions and margins of the graph
         var margin = {top: 30, right: 50, bottom: 10, left: 50},
-        width = 660 - margin.left - margin.right,
+        width = 800 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
         
         var svg = d3.select("#parallel")
@@ -92,9 +95,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                         Dict_Of_TotalDeath_Year[year_] = Dict_Of_TotalDeath_Year[year_] + addendo;
 
                         }
-                        
-                        console.log(data[i].Country)
-                        console.log(data[i].Year)
+
                         i = i+years.length-1;
 
                     }
