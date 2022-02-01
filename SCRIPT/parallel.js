@@ -27,12 +27,17 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     let Array_Deaths = ["Unsafe_water_source","Unsafe_sanitation","Household_air_pollution_from_solid_fuels","Child_wasting","Low_birth_weight_for_gestation",         "Secondhand_smoke","Alcohol_use","Drug_use","Diet_low_in_fruits","Unsafe_sex","High_fasting_plasma_glucose","High_body_mass_index","High_systolic_blood_pressure",         "Smoking","Iron_deficiency","Vitamin_A_deficiency","Low_bone_mineral_density","Air_pollution","Outdoor_air_pollution","Diet_high_in_sodium"];
 
     let Countries =["Albania","Austria","Belarus"]
+
+    let array_years = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017];
     
     //Range di colori preso al sito: https://hihayk.github.io/scale/#20/20/17/82/285/47/0/53/3C8C08/223/57/177/white
     /*let Colors = ["#009179","#008291","#005B91","#003491","#000E91","#000091","#1E0091","#450091","#6B0091","#8F0090","#90006D","#900049","#900026","#8F0004","#8F1800",
                   "#8E3B00","#8E5E01","#8E7F03", "#7B8D04", "#5B8D06","#3C8C08","#499112","#56951C","#629A26","#6D9F31","#79A43B","#83A845","#8EAD4F","#98B259","#A1B663",
                     "#ABBB6D","#B3C077","#BCC582","#C3C98C","#CBCE96","#D2D3A0","#D7D7AA","#DCDAB4","#E1DDBE0","#E6E2C8","#EAE6D3"]*/
     let Colors = ["#009179","#7B8D04","#DCDAB4"]
+
+    //dizionario
+    var normalizedDataDictionary = {}
 
     // set the dimensions and margins of the graph
     var margin = {top: 30, right: 50, bottom: 10, left: 50},
@@ -122,23 +127,56 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             return dict;
         }
         
+        //function to convert data in normalized form
+       /* var totalDeaths;
+        function normalizeData(){
+            var i=0;
+            var j=0;
+            var k=0;
+            var n=0;
+            for(i=0; i<data.length; i++){
 
+                if(data[i].Entity == Countries[j]){
 
+                    if(data[i].Year == array_years[k]){
+                        if(data[i][death_Selected] == Array_Deaths[n]){
+
+                            var currentCountry = Countries[j];
+                            var currentYear = array_years[j];
+                            console.log(currentCountry + " " + currentYear)
+                        }
+                    }
+                }
+            }
+
+            /*
+                for(i=0; i<array_years.length; i++){
+                    var currentYear = array_years[i];
+                    //console.log(currentYear)
+                    for(j=0; j < Array_Deaths.length; j++ ){
+                        var currentDeath = Array_Deaths[j];
+                        //console.log(currentDeath);
+                        for(k=0; k < Countries.length; k ++){
+                            var currentCountry = Countries[k];
+                            //console.log(currentCountry + " " + currentDeath + " " + currentYear)
+                        }
+                    }
+                }
+            
+        }
+
+        normalizeData();*/
         
-
-
         // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
         function path(d) {
-            if(Countries.includes(d.Country)){
-                if(years.includes(d.Year)){
-                    var dict = Create_Points();
-                        Points = dict[d.Country]
+                if(Countries.includes(d.Country)){
+                    if(years.includes(d.Year)){
+                        var dict = Create_Points();
+                            Points = dict[d.Country]
 
-                    return d3.line()(Points)
+                        return d3.line()(Points)
+                }
             }
-        }
-            
-            
         }
 
         // Draw the lines
