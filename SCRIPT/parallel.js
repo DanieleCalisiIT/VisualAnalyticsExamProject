@@ -34,6 +34,10 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     "#ABBB6D","#B3C077","#BCC582","#C3C98C","#CBCE96","#D2D3A0","#D7D7AA","#DCDAB4","#E1DDBE0","#E6E2C8","#EAE6D3"]*/
     let Colors = ["#009179","#7B8D04","#DCDAB4"]
 
+    var years = [2000, 2001, 2002];
+
+    var death_Selected = "Unsafe_water_source";
+
     // set the dimensions and margins of the graph
     var margin = {top: 30, right: 50, bottom: 10, left: 50},
     width = 460 - margin.left - margin.right,
@@ -47,15 +51,45 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     .append("g")
                     .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
+        
+        //Total number of death per death
+        var Dict_Of_TotalDeath_Year = {}
+
+        for(var l=0; l<years.length ; l++){
+            var year_ = years[l];
+            Dict_Of_TotalDeath_Year[year_] = 0
+        }
+        var addendo =0;
+        for (var i=0; i<data.length;i++){
+            if(Countries.includes(data[i].Country)){
+                if(years.includes(data[i].Year)){
+
+                    for(l=0; l<years.length ; l++){
+                        var year_ = years[l];
+                        addendo = data[i+l][death_Selected];
+                        
+                        Dict_Of_TotalDeath_Year[year_] = Dict_Of_TotalDeath_Year[year_] + addendo;
+
+                        }
+                        i = i+years.length;
+
+                    }
+
+                    
+                }
+
+        }
+        console.log(Dict_Of_TotalDeath_Year)
+
 
         var color = d3.scaleOrdinal()
                     .domain(Countries)
                     .range(Colors)
 
-        var years = [2000, 2001, 2002];
+        
 
         //causa di morte selezionata dall'utente
-        var death_Selected = "Unsafe_water_source";
+
 
         //L'asse verticale di ogni anno riporta valori normalizzati, per cui ogni anno avrà una scala con valori da zero a 100. Quindi non è necessario
         //fare un ciclo for con una scala per ogni anno dato che non lavoriamo con i valori assoluti
@@ -104,7 +138,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                         
                         for(var l=0; l<years.length ; l++){
                             var x_ = x(years[l]);
-                            var y_ = y(data[i+l][death_Selected]);
+                            var Norm = 100 *(data[i+l][death_Selected] / Dict_Of_TotalDeath_Year[years[l]])
+                            var y_ = y(Norm);
                             var Point = [x_,y_]
                             Points_Of_Countries.push(Point)
 
@@ -121,9 +156,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
             return dict;
         }
-        
-
-
         
 
 
