@@ -30,14 +30,14 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         "Smoking","Iron_deficiency","Vitamin_A_deficiency","Low_bone_mineral_density","Air_pollution","Outdoor_air_pollution","Diet_high_in_sodium","Diet_low_in_whole_grains"]; //grains da togliere?
     //21
     let Countries =["Albania","Austria","Belarus","Belgium","Bosnia","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
-        "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Malta","Moldova","Montenegro","Netherlands",
-        "Normway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","Ukraine","UK","Macedonia","Hungary"];  //39
+        "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Macedonia","Malta","Moldova","Montenegro","Netherlands",
+        "Normway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","UK","Ukraine"];  //38  //macedonia e UK messe bene  (hungary doppia rimossa)
 
 
     var slider = document.getElementById("Slider_Year");
     slider.addEventListener('change', Change_In_Barchart);
 
-    var margin = {top: 0, right: 0, bottom: 0, left: 200},
+    var margin = {top: 0, right: 20, bottom: 0, left: 200},
                     width = 800 - margin.left - margin.right,
                     height = 500 - margin.top - margin.bottom;
 
@@ -48,8 +48,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         for (var i = 0; i < Countries.length; i++) {
             RelevantValues[i] = new Array(Array_Deaths.length + 2);  //ha nome country e year in piu
         }
-
-        console.log(RelevantValues)
+        
+        
 
         var j = 0
         for( var i = 0; i < data.length; i++ ){
@@ -59,27 +59,44 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             }
         }
 
+        //console.log(RelevantValues)
+        
         var ArrayTotals = new Array(Array_Deaths.length).fill(0);
         for( var i = 0; i < Array_Deaths.length; i++){
             for (var j = 0; j < Countries.length; j++){
                 
-                ArrayTotals[i] =  ArrayTotals[i] + RelevantValues[j][Array_Deaths[i]]
+                if (RelevantValues[j][Array_Deaths[i]] > 0){
+                    ArrayTotals[i] =  ArrayTotals[i] + RelevantValues[j][Array_Deaths[i]]
+                }
+                //else non agg nulla
             }
         }
 
         //console.log(ArrayTotals)
 
-        var NormalizedValues = new Array(Countries.length);
+        //relevant values è una matrice CountryXMorte, io devo passare a MorteXCountry, oltre a normalizzare
 
-        for (var i = 0; i < Countries.length; i++) {
-            NormalizedValues[i] = new Array(Array_Deaths.length);
+        var NormalizedValues = new Array(Array_Deaths.length);
+
+        var sum = 0
+
+        for (var i = 0; i < Array_Deaths.length; i++) {
+            NormalizedValues[i] = new Array(Countries.length); 
         }
         for( var i = 0; i < Array_Deaths.length; i++){
+            sum = 0
             for (var j = 0; j < Countries.length; j++){
-                NormalizedValues[j][Array_Deaths[i]] = (RelevantValues[j][Array_Deaths[i]]/ArrayTotals[i])*100
+                if (RelevantValues[j][Array_Deaths[i]] >= 0){
+                    NormalizedValues[i][Countries[j]] = (RelevantValues[j][Array_Deaths[i]]/ArrayTotals[i])*100   //il normalized avrà le countries in ordine alfabetico
+                }
+                else{
+                    NormalizedValues[i][Countries[j]] = 0.0
+                }
+                sum += NormalizedValues[i][Countries[j]]
             }
+            //console.log(sum)
         }
-        //console.log(RelevantValues)
+        
         //console.log(NormalizedValues)
 
         return NormalizedValues
@@ -116,46 +133,86 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             //da completare
         var color = d3.scaleOrdinal()
             .domain(Countries)
-            .range(['#e41a1c','#377eb8','#4daf4a'])
+            .range(['#F44336',
+            '#FFEBEE',
+            '#FFCDD2',
+            '#EF9A9A',
+            '#E57373',
+            '#EF5350',
+            '#F44336',
+            '#E53935',
+            '#D32F2F',
+            '#C62828',
+            '#B71C1C',
+            '#FF8A80',
+            '#FF5252',
+            '#FF1744',
+            '#D50000',
+            '#E91E63',
+            '#FCE4EC',
+            '#F8BBD0',
+            '#F48FB1',
+            '#F06292',
+            '#EC407A',
+            '#E91E63',
+            '#D81B60',
+            '#C2185B',
+            '#AD1457',
+            '#880E4F',
+            '#FF80AB',
+            '#FF4081',
+            '#F50057',
+            '#C51162',
+            '#9C27B0',
+            '#F3E5F5',
+            '#E1BEE7',
+            '#CE93D8',
+            '#BA68C8',
+            '#AB47BC',
+            '#9C27B0',
+            '#8E24AA'])
 
         normalized_values = NormalizeAndRetrieve(year_Selected)
+        console.log(normalized_values)
+
+        //console.log(normalized_values)
+
+        //groups = cause morte
+        //subgroups = countries
+
+        var stackGen = d3.stack().keys(Countries)
+        var stackedData = stackGen(normalized_values)
+
+        var deathNum = -1
         
-/*
-  // Normalize the data -> sum of each group must be 100!
-  console.log(data)
-  dataNormalized = []
-  data.forEach(function(d){
-    // Compute the total
-    tot = 0
-    for (i in subgroups){ name=subgroups[i] ; tot += +d[name] }
-    // Now normalize
-    for (i in subgroups){ name=subgroups[i] ; d[name] = d[name] / tot * 100}
-  })
+        console.log(stackedData)
 
-  //stack the data? --> stack per subgroup
-  var stackedData = d3.stack()
-    .keys(subgroups)
-    (data)
-
-  // Show the bars
-  svg.append("g")
-    .selectAll("g")
-    // Enter in the stack data = loop key per key = group per group
-    .data(stackedData)
-    .enter().append("g")
-      .attr("fill", function(d) { return color(d.key); })
-      .selectAll("rect")
-      // enter a second time = loop subgroup per subgroup to add all rectangles
-      .data(function(d) { return d; })
-      .enter().append("rect")
-        .attr("x", function(d) { return x(d.data.group); })
-        .attr("y", function(d) { return y(d[1]); })
-        .attr("height", function(d) { return y(d[0]) - y(d[1]); })
-        .attr("width",x.bandwidth())
-
-        
-    */    
-
+        svg.append("g")
+            .selectAll("g")
+            .data(stackedData)
+            .enter().append("g")
+                .attr("fill", function(d) { return color(d.key); })    //d è array di stack di una Nazione
+                .selectAll("rect")
+                .data(function(d) { 
+                    //console.log(d)
+                    return d; }) //entra nell' array di una Nazione
+                .enter().append("rect")
+                    .attr("x", function(d) { 
+                        //console.log(d[0]) //originale (fino a 100 o meno in teoria)
+                        //console.log(x(d[0])) //scalato
+                        return x(d[0]); })  //d riguarda valori di una morte per quella Nazione
+                    .attr("y", function(d) { 
+                        if (deathNum == 20){
+                            deathNum = -1
+                        }
+                        deathNum++;
+                        return y(Array_Deaths[deathNum]); })
+                    .attr("height",y.bandwidth()-5)  //qui decidi spessore righe
+                    .attr("width", function(d) { 
+                        let val = x(d[1]) - x(d[0])
+                        if(val < 0)
+                            val = 0
+                        return val; })
 
     }
 
