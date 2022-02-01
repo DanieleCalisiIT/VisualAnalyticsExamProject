@@ -38,14 +38,25 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
     var years = [2000, 2001, 2002];
 
-    var death_Selected = "Unsafe_water_source";
 
-    // set the dimensions and margins of the graph
-    var margin = {top: 30, right: 50, bottom: 10, left: 50},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    var mylist = document.getElementById("List_Deaths");
+    mylist.addEventListener('change', Change_In_ParallelPlot);
+
+    var slider = document.getElementById("Slider_Year");
+    slider.addEventListener('change', Change_In_ParallelPlot);
+
 
     function Change_In_ParallelPlot(){
+
+        var death_Selected = mylist.options[mylist.selectedIndex].value;
+        var year_Selected = document.getElementById("Slider_Year").value;
+
+
+         // set the dimensions and margins of the graph
+        var margin = {top: 30, right: 50, bottom: 10, left: 50},
+        width = 460 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+        
         var svg = d3.select("#parallel")
                     .append("svg")
                     .attr("width", width + margin.left + margin.right)
@@ -54,7 +65,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
         
-        //Total number of death per death
+        //Dictionary for normalized data (key: year, value: sum of death per that year)
         var Dict_Of_TotalDeath_Year = {}
 
         for(var l=0; l<years.length ; l++){
@@ -81,8 +92,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                 }
 
         }
-        console.log(Dict_Of_TotalDeath_Year)
-
 
         var color = d3.scaleOrdinal()
                     .domain(Countries)
