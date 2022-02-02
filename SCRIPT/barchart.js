@@ -33,6 +33,17 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Macedonia","Malta","Moldova","Montenegro","Netherlands",
         "Normway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","UK","Ukraine"];  //38  //macedonia e UK messe bene  (hungary doppia rimossa)
 
+    var SelectedCountries = ["Albania","Ireland","Italy","Ukraine"]   //è quello che mi arriva dalle checkbox
+    SelectedCountries.sort() //nel caso non lo fosse
+
+    var ColorsParallel = ["#009179","#008291","#005B91","#003491","#000E91","#000091","#1E0091","#450091","#6B0091","#8F0090","#90006D","#900049","#900026","#8F0004","#8F1800",
+                  "#8E3B00","#8E5E01","#8E7F03", "#7B8D04", "#5B8D06","#3C8C08","#499112","#56951C","#629A26","#6D9F31","#79A43B","#83A845","#8EAD4F","#98B259","#A1B663",
+                    "#ABBB6D","#B3C077","#BCC582","#C3C98C","#CBCE96","#D2D3A0","#D7D7AA","#DCDAB4"]  //38 tolti ultimi 3
+
+    var ColorsTest = ['#F44336','#FFEBEE','#FFCDD2','#EF9A9A','#E57373','#EF5350','#F44336','#E53935','#D32F2F','#C62828','#B71C1C','#FF8A80','#FF5252','#FF1744','#D50000','#E91E63',
+    '#FCE4EC','#F8BBD0','#F48FB1','#F06292','#EC407A','#E91E63','#D81B60','#C2185B','#AD1457','#880E4F','#FF80AB','#FF4081','#F50057','#C51162','#9C27B0','#F3E5F5','#E1BEE7',
+    '#CE93D8','#BA68C8','#AB47BC','#9C27B0','#8E24AA'] //38
+
 
     var slider = document.getElementById("Slider_Year");
     slider.addEventListener('change', Change_In_Barchart);
@@ -41,11 +52,19 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     width = 800 - margin.left - margin.right,
                     height = 500 - margin.top - margin.bottom;
 
+    function isCountrySelected(c){
+        for(var i = 0; i < SelectedCountries.length; i++){
+            if(c == SelectedCountries[i])
+                return true
+        }
+        return false
+    }
+
     function NormalizeAndRetrieve(year){
         
-        var RelevantValues = new Array(Countries.length);
+        var RelevantValues = new Array(SelectedCountries.length);
 
-        for (var i = 0; i < Countries.length; i++) {
+        for (var i = 0; i < SelectedCountries.length; i++) {
             RelevantValues[i] = new Array(Array_Deaths.length + 2);  //ha nome country e year in piu
         }
         
@@ -53,7 +72,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         var j = 0
         for( var i = 0; i < data.length; i++ ){
-            if(data[i].Year == year){
+            if(data[i].Year == year && isCountrySelected(data[i].Country)){
                 RelevantValues[j] = data[i]
                 j++
             }
@@ -63,7 +82,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         
         var ArrayTotals = new Array(Array_Deaths.length).fill(0);
         for( var i = 0; i < Array_Deaths.length; i++){
-            for (var j = 0; j < Countries.length; j++){
+            for (var j = 0; j < SelectedCountries.length; j++){
                 
                 if (RelevantValues[j][Array_Deaths[i]] > 0){
                     ArrayTotals[i] =  ArrayTotals[i] + RelevantValues[j][Array_Deaths[i]]
@@ -79,20 +98,17 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         var NormalizedValues = new Array(Array_Deaths.length);
 
         var sum = 0
-
-        for (var i = 0; i < Array_Deaths.length; i++) {
-            NormalizedValues[i] = new Array(Countries.length); 
-        }
         for( var i = 0; i < Array_Deaths.length; i++){
+            NormalizedValues[i] = new Array(SelectedCountries.length); 
             sum = 0
-            for (var j = 0; j < Countries.length; j++){
+            for (var j = 0; j < SelectedCountries.length; j++){
                 if (RelevantValues[j][Array_Deaths[i]] >= 0){
-                    NormalizedValues[i][Countries[j]] = (RelevantValues[j][Array_Deaths[i]]/ArrayTotals[i])*100   //il normalized avrà le countries in ordine alfabetico
+                    NormalizedValues[i][SelectedCountries[j]] = (RelevantValues[j][Array_Deaths[i]]/ArrayTotals[i])*100   //il normalized avrà le countries in ordine alfabetico
                 }
                 else{
-                    NormalizedValues[i][Countries[j]] = 0.0
+                    NormalizedValues[i][SelectedCountries[j]] = 0.0
                 }
-                sum += NormalizedValues[i][Countries[j]]
+                sum += NormalizedValues[i][SelectedCountries[j]]
             }
             //console.log(sum)
         }
@@ -107,14 +123,16 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
     function Change_In_Barchart(){
 
-        var year_Selected = document.getElementById("Slider_Year").value;
+        //d3.selectAll("svg").remove();
+
+        let year_Selected = document.getElementById("Slider_Year").value;
 
         var svg = d3.select("#barchart")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
-            .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform","translate(" + margin.left + "," + margin.top + ")"); //cos'è
 
         // Add X axis
         var x = d3.scaleLinear()
@@ -130,89 +148,49 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         svg.append("g")
             .call(d3.axisLeft(y).tickSizeOuter(0));
 
-            //da completare
+            
         var color = d3.scaleOrdinal()
-            .domain(Countries)
-            .range(['#F44336',
-            '#FFEBEE',
-            '#FFCDD2',
-            '#EF9A9A',
-            '#E57373',
-            '#EF5350',
-            '#F44336',
-            '#E53935',
-            '#D32F2F',
-            '#C62828',
-            '#B71C1C',
-            '#FF8A80',
-            '#FF5252',
-            '#FF1744',
-            '#D50000',
-            '#E91E63',
-            '#FCE4EC',
-            '#F8BBD0',
-            '#F48FB1',
-            '#F06292',
-            '#EC407A',
-            '#E91E63',
-            '#D81B60',
-            '#C2185B',
-            '#AD1457',
-            '#880E4F',
-            '#FF80AB',
-            '#FF4081',
-            '#F50057',
-            '#C51162',
-            '#9C27B0',
-            '#F3E5F5',
-            '#E1BEE7',
-            '#CE93D8',
-            '#BA68C8',
-            '#AB47BC',
-            '#9C27B0',
-            '#8E24AA'])
+            .domain(Countries)  //non selectedCountries
+            .range(ColorsTest)
 
         normalized_values = NormalizeAndRetrieve(year_Selected)
-        console.log(normalized_values)
 
         //console.log(normalized_values)
 
         //groups = cause morte
         //subgroups = countries
 
-        var stackGen = d3.stack().keys(Countries)
+        var stackGen = d3.stack().keys(SelectedCountries)
         var stackedData = stackGen(normalized_values)
 
         var deathNum = -1
+        var currentCountry = ""
         
-        console.log(stackedData)
+        //console.log(stackedData)
 
         svg.append("g")
             .selectAll("g")
             .data(stackedData)
-            .enter().append("g")
-                .attr("fill", function(d) { return color(d.key); })    //d è array di stack di una Nazione
+            .enter().append("g")  //loop
+                .attr("fill", function(d) { 
+                    currentCountry = d.key  //d è array di stack di una Nazione
+                    return color(currentCountry); })    
                 .selectAll("rect")
-                .data(function(d) { 
-                    //console.log(d)
-                    return d; }) //entra nell' array di una Nazione
-                .enter().append("rect")
+                .data(function(d) {  return d; }) 
+                .enter().append("rect")  //loop  //entra nell' array di una Nazione
                     .attr("x", function(d) { 
-                        //console.log(d[0]) //originale (fino a 100 o meno in teoria)
-                        //console.log(x(d[0])) //scalato
+                        //console.log(d[0]) //originale (fino a 100 o meno)
+                        //console.log(x(d[0])) //scalato con width
                         return x(d[0]); })  //d riguarda valori di una morte per quella Nazione
                     .attr("y", function(d) { 
-                        if (deathNum == 20){
+                        if (deathNum == Array_Deaths.length - 1){
                             deathNum = -1
                         }
                         deathNum++;
                         return y(Array_Deaths[deathNum]); })
+                    //qui potrei metterci attrib relativi alla sua country e sua morte (per hover)
                     .attr("height",y.bandwidth()-5)  //qui decidi spessore righe
-                    .attr("width", function(d) { 
-                        let val = x(d[1]) - x(d[0])
-                        if(val < 0)
-                            val = 0
-                        return val; })
+                    .attr("width", function(d) { return x(d[1]) - x(d[0]); })
 
     }
 
