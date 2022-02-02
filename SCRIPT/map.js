@@ -84,12 +84,16 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
           //Width and height
         var width = 500;
         var height = 400;
+        viewbox = "0 0 500 500"
         var transform = "translate(-50,0)";
 
-        let svg = d3.select("#map").append("svg")
-                        .attr("width", width)
+        let svg = d3.select("#map")
+                        .append("svg")
+                        .attr("viewBox",viewbox)
+                        .attr("preserveAspectRatio","xMinYMin meet")
+                        /*.attr("width", width)
                         .attr("height", height)
-                        .attr("transform", transform)
+                        .attr("transform", transform)*/
                         
                         
 
