@@ -36,7 +36,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     }
     return max;
 }
-
     
     var mylist = document.getElementById("List_Deaths");
     var slider = document.getElementById("Slider_Year");
@@ -84,7 +83,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
           //Width and height
         var width = 500;
         var height = 400;
-        viewbox = "0 0 500 500"
+        viewbox = "0 0 450 400"
         var transform = "translate(-50,0)";
 
         let svg = d3.select("#map")
