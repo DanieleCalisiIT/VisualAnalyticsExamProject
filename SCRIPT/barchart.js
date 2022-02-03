@@ -33,7 +33,9 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Macedonia","Malta","Moldova","Montenegro","Netherlands",
         "Normway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","UK","Ukraine"];  //38  //macedonia e UK messe bene  (hungary doppia rimossa)
 
-    var SelectedCountries = ["Albania","Ireland","Italy","Ukraine"]   //è quello che mi arriva dalle checkbox
+    var SelectedCountries = ["Albania","Austria","Belarus","Belgium","Bosnia","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
+    "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Macedonia","Malta","Moldova","Montenegro","Netherlands",
+    "Normway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","UK","Ukraine"]   //è quello che mi arriva dalle checkbox
     SelectedCountries.sort() //nel caso non lo fosse
 
     var ColorsParallel = ["#009179","#008291","#005B91","#003491","#000E91","#000091","#1E0091","#450091","#6B0091","#8F0090","#90006D","#900049","#900026","#8F0004","#8F1800",
@@ -114,6 +116,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         }
         
         //console.log(NormalizedValues)
+        
 
         return NormalizedValues
     }
@@ -172,12 +175,19 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             .selectAll("g")
             .data(stackedData)
             .enter().append("g")  //loop
+                .attr("id", function(d){   //d è array di stack di una Nazione
+                    currentCountry = d.key
+                    return "rectGroup" + d.key
+                })    
                 .attr("fill", function(d) { 
-                    currentCountry = d.key  //d è array di stack di una Nazione
-                    return color(currentCountry); })    
-                .selectAll("rect")
+                    return color(d.key); })
+                .attr("countr", function(d){
+                    return d.key
+                })    
+                .selectAll("rect")   //selecta i rettangoli
                 .data(function(d) {  return d; }) 
-                .enter().append("rect")  //loop  //entra nell' array di una Nazione
+                .enter()  //loop  //entra nell' array di una Nazione
+                .append("rect")  //aggiunge un rettangolo
                     .attr("x", function(d) { 
                         //console.log(d[0]) //originale (fino a 100 o meno)
                         //console.log(x(d[0])) //scalato con width
@@ -188,9 +198,34 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                         }
                         deathNum++;
                         return y(Array_Deaths[deathNum]); })
-                    //qui potrei metterci attrib relativi alla sua country e sua morte (per hover)
+                    .attr("deathType", function(d){
+                        if (deathNum == Array_Deaths.length - 1){
+                            deathNum = -1
+                        }
+                        deathNum++;
+                        return Array_Deaths[deathNum] })
+                     
                     .attr("height",y.bandwidth()-5)  //qui decidi spessore righe
                     .attr("width", function(d) { return x(d[1]) - x(d[0]); })
+
+
+                    .on("mouseenter",function(_event,d){
+                        //console.log(_event)  
+                        //console.log(_event.path)
+                        country = _event.path[0].getAttribute("deathType") //death of the entered rect
+                        deathType = _event.path[1].getAttribute("countr")  //country of the entered rect
+                        //quantitativeValue = RelevantValues[country][deathType]
+                        //console.log(quantitativeValue)
+                        //console.log(_event.path[0].getAttribute("deathType"))  
+                        //console.log(_event.path[1].getAttribute("countr"))      
+                    
+                       
+                    });
+
+
+        
+        
+        
 
     }
 
