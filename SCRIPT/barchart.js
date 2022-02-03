@@ -62,23 +62,9 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         return false
     }
 
-    function NormalizeAndRetrieve(year){
-        
-        var RelevantValues = new Array(SelectedCountries.length);
-
-        for (var i = 0; i < SelectedCountries.length; i++) {
-            RelevantValues[i] = new Array(Array_Deaths.length + 2);  //ha nome country e year in piu
-        }
+    function NormalizeAndRetrieve(RelevantValues){
         
         
-
-        var j = 0
-        for( var i = 0; i < data.length; i++ ){
-            if(data[i].Year == year && isCountrySelected(data[i].Country)){
-                RelevantValues[j] = data[i]
-                j++
-            }
-        }
 
         //console.log(RelevantValues)
         
@@ -130,6 +116,22 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         let year_Selected = document.getElementById("Slider_Year").value;
 
+
+
+        var RelevantValues = new Array(SelectedCountries.length);
+
+        for (var i = 0; i < SelectedCountries.length; i++) {
+            RelevantValues[i] = new Array(Array_Deaths.length + 2);  //ha nome country e year in piu
+        }
+        
+        var j = 0
+        for( var i = 0; i < data.length; i++ ){
+            if(data[i].Year == year_Selected && isCountrySelected(data[i].Country)){
+                RelevantValues[j] = data[i]
+                j++
+            }
+        }
+
         var svg = d3.select("#barchart")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -156,7 +158,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             .domain(Countries)  //non selectedCountries
             .range(ColorsTest)
 
-        normalized_values = NormalizeAndRetrieve(year_Selected)
+        normalized_values = NormalizeAndRetrieve(RelevantValues)
 
         //console.log(normalized_values)
 
@@ -212,12 +214,25 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     .on("mouseenter",function(_event,d){
                         //console.log(_event)  
                         //console.log(_event.path)
-                        country = _event.path[0].getAttribute("deathType") //death of the entered rect
-                        deathType = _event.path[1].getAttribute("countr")  //country of the entered rect
-                        //quantitativeValue = RelevantValues[country][deathType]
-                        //console.log(quantitativeValue)
+                        deathType = _event.path[0].getAttribute("deathType") //death of the entered rect
+                        country = _event.path[1].getAttribute("countr")  //country of the entered rect
+                        var countryPosition = 0
+                        for (var i = 0; i < SelectedCountries.length; i++) {
+                            if (SelectedCountries[i] == country){
+                                countryPosition = i
+                            }
+                            
+                        }
+                        
+                        quantitativeValue = RelevantValues[countryPosition][deathType]
+                        console.log(quantitativeValue)
+
+                        percentageValue = d[1] - d[0]
+                        console.log(percentageValue)
+
+                        //console.log(countryPosition)
                         //console.log(_event.path[0].getAttribute("deathType"))  
-                        //console.log(_event.path[1].getAttribute("countr"))      
+                        console.log(_event.path[1].getAttribute("countr"))      
                     
                        
                     });
