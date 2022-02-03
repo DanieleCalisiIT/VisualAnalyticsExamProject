@@ -54,6 +54,35 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     var slider = document.getElementById("Slider_Year");
     slider.addEventListener('change', Change_In_ParallelPlot);
 
+    //window.onload = function(){
+    //slideOne();
+    //slideTwo();
+   // }
+
+    let sliderOne = document.getElementById("slider-1");
+    let sliderTwo = document.getElementById("slider-2");
+
+    let displayValOne = document.getElementById("range1");
+    let displayValTwo = document.getElementById("range2");
+
+    //min gap è per fare in modo che il range tra gli anni sia sempre 1
+    let minYearGap = 2;
+
+    sliderOne.oninput = function slideOne(){
+        if(parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minYearGap){
+            sliderOne.value = parseInt(sliderTwo.value) - minYearGap;
+        }
+        displayValOne.textContent = sliderOne.value;
+        console.log(sliderOne.value)
+    }
+    sliderTwo.oninput = function slideTwo(){
+        if(parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minYearGap){
+            sliderTwo.value = parseInt(sliderOne.value) + minYearGap;
+        }
+        displayValTwo.textContent = sliderTwo.value;
+        console.log(sliderTwo.value)
+    }
+
 
     function Change_In_ParallelPlot(){
 
