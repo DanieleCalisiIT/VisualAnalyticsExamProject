@@ -73,16 +73,18 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             sliderOne.value = parseInt(sliderTwo.value) - minYearGap;
         }
         displayValOne.textContent = sliderOne.value;
-        console.log(sliderOne.value)
+        //console.log(sliderOne.value)
     }
     sliderTwo.oninput = function slideTwo(){
         if(parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minYearGap){
             sliderTwo.value = parseInt(sliderOne.value) + minYearGap;
         }
         displayValTwo.textContent = sliderTwo.value;
-        console.log(sliderTwo.value)
+        //console.log(sliderTwo.value)
     }
 
+    var yearSliderOne = sliderOne.value;
+    var yearSliderTwo = sliderTwo.value
 
     function Change_In_ParallelPlot(){
 
