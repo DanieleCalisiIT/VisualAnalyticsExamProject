@@ -114,6 +114,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         //d3.selectAll("svg").remove();
 
+
+
         let year_Selected = document.getElementById("Slider_Year").value;
 
 
