@@ -18,7 +18,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         d.Smoking = +d.Smoking;
         d.Iron_deficiency = +d.Iron_deficiency;
         d.Vitamin_A_deficiency = +d.Vitamin_A_deficiency;
-        d.Low_bone_mineral_density = d.Low_bone_mineral_density;
+        d.Low_bone_mineral_density = +d.Low_bone_mineral_density;
         d.Air_pollution = +d.Air_pollution;
         d.Outdoor_air_pollution = +d.Outdoor_air_pollution;
         d.Diet_high_in_sodium = +d.Diet_high_in_sodium;
@@ -32,7 +32,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
     var slider = document.getElementById("Slider_Year");
     slider.addEventListener('change', Change_In_Boxplot);
-
+    
 
 
 
@@ -43,7 +43,13 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         var l=0;
         for( var i = 0; i < data.length; i++ ){
             if(data[i].Year == year_Selected){
-                deathArray[l] = parseFloat(data[i][death_Selected])
+                if(data[i][death_Selected] >= 0){
+                    deathArray[l] = parseFloat(data[i][death_Selected])
+                } 
+                else{
+                    deathArray[l] = 0
+                }
+                
                 l++
                                 
             }
@@ -53,7 +59,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     
     function Change_In_Boxplot(){
 
-        //d3.selectAll("svg").remove();
 
         var death_Selected = mylist.options[mylist.selectedIndex].value;
         var year_Selected = document.getElementById("Slider_Year").value;
