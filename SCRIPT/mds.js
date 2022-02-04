@@ -18,7 +18,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         d.Smoking = +d.Smoking;
         d.Iron_deficiency = +d.Iron_deficiency;
         d.Vitamin_A_deficiency = +d.Vitamin_A_deficiency;
-        d.Low_bone_mineral_density = d.Low_bone_mineral_density;
+        d.Low_bone_mineral_density = +d.Low_bone_mineral_density;
         d.Air_pollution = +d.Air_pollution;
         d.Outdoor_air_pollution = +d.Outdoor_air_pollution;
         d.Diet_high_in_sodium = +d.Diet_high_in_sodium;
@@ -162,8 +162,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     .range([MARGIN, height - MARGIN]);
 
 
-
-        
         //Per ogni paese fissato dal primo ciclo (source), si calcolano le distanze di source dai successivi paesi (target). 
         //Le distanze sono i valori di prossimità calcolati con l'MDS
         
@@ -186,8 +184,34 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             return links_data = links_data.concat(array);
             });
         
-        
-        points = svg.selectAll('.point').data(points_data);
+        var brush = d3.brush()
+            .extent( [ [0,0], [width,height] ] )
+            .on("start brush",function(d){
+                var Countries_Brushed = []
+                var Starting_x = d.selection[0][0]
+                var Starting_y = d.selection[0][1]
+                var Final_x = d.selection[1][0]
+                var Final_y = d.selection[1][1]
+                for(var i=0;i<points_data.length;i++){
+                    var x_Point = x(points_data[i][0])
+                    var y_point = y(points_data[i][1])
+                    
+                    if(Starting_x <= x_Point && Starting_y <= Final_y){
+                        if(Final_x >= x_Point && Final_y >= y_point){
+                            var name_Country = Check_Country(Starting_x,points_data[i],points_data);
+                            Countries_Brushed.push(name_Country)
+                        }
+                    }
+                    
+                }
+                console.log(Countries_Brushed)
+            })
+
+        svg.call(brush); 
+
+
+        points = svg.selectAll('.point')
+                    .data(points_data);
 
 
         var enter_points = points.enter().append('g')
@@ -195,11 +219,16 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                                 .attr("transform",function(d) {
                                             return "translate(" + (x(d[0])) + "," + (y(d[1])) + ")";
                                             })
+                                //Questo dopo fa si che posso fare sia il brush che l'hover del mouse
+                                .attr("pointer-events", "all");
+
+
         
 
         enter_points.append('circle')
                     .attr("r",6)
                     .attr("opacity",0.5);
+                    
         
 
         var div_Name_C = d3.select('body').append('div')   
@@ -208,6 +237,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     
 
         enter_points.on("mouseenter",function(d,i){
+                            
                             var name_Country = Check_Country(d,i,points_data);
                             div_Name_C.transition()        
                                 .duration(400)      
@@ -221,8 +251,11 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                             div_Name_C.transition()           
                                 .style('opacity', 0);
                             div_Name_C.html('')
+                        });
 
-        });
+        
+            
+                
                     
 
     }
