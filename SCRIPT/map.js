@@ -18,7 +18,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         d.Smoking = +d.Smoking;
         d.Iron_deficiency = +d.Iron_deficiency;
         d.Vitamin_A_deficiency = +d.Vitamin_A_deficiency;
-        d.Low_bone_mineral_density = d.Low_bone_mineral_density;
+        d.Low_bone_mineral_density = +d.Low_bone_mineral_density;
         d.Air_pollution = +d.Air_pollution;
         d.Outdoor_air_pollution = +d.Outdoor_air_pollution;
         d.Diet_high_in_sodium = +d.Diet_high_in_sodium;
@@ -27,6 +27,32 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     let Array_Deaths = ["Unsafe_water_source","Unsafe_sanitation","Household_air_pollution_from_solid_fuels","Child_wasting","Low_birth_weight_for_gestation",
         "Secondhand_smoke","Alcohol_use","Drug_use","Diet_low_in_fruits","Unsafe_sex","High_fasting_plasma_glucose","High_body_mass_index","High_systolic_blood_pressure",
         "Smoking","Iron_deficiency","Vitamin_A_deficiency","Low_bone_mineral_density","Air_pollution","Outdoor_air_pollution","Diet_high_in_sodium"];
+    
+    //Da qui inizia la prova per la selezione di paesi tra i grafici
+    var Selected_Countries = ["Questa_Sarebbe_La_Prima_rigaInutile_di_SVG","Italy","Romania", "Slovakia"];
+    var hidden_countries_for_brushing = d3.select("body")
+                                        .data(Selected_Countries)
+                                        //Questo .enter cicla sugli elementi in data
+                                        .enter()
+                                        .append("hidden")
+                                        .attr("id",function(d){
+                                            for(var i=0;i<Selected_Countries.length;i++){
+                                                if(d==Selected_Countries[i]){
+                                                    return "Selected_Country_" + i
+                                                }
+                                            }
+                                        })
+                                        .attr("value",function(d){
+                                                return d
+                                        })
+    var Variable_of_Number_Country_Sel = document.getElementById("number_of_Country_Selected");
+    Variable_of_Number_Country_Sel.setAttribute("value", Selected_Countries.length-1);
+
+
+
+
+
+
     
     function getMax(arr, prop) {
     var max;
@@ -73,6 +99,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
 
     function Change_In_The_Map(){
+
         d3.selectAll("svg").remove();
 
         var death_Selected = mylist.options[mylist.selectedIndex].value;
@@ -110,8 +137,11 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         
         geoJsonUrl = "https://gist.githubusercontent.com/spiker830/3eab0cb407031bf9f2286f98b9d0558a/raw/7edae936285e77be675366550e20f9166bed0ed5/europe_features.json"
         
-    
-        
+        function updateChart() {
+            extent = d3.event.selection
+            console.log(extent)
+          }
+        var country_hovered = []
         d3.json(geoJsonUrl).then(geoJson=> {
             // Tell D3 to render a path for each GeoJSON feature
             svg.selectAll("path")
@@ -137,10 +167,24 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                         }
                     }
                 
-                }) 
+                })
+                
                 .on("mouseover",function(_event,d){
                     MouseOver(_event,d,year_Selected);
                 })
+
+                
+                /*.call( d3.brush()                 // Add the brush feature using the d3.brush function
+                    .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+                     .on("start brush", updateChart) )
+                
+                    .on("keydown", function(d) {
+                    console.log(d)
+                    if(d3.event.keyCode === 32){
+                        
+                    }
+            
+                })*/
             
                 
             });
