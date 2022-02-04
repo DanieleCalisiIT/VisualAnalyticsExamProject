@@ -29,13 +29,13 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         "Secondhand_smoke","Alcohol_use","Drug_use","Diet_low_in_fruits","Unsafe_sex","High_fasting_plasma_glucose","High_body_mass_index","High_systolic_blood_pressure",
         "Smoking","Iron_deficiency","Vitamin_A_deficiency","Low_bone_mineral_density","Air_pollution","Outdoor_air_pollution","Diet_high_in_sodium","Diet_low_in_whole_grains"]; //grains da togliere?
     //21
-    let Countries =["Albania","Austria","Belarus","Belgium","Bosnia","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
+    let Countries =["Albania","Austria","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
         "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Macedonia","Malta","Moldova","Montenegro","Netherlands",
-        "Normway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","UK","Ukraine"];  //38  //macedonia e UK messe bene  (hungary doppia rimossa)
-
-    var SelectedCountries = ["Albania","Austria","Belarus","Belgium","Bosnia","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
+        "Norway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","Ukraine","United Kingdom"];  //38  //macedonia e UK messe bene  (hungary doppia rimossa)
+    
+    var SelectedCountries = ["Albania","Austria","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
     "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Macedonia","Malta","Moldova","Montenegro","Netherlands",
-    "Normway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","UK","Ukraine"]   //è quello che mi arriva dalle checkbox
+    "Norway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","Ukraine","United Kingdom"]   //è quello che mi arriva dalle checkbox
     SelectedCountries.sort() //nel caso non lo fosse
 
     var ColorsParallel = ["#009179","#008291","#005B91","#003491","#000E91","#000091","#1E0091","#450091","#6B0091","#8F0090","#90006D","#900049","#900026","#8F0004","#8F1800",
@@ -55,25 +55,27 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     height = 500 - margin.top - margin.bottom;
 
     function isCountrySelected(c){
-        for(var i = 0; i < SelectedCountries.length; i++){
-            if(c == SelectedCountries[i])
+        for(var k = 0; k < SelectedCountries.length; k++){
+            if(c == SelectedCountries[k]){
                 return true
+            }       
         }
         return false
     }
-
-    function NormalizeAndRetrieve(RelevantValues){
+    console.log(Countries.length)
+    function NormalizeAndRetrieve(relevantVal){
         
         
 
-        //console.log(RelevantValues)
+        console.log(relevantVal)
+        
         
         var ArrayTotals = new Array(Array_Deaths.length).fill(0);
         for( var i = 0; i < Array_Deaths.length; i++){
             for (var j = 0; j < SelectedCountries.length; j++){
                 
-                if (RelevantValues[j][Array_Deaths[i]] > 0){
-                    ArrayTotals[i] =  ArrayTotals[i] + RelevantValues[j][Array_Deaths[i]]
+                if (relevantVal[j][Array_Deaths[i]] > 0){
+                    ArrayTotals[i] =  ArrayTotals[i] + relevantVal[j][Array_Deaths[i]]
                 }
                 //else non agg nulla
             }
@@ -90,8 +92,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             NormalizedValues[i] = new Array(SelectedCountries.length); 
             sum = 0
             for (var j = 0; j < SelectedCountries.length; j++){
-                if (RelevantValues[j][Array_Deaths[i]] >= 0){
-                    NormalizedValues[i][SelectedCountries[j]] = (RelevantValues[j][Array_Deaths[i]]/ArrayTotals[i])*100   //il normalized avrà le countries in ordine alfabetico
+                if (relevantVal[j][Array_Deaths[i]] >= 0){
+                    NormalizedValues[i][SelectedCountries[j]] = (relevantVal[j][Array_Deaths[i]]/ArrayTotals[i])*100   //il normalized avrà le countries in ordine alfabetico
                 }
                 else{
                     NormalizedValues[i][SelectedCountries[j]] = 0.0
@@ -118,18 +120,19 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         let year_Selected = document.getElementById("Slider_Year").value;
 
-
+    
 
         var RelevantValues = new Array(SelectedCountries.length);
 
         for (var i = 0; i < SelectedCountries.length; i++) {
-            RelevantValues[i] = new Array(Array_Deaths.length + 2);  //ha nome country e year in piu
+            RelevantValues[i] = new Array(Array_Deaths.length + 3);  //ha nome country e  entity e year in piu
         }
         
         var j = 0
         for( var i = 0; i < data.length; i++ ){
             if(data[i].Year == year_Selected && isCountrySelected(data[i].Country)){
                 RelevantValues[j] = data[i]
+                console.log(data[i])
                 j++
             }
         }
@@ -171,7 +174,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         var stackedData = stackGen(normalized_values)
 
         var deathNum = -1
-        var currentCountry = ""
         
         //console.log(stackedData)
 
@@ -179,10 +181,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             .selectAll("g")
             .data(stackedData)
             .enter().append("g")  //loop
-                .attr("id", function(d){   //d è array di stack di una Nazione
-                    currentCountry = d.key
-                    return "rectGroup" + d.key
-                })    
                 .attr("fill", function(d) { 
                     return color(d.key); })
                 .attr("countr", function(d){
@@ -233,7 +231,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                         console.log(percentageValue)
 
                         //console.log(countryPosition)
-                        //console.log(_event.path[0].getAttribute("deathType"))  
+                        console.log(_event.path[0].getAttribute("deathType"))  
                         console.log(_event.path[1].getAttribute("countr"))      
                     
                        
