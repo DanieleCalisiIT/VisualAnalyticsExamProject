@@ -187,11 +187,12 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         var brush = d3.brush()
             .extent( [ [0,0], [width,height] ] )
             .on("start brush",function(d){
-                var Countries_Brushed = []
+                var Countries_Brushed = ["String_Del"]
                 var Starting_x = d.selection[0][0]
                 var Starting_y = d.selection[0][1]
                 var Final_x = d.selection[1][0]
                 var Final_y = d.selection[1][1]
+
                 for(var i=0;i<points_data.length;i++){
                     var x_Point = x(points_data[i][0])
                     var y_point = y(points_data[i][1])
@@ -204,7 +205,29 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     }
                     
                 }
-                console.log(Countries_Brushed)
+
+                d3.selectAll("hidden").remove();
+                var hidden_countries_for_brushing = d3.select("body")
+                                        .data(Countries_Brushed)
+                                        //Questo .enter cicla sugli elementi in data
+                                        .enter()
+                                        .append("hidden")
+                                        .attr("id",function(d){
+                                            for(var i=0;i<Countries_Brushed.length;i++){
+                                                if(d==Countries_Brushed[i]){
+                                                    return "Selected_Country_" + i
+                                                }
+                                            }
+                                        })
+                                        .attr("value",function(d){
+                                                return d
+                                        })
+
+                var Variable_of_Number_Country_Sel = d3.select("body")
+                                                        .append("hidden")
+                                                        .attr("id","number_of_Country_selected")
+                                                        .attr("value",Countries_Brushed.length-1)
+                
             })
 
         svg.call(brush); 
