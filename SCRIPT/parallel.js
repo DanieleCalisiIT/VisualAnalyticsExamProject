@@ -60,13 +60,15 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
    // }
 
     let sliderOne = document.getElementById("slider-1");
+    sliderOne.addEventListener('change', Change_In_ParallelBasedOnSlider);
     let sliderTwo = document.getElementById("slider-2");
+    sliderTwo.addEventListener('change', Change_In_ParallelBasedOnSlider);
 
     let displayValOne = document.getElementById("range1");
     let displayValTwo = document.getElementById("range2");
 
     //min gap è per fare in modo che il range tra gli anni sia sempre 1
-    let minYearGap = 2;
+    let minYearGap = 1;
 
     sliderOne.oninput = function slideOne(){
         if(parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minYearGap){
@@ -83,17 +85,32 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         //console.log(sliderTwo.value)
     }
 
-    var yearSliderOne = sliderOne.value;
-    var yearSliderTwo = sliderTwo.value
-
-
-
-
+    //To avoid multiple the generation of multiple parrallel plots each time we change the double slider
+    function Change_In_ParallelBasedOnSlider(){
+        d3.select("#parallel").selectAll("*").remove();
+        Change_In_ParallelPlot();
+    }
+    
     function Change_In_ParallelPlot(){
-
+        
         var death_Selected = mylist.options[mylist.selectedIndex].value;
         var year_Selected = document.getElementById("Slider_Year").value;
 
+        //to generate parallel according 
+        var firstYear = sliderOne.value;
+        var secondYear = sliderTwo.value;
+        
+        //extract years between first one and second one selected. Then iterate to populate the array years with the years in the selected 
+        //range
+        var yearsRange = parseInt((secondYear - firstYear) + 1)
+        var newYear = 0;
+        years = [];
+        
+        for(var h=0; h < yearsRange; h++){
+              newYear = parseInt(firstYear) + parseInt(h);
+              years.push(newYear)
+        }
+        
 
          // set the dimensions and margins of the graph
         var margin = {top: 30, right: 50, bottom: 10, left: 50},
