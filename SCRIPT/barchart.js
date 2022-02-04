@@ -62,12 +62,9 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         }
         return false
     }
-    console.log(Countries.length)
+
     function NormalizeAndRetrieve(relevantVal){
         
-        
-
-        console.log(relevantVal)
         
         
         var ArrayTotals = new Array(Array_Deaths.length).fill(0);
@@ -132,7 +129,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         for( var i = 0; i < data.length; i++ ){
             if(data[i].Year == year_Selected && isCountrySelected(data[i].Country)){
                 RelevantValues[j] = data[i]
-                console.log(data[i])
                 j++
             }
         }
@@ -225,10 +221,10 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                         }
                         
                         quantitativeValue = RelevantValues[countryPosition][deathType]
-                        console.log(quantitativeValue)
+
 
                         percentageValue = d[1] - d[0]
-                        console.log(percentageValue)
+
 
                         //console.log(countryPosition)
                         console.log(_event.path[0].getAttribute("deathType"))  
