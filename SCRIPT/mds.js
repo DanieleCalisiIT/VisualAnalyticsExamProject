@@ -28,10 +28,9 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         "Secondhand_smoke","Alcohol_use","Drug_use","Diet_low_in_fruits","Unsafe_sex","High_fasting_plasma_glucose","High_body_mass_index","High_systolic_blood_pressure",
         "Smoking","Iron_deficiency","Vitamin_A_deficiency","Low_bone_mineral_density","Air_pollution","Outdoor_air_pollution","Diet_high_in_sodium"];
 
-    let Countries =["Albania","Austria","Belarus","Belgium","Bosnia","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
-                    "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Malta","Moldova","Montenegro","Netherlands",
-                    "Normway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","Ukraine","UK","Macedonia","Hungary"]
-
+    let Countries =["Albania","Austria","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
+    "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Macedonia","Malta","Moldova","Montenegro","Netherlands",
+    "Norway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","Ukraine","United Kingdom"];
     var mylist = document.getElementById("List_Deaths");
     mylist.addEventListener('change', Change_In_MDS);
 
