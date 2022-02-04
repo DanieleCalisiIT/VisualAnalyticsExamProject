@@ -29,12 +29,14 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         "Smoking","Iron_deficiency","Vitamin_A_deficiency","Low_bone_mineral_density","Air_pollution","Outdoor_air_pollution","Diet_high_in_sodium"];
     
     //Da qui inizia la prova per la selezione di paesi tra i grafici
+    /*
     var Selected_Countries = ["Questa_Sarebbe_La_Prima_rigaInutile_di_SVG","Italy","Romania", "Slovakia"];
     var hidden_countries_for_brushing = d3.select("body")
                                         .data(Selected_Countries)
                                         //Questo .enter cicla sugli elementi in data
                                         .enter()
-                                        .append("hidden")
+                                        .append("input")
+                                        .attr("type","hidden")
                                         .attr("id",function(d){
                                             for(var i=0;i<Selected_Countries.length;i++){
                                                 if(d==Selected_Countries[i]){
@@ -47,6 +49,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                                         })
     var Variable_of_Number_Country_Sel = document.getElementById("number_of_Country_Selected");
     Variable_of_Number_Country_Sel.setAttribute("value", Selected_Countries.length-1);
+    */
 
 
 
