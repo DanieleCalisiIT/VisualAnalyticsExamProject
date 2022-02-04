@@ -18,7 +18,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         d.Smoking = +d.Smoking;
         d.Iron_deficiency = +d.Iron_deficiency;
         d.Vitamin_A_deficiency = +d.Vitamin_A_deficiency;
-        d.Low_bone_mineral_density = d.Low_bone_mineral_density;
+        d.Low_bone_mineral_density = +d.Low_bone_mineral_density;
         d.Air_pollution = +d.Air_pollution;
         d.Outdoor_air_pollution = +d.Outdoor_air_pollution;
         d.Diet_high_in_sodium = +d.Diet_high_in_sodium;
@@ -85,6 +85,9 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
     var yearSliderOne = sliderOne.value;
     var yearSliderTwo = sliderTwo.value
+
+
+
 
     function Change_In_ParallelPlot(){
 
