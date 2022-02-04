@@ -29,8 +29,10 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         "Smoking","Iron_deficiency","Vitamin_A_deficiency","Low_bone_mineral_density","Air_pollution","Outdoor_air_pollution","Diet_high_in_sodium"];
 
     let Countries =["Albania","Austria","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
-    "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Macedonia","Malta","Moldova","Montenegro","Netherlands",
-    "Norway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","Ukraine","United Kingdom"];
+                    "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Macedonia","Malta","Moldova","Montenegro","Netherlands",
+                    "Norway","Poland","Portugal","Romania","Serbia","Slovakia","Slovenia","Spain","Sweden","Switzerland","Ukraine","United Kingdom"];
+    
+    
     var mylist = document.getElementById("List_Deaths");
     mylist.addEventListener('change', Change_In_MDS);
 
@@ -38,11 +40,13 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     slider.addEventListener('change', Change_In_MDS);
 
 
+
+
     function Calculate_Proximity_Matrix(year,death_sel){
-        var Matrix = new Array(41);
+        var Matrix = new Array(Countries.length);
 
         for (var i = 0; i < Matrix.length; i++) {
-            Matrix[i] = new Array(41);
+            Matrix[i] = new Array(Countries.length);
         }
 
         //Questi supp servono poichè loro tengono memoria della posizione precedentemente salvata nella matrice
@@ -53,22 +57,26 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             if(data[i].Year == year){
                 var Num_Deaths_of_Country_for_year = data[i][death_sel];
                 var suppY = 0;
-
-                for(var j=0; j < data.length;j++){
+                
+                if(suppX <=Matrix.length){
+                    for(var j=0; j < data.length;j++){
                     
-                    if(data[j].Year == year){
-                        var Num_Value_To_Subtract_of_another_Country =  data[j][death_sel];
-                        var Proximity = Math.abs(Num_Deaths_of_Country_for_year - Num_Value_To_Subtract_of_another_Country);
+                        if(data[j].Year == year){
+                            var Num_Value_To_Subtract_of_another_Country =  data[j][death_sel];
+                            var Proximity = Math.abs(Num_Deaths_of_Country_for_year - Num_Value_To_Subtract_of_another_Country);
 
-                        Matrix[suppX][suppY] = Proximity;
-                        suppY++;    
+                            Matrix[suppX][suppY] = Proximity;
+
+                            suppY++;    
+                        }
                     }
+
                 }
+                
                 suppX++;
                                 
             }
         }
-
         return Matrix
 
     }
@@ -182,6 +190,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             });
             return links_data = links_data.concat(array);
             });
+
+            
         
         var brush = d3.brush()
             .extent( [ [0,0], [width,height] ] )
@@ -221,11 +231,13 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                                         .attr("value",function(d){
                                                 return d
                                         })
-
-                var Variable_of_Number_Country_Sel = d3.select("body")
-                                                        .append("hidden")
+                var Variable_of_Number_Country_Sel = document.getElementById("number_of_Country_Selected");
+                Variable_of_Number_Country_Sel.setAttribute("value", Countries_Brushed.length-1);                        
+                /*var Variable_of_Number_Country_Sel = d3.select("body")
+                                                        .append("input")
+                                                        .attr("type","hidden")
                                                         .attr("id","number_of_Country_selected")
-                                                        .attr("value",Countries_Brushed.length-1)
+                                                        .attr("value",Countries_Brushed.length-1)*/
                 
             })
 
@@ -239,6 +251,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         var enter_points = points.enter().append('g')
                                 .attr("class",'point')
                                 .attr("transform",function(d) {
+
                                             return "translate(" + (x(d[0])) + "," + (y(d[1])) + ")";
                                             })
                                 //Questo dopo fa si che posso fare sia il brush che l'hover del mouse
@@ -274,11 +287,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                                 .style('opacity', 0);
                             div_Name_C.html('')
                         });
-
-        
-            
-                
-                    
 
     }
 
