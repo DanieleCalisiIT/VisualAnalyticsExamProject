@@ -85,6 +85,10 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         //console.log(sliderTwo.value)
     }
 
+    //Previsione solo se l'ultimo anno scelto nello slider è 2017: media da primo a 2017 per quella determinata morte e paese.
+
+
+
     //To avoid multiple the generation of multiple parrallel plots each time we change the double slider
     function Change_In_ParallelBasedOnSlider(){
         d3.select("#parallel").selectAll("*").remove();
