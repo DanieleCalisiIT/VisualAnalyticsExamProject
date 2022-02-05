@@ -40,12 +40,16 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     
     var mylist = document.getElementById("List_Deaths");
     var slider = document.getElementById("Slider_Year");
-    var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected");
+    var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected")
 
+    function prova(){
+        console.log('prova')
+    }
+    
 
     mylist.addEventListener('change', Change_In_The_Map);
     slider.addEventListener('change', Change_In_The_Map);
-    numero_Country_Brushed.addEventListener('change', Change_In_The_Map_W_Brushed)
+    //numero_Country_Brushed.addEventListener('change', Change_In_The_Map_W_Brushed)
     
 
     function MouseOver(event,d,year_Selected){
@@ -124,7 +128,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                 .enter()
                 .append("path")
                 .attr("d", pathGenerator)
-                .attr("stroke", "grey") 
+                
                 .attr("fill", function(d){
                     for(var i=0; i<data.length;i++){
                         if (data[i].Country == d.properties.name ){
@@ -143,120 +147,15 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     }
                 
                 })
+                .attr("id_Country",function(d){
+                    return d.properties.name
+                })
+
+                .style("stroke", "grey") 
                 
                 .on("mouseover",function(_event,d){
                     MouseOver(_event,d,year_Selected);
                 })
-
-                
-                /*.call( d3.brush()                 // Add the brush feature using the d3.brush function
-                    .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-                     .on("start brush", updateChart) )
-                
-                    .on("keydown", function(d) {
-                    console.log(d)
-                    if(d3.event.keyCode === 32){
-                        
-                    }
-            
-                })*/
-            
-                
-            });
-
-    }
-
-
-
-
-
-
-    function Change_In_The_Map_W_Brushed(){
-
-        d3.selectAll("svg").remove();
-
-        console.log("Ciao")
-        var death_Selected = mylist.options[mylist.selectedIndex].value;
-        var year_Selected = document.getElementById("Slider_Year").value;
-
-
-        //Width and height
-        var width = 500;
-        var height = 400;
-        viewbox = "0 0 450 400"
-        var transform = "translate(-50,0)";
-
-        let svg = d3.select("#map")
-                        .append("svg")
-                        .attr("viewBox",viewbox)
-                        .attr("preserveAspectRatio","xMinYMin meet")
-                        /*.attr("width", width)
-                        .attr("height", height)
-                        .attr("transform", transform)*/
-                        
-
-        //Define map projection
-        let geoJsonUrl = ''
-
-        var europeProjection = d3.geoMercator()
-                                    .center([ 15, 52 ])
-                                    .scale([ width/1.3 ])
-                                    .translate([ width / 1.9, height / 2 ])
-
-
-        //Define path generator
-        var pathGenerator = d3.geoPath().projection(europeProjection)
-        
-        geoJsonUrl = "https://gist.githubusercontent.com/spiker830/3eab0cb407031bf9f2286f98b9d0558a/raw/7edae936285e77be675366550e20f9166bed0ed5/europe_features.json"
-        
-        function updateChart() {
-            extent = d3.event.selection
-            console.log(extent)
-          }
-        var country_hovered = []
-        d3.json(geoJsonUrl).then(geoJson=> {
-            // Tell D3 to render a path for each GeoJSON feature
-            svg.selectAll("path")
-                .data(geoJson.features)
-                .enter()
-                .append("path")
-                .attr("d", pathGenerator)
-                .attr("stroke", "grey") 
-                .attr("fill", function(d){
-                    for(var i=0; i<data.length;i++){
-                        if (data[i].Country == d.properties.name ){
-                            if (data[i].Year == year_Selected ){
-                                var maxDeath = getMax(data, death_Selected);
-
-                                var color = d3.scaleLinear()
-                                    .domain([0, maxDeath[death_Selected]])
-                                    .range(["#ffffb2","#bd0026"]);
-                                
-                                return color(data[i][death_Selected]);
-
-                            }
-
-                        }
-                    }
-                
-                })
-                
-                .on("mouseover",function(_event,d){
-                    MouseOver(_event,d,year_Selected);
-                })
-
-                
-                /*.call( d3.brush()                 // Add the brush feature using the d3.brush function
-                    .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-                     .on("start brush", updateChart) )
-                
-                    .on("keydown", function(d) {
-                    console.log(d)
-                    if(d3.event.keyCode === 32){
-                        
-                    }
-            
-                })*/
             
                 
             });
@@ -268,6 +167,36 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
 
 });
+
+
+function funzione_prova(){
+    console.log('prova')
+    var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
+    var map = document.getElementById("map")
+    var map_svg = map.getElementsByTagName("path")
+
+    if (numero_Country_Brushed > 0){
+        for (let i=0; i < map_svg.length; i++){
+            for(let l=1; l<=numero_Country_Brushed;l++){
+                var base = "Selected_Country_"
+                var id_country = base.concat(l)
+                country_parsed = document.getElementById(id_country).getAttribute("value")
+                if(map_svg[i].getAttribute("id_Country") === country_parsed){
+                    map_svg[i].style["stroke-width"]="3"
+                    map_svg[i].style["stroke"] = "blue"
+                }
+            }
+        }
+
+    }
+    else{
+        for (let i=0; i < map_svg.length; i++){
+            map_svg[i].style["stroke-width"]="1"
+            map_svg[i].style["stroke"] = "grey"
+        }
+    }
+    
+}
 
 
 
