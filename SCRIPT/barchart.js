@@ -31,20 +31,16 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     //21
     let Countries =["Albania","Austria","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
         "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Macedonia","Malta","Moldova","Montenegro","Netherlands",
-        "Norway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","Ukraine","United Kingdom"];  //38  //macedonia e UK messe bene  (hungary doppia rimossa)
+        "Norway","Poland","Portugal","Romania","Serbia","Slovakia","Slovenia","Spain","Sweden","Switzerland","Ukraine","United Kingdom"];  //39  //macedonia e UK messe bene  (hungary doppia rimossa)
     
     var SelectedCountries = ["Albania","Austria","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
     "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Macedonia","Malta","Moldova","Montenegro","Netherlands",
-    "Norway","Poland","Portugal","Romania","Serbia","Slovakia","Spain","Sweden","Switzerland","Ukraine","United Kingdom"]   //è quello che mi arriva dalle checkbox
+    "Norway","Poland","Portugal","Romania","Serbia","Slovakia","Slovenia","Spain","Sweden","Switzerland","Ukraine","United Kingdom"]   //è quello che mi arriva dalle checkbox
     SelectedCountries.sort() //nel caso non lo fosse
-
-    var ColorsParallel = ["#009179","#008291","#005B91","#003491","#000E91","#000091","#1E0091","#450091","#6B0091","#8F0090","#90006D","#900049","#900026","#8F0004","#8F1800",
-                  "#8E3B00","#8E5E01","#8E7F03", "#7B8D04", "#5B8D06","#3C8C08","#499112","#56951C","#629A26","#6D9F31","#79A43B","#83A845","#8EAD4F","#98B259","#A1B663",
-                    "#ABBB6D","#B3C077","#BCC582","#C3C98C","#CBCE96","#D2D3A0","#D7D7AA","#DCDAB4"]  //38 tolti ultimi 3
 
     var ColorsTest = ['#F44336','#FFEBEE','#FFCDD2','#EF9A9A','#E57373','#EF5350','#F44336','#E53935','#D32F2F','#C62828','#B71C1C','#FF8A80','#FF5252','#FF1744','#D50000','#E91E63',
     '#FCE4EC','#F8BBD0','#F48FB1','#F06292','#EC407A','#E91E63','#D81B60','#C2185B','#AD1457','#880E4F','#FF80AB','#FF4081','#F50057','#C51162','#9C27B0','#F3E5F5','#E1BEE7',
-    '#CE93D8','#BA68C8','#AB47BC','#9C27B0','#8E24AA'] //38
+    '#CE93D8','#BA68C8','#AB47BC','#9C27B0','#8E24AA',"#FFFF00"] //39
 
 
     var slider = document.getElementById("Slider_Year");
@@ -62,12 +58,9 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         }
         return false
     }
-    console.log(Countries.length)
+
     function NormalizeAndRetrieve(relevantVal){
         
-        
-
-        console.log(relevantVal)
         
         
         var ArrayTotals = new Array(Array_Deaths.length).fill(0);
@@ -132,7 +125,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         for( var i = 0; i < data.length; i++ ){
             if(data[i].Year == year_Selected && isCountrySelected(data[i].Country)){
                 RelevantValues[j] = data[i]
-                console.log(data[i])
                 j++
             }
         }
@@ -170,6 +162,11 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         //groups = cause morte
         //subgroups = countries
 
+        var div_RectStats = d3.select('body').append('div')   
+                        .attr('id', 'DivRectStats')     
+                        .style('opacity', 0);
+        
+
         var stackGen = d3.stack().keys(SelectedCountries)
         var stackedData = stackGen(normalized_values)
 
@@ -189,6 +186,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                 .selectAll("rect")   //selecta i rettangoli
                 .data(function(d) {  return d; }) 
                 .enter()  //loop  //entra nell' array di una Nazione
+                
                 .append("rect")  //aggiunge un rettangolo
                     .attr("x", function(d) { 
                         //console.log(d[0]) //originale (fino a 100 o meno)
@@ -210,6 +208,10 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     .attr("height",y.bandwidth()-5)  //qui decidi spessore righe
                     .attr("width", function(d) { return x(d[1]) - x(d[0]); })
 
+                    //.attr("opacity", 0.5)
+
+                
+
 
                     .on("mouseenter",function(_event,d){
                         //console.log(_event)  
@@ -225,20 +227,55 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                         }
                         
                         quantitativeValue = RelevantValues[countryPosition][deathType]
-                        console.log(quantitativeValue)
+
 
                         percentageValue = d[1] - d[0]
-                        console.log(percentageValue)
+
 
                         //console.log(countryPosition)
                         console.log(_event.path[0].getAttribute("deathType"))  
-                        console.log(_event.path[1].getAttribute("countr"))      
+                        console.log(_event.path[1].getAttribute("countr"))    
+
+                        console.log(d)
+                        
+                        div_RectStats.transition()        
+                                .duration(400)      
+                                .style('opacity', .9);
+                        div_RectStats.html("ciao")
+                                .style('left', (d[0] + 'px')   )  
+                                .style('top', (_event.path[0].getAttribute("y") ) + 'px');
+                        /*div_RectStats.html("ciao")
+                                .style('left', (_event.path[0].getAttribute("x") +40) + 'px')     
+                                .style('top', (_event.path[0].getAttribute("y") +100) + 'px'); */
                     
                        
-                    });
+                    })
 
-
+        /*svg.append("g")
+        .selectAll("g")
+        .data(stackedData)
+        .enter().selectAll("text")   //selecta i rettangoli
+        .data(function(d) {  return d; }) 
+        .enter()  //loop  //entra nell' array di una Nazione
+                    
+        .append("text")
+        .text("ciao")
+        .attr("x", function(d) { 
+            //console.log(d[0]) //originale (fino a 100 o meno)
+            //console.log(x(d[0])) //scalato con width
+            return x(d[0]); })  //d riguarda valori di una morte per quella Nazione
+        .attr("y", function(d) { 
+            if (deathNum == Array_Deaths.length - 1){
+                deathNum = -1
+            }
+            deathNum++;
+            return y(Array_Deaths[deathNum]); })
+        .attr("font-size", 10)
+        .attr("font-family", "sans-serif")
+        .attr("fill", "black")
+        .attr("opacity", 1) */
         
+                        
         
         
 
