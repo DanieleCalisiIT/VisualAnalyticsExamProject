@@ -46,6 +46,9 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     var slider = document.getElementById("Slider_Year");
     slider.addEventListener('change', Change_In_Barchart);
 
+    var mylist = document.getElementById("List_Deaths");
+    mylist.addEventListener('change', Change_In_Barchart);
+
     var margin = {top: 0, right: 20, bottom: 0, left: 200},
                     width = 800 - margin.left - margin.right,
                     height = 500 - margin.top - margin.bottom;
@@ -163,8 +166,14 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         //subgroups = countries
 
         var div_RectStats = d3.select('body').append('div')   
-                        .attr('id', 'DivRectStats')     
+                        .attr('id', 'DivRectStats')   
                         .style('opacity', 0);
+
+        
+
+        
+
+        
         
 
         var stackGen = d3.stack().keys(SelectedCountries)
@@ -213,7 +222,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                 
 
 
-                    .on("mouseenter",function(_event,d){
+                    .on("mousemove",function(_event,d){
                         //console.log(_event)  
                         //console.log(_event.path)
                         deathType = _event.path[0].getAttribute("deathType") //death of the entered rect
@@ -226,30 +235,38 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                             
                         }
                         
-                        quantitativeValue = RelevantValues[countryPosition][deathType]
+                        quantitativeValue = RelevantValues[countryPosition][deathType].toFixed(0)
 
 
-                        percentageValue = d[1] - d[0]
+                        percentageValue = Math.round((d[1] - d[0]) * 100) / 100
 
 
                         //console.log(countryPosition)
-                        console.log(_event.path[0].getAttribute("deathType"))  
-                        console.log(_event.path[1].getAttribute("countr"))    
+                        //console.log(_event.path[0].getAttribute("deathType"))  
+                        //console.log(_event.path[1].getAttribute("countr"))    
 
-                        console.log(d)
+                        //console.log(d)
                         
                         div_RectStats.transition()        
-                                .duration(400)      
+                                .duration(0)      
                                 .style('opacity', .9);
-                        div_RectStats.html("ciao")
-                                .style('left', (d[0] + 'px')   )  
-                                .style('top', (_event.path[0].getAttribute("y") ) + 'px');
-                        /*div_RectStats.html("ciao")
-                                .style('left', (_event.path[0].getAttribute("x") +40) + 'px')     
-                                .style('top', (_event.path[0].getAttribute("y") +100) + 'px'); */
-                    
+                        div_RectStats.html(
+                            country + "\n\n" 
+                            + "Percentage: " + percentageValue + " %\n"
+                            + "Death Number: " + quantitativeValue)
+                                //.style('left', (_event.path[0].getAttribute("x") +40) + 'px')     
+                                //.style('top', (_event.path[0].getAttribute("y") +100) + 'px'); 
+                                .style('left', (_event.pageX -0) + 'px')  
+                                .style('top', (_event.pageY - 85) + 'px');  
                        
                     })
+
+                    .on("mouseleave",function(){
+                        div_RectStats.transition()  
+                            .duration(0)          
+                            .style('opacity', 0);
+                            div_RectStats.html('')
+                    });
 
         /*svg.append("g")
         .selectAll("g")
