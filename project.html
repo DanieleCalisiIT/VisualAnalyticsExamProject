@@ -13,7 +13,7 @@
 		<script src="SCRIPT/parallel.js"></script>
 		<script src="SCRIPT/barchart.js"></script>
 
-		<input id="number_of_Country_Selected" type="hidden" value="0">
+		
         <style type="text/css">
 
 
@@ -196,10 +196,11 @@
     
 	
 	<body>
-		
+		<input id="number_of_Country_Selected" type="hidden" value="0"  onchange="funzione_prova()"/>
+
+
 		<input id="Slider_Year"type="range" value="2005" min="1990" max="2017" oninput="this.nextElementSibling.value = this.value">
 		<output>2005</output>
-		<br/>
 		<div id="Select_Deaths">
 			<b> Select the type of death to view in the map: </b>
 			<select id = "List_Deaths" >
