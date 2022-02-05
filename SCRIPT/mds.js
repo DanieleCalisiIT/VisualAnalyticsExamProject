@@ -232,12 +232,9 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                                                 return d
                                         })
                 var Variable_of_Number_Country_Sel = document.getElementById("number_of_Country_Selected");
-                Variable_of_Number_Country_Sel.setAttribute("value", Countries_Brushed.length-1);                        
-                /*var Variable_of_Number_Country_Sel = d3.select("body")
-                                                        .append("input")
-                                                        .attr("type","hidden")
-                                                        .attr("id","number_of_Country_selected")
-                                                        .attr("value",Countries_Brushed.length-1)*/
+                Variable_of_Number_Country_Sel.setAttribute("value", Countries_Brushed.length-1);
+                Variable_of_Number_Country_Sel.onchange()           
+               
                 
             })
 
