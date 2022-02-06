@@ -35,6 +35,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
     let years = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016,2017];
     
+    let yearsPrevision = [2012,2013,2014,2015,2016,2017]
+    var numYearsToPredict = 2;
     //Range di colori preso al sito: https://hihayk.github.io/scale/#20/20/17/82/285/47/0/53/3C8C08/223/57/177/white
     /*let Colors = ["#009179","#008291","#005B91","#003491","#000E91","#000091","#1E0091","#450091","#6B0091","#8F0090","#90006D","#900049","#900026","#8F0004","#8F1800",
                   "#8E3B00","#8E5E01","#8E7F03", "#7B8D04", "#5B8D06","#3C8C08","#499112","#56951C","#629A26","#6D9F31","#79A43B","#83A845","#8EAD4F","#98B259","#A1B663",
@@ -85,10 +87,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         //console.log(sliderTwo.value)
     }
 
-    //Previsione solo se l'ultimo anno scelto nello slider è 2017: media da primo a 2017 per quella determinata morte e paese.
-
-
-
     //To avoid multiple the generation of multiple parrallel plots each time we change the double slider
     function Change_In_ParallelBasedOnSlider(){
         d3.select("#parallel").selectAll("*").remove();
@@ -115,6 +113,69 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
               years.push(newYear)
         }
         
+        var country = "Albania"
+        predictNextYear(yearsPrevision, death_Selected, country,numYearsToPredict);
+
+        function predictNextYear(yearRange, death_Selected, country, numYearsToPredict){
+            //yearRange = array degli anni
+
+            var differenceNum = 0;
+            var firstVal = 0;
+            var secondVal = 0;
+            var numerator = 0;
+            var index_country_death = 0;
+            var index_last_year = 0
+            var years_predicted =[]
+            var year_predicted=0
+            for(var i=0; i < data.length; i++){
+                //mi fermo sul paese
+                if(country == data[i].Country){
+                    if(yearRange[0]==data[i].Year){
+                        for(var j=0; j<yearRange.length-1 ; j++){
+                            firstVal = data[i+j][death_Selected]
+
+                            secondVal = data[i+j+1][death_Selected]
+                            numerator = numerator +(secondVal - firstVal)
+                            index_last_year = i+j+1
+
+                        }
+                        //yearRange.length-1 perchè il calcolo è sugli intervalli degli anni
+                        //non tutti gli anni flat
+                        index_country_death = numerator / (yearRange.length-1)
+
+                        for(var y=0; y<numYearsToPredict ; y++){
+                            //Se l' array che conterrà i valori degli anni predetti è vuoto, allora il calcolo lo fa sul 2017 (che sarà 2017 + index)
+                            if(years_predicted.length==0){
+                                year_predicted = data[index_last_year][death_Selected] + index_country_death
+                                if(year_predicted>=0){
+                                    years_predicted.push(year_predicted)
+                                }
+                                else{
+                                    years_predicted.push(0)
+                                }
+                                
+                            }
+                            else{
+                                year_predicted = years_predicted[years_predicted.length-1] + index_country_death
+                                if(year_predicted>=0){
+                                    years_predicted.push(year_predicted)
+                                }
+                                else{
+                                    years_predicted.push(0)
+                                }
+
+                            }
+                            
+
+                        }
+                        
+                        console.log(years_predicted)
+
+                        
+                    }
+                }
+            }
+        }
 
         // set the dimensions and margins of the graph
         var margin = {top: 30, right: 50, bottom: 10, left: 50},
