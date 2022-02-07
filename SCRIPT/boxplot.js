@@ -193,7 +193,8 @@ function Stroke_Country_boxplot(){
                     circle_to_color.setAttribute("r","8")
                     circle_to_color.setAttribute("opacity","1")
                     circle_to_color.style["fill"] = "blue"
-
+                    /*circle_to_color[0].style["stroke-width"]="11"
+                    circle_to_color[0].style["stroke"] = "blue"*/
                 }
             }
 
