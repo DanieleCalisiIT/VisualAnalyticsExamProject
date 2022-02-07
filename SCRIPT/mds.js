@@ -245,21 +245,25 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     .data(points_data);
 
 
-        var enter_points = points.enter().append('g')
+        var enter_points = points.enter()
+                                .append('g')
                                 .attr("class",'point')
                                 .attr("transform",function(d) {
 
                                             return "translate(" + (x(d[0])) + "," + (y(d[1])) + ")";
                                             })
                                 //Questo dopo fa si che posso fare sia il brush che l'hover del mouse
+                                .attr("id_Country",function(d,i){
+                                    
+                                    return Check_Country(i,d,points_data);
+                                })
                                 .attr("pointer-events", "all");
 
 
         
 
         enter_points.append('circle')
-                    .attr("r",6)
-                    .attr("opacity",0.5);
+                    .attr("r",6);
                     
         
 
@@ -290,3 +294,37 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     Change_In_MDS();
 
 });
+
+function Stroke_Country_mds(){
+    var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
+    var mds = document.getElementById("mds")
+    var mds_svg = mds.getElementsByTagName("g")
+    if(numero_Country_Brushed > 0){
+        
+        for(var i=0; i < mds_svg.length ; i++){
+            for(let l=1; l<=numero_Country_Brushed;l++){
+                var base = "Selected_Country_"
+                var id_country = base.concat(l)
+                country_parsed = document.getElementById(id_country).getAttribute("value")
+                if(mds_svg[i].getAttribute("id_Country") === country_parsed){
+                    circle_to_color = mds_svg[i].getElementsByTagName("circle")
+                    circle_to_color[0].setAttribute("r","10")
+                    circle_to_color[0].setAttribute("opacity","1")
+                    circle_to_color[0].style["fill"] = "blue"
+                    /*circle_to_color[0].style["stroke-width"]="11"
+                    circle_to_color[0].style["stroke"] = "blue"*/
+                }
+            }
+
+        }
+
+    }
+    else{
+        for (let i=0; i < mds_svg.length; i++){
+            circle_to_color = mds_svg[i].getElementsByTagName("circle")
+            circle_to_color[0].setAttribute("r","6")
+            circle_to_color[0].style["fill"] = "teal"
+        }
+    }
+    
+}
