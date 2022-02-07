@@ -197,6 +197,10 @@
 				left: 0;
 				right: 0;
 			}
+			
+			#checkYears{
+				opacity: 0;
+			}
 		
 		</style>
     
@@ -324,6 +328,15 @@
 				<input type="range" min="1990" max="2017" value="1990" id="slider-1" oninput="slideOne()">
 				<input type="range" min="1990" max="2017" value="2017" id="slider-2" oninput="slideTwo()">
 			</div>
+		</div>
+		<div id="checkYears">
+			<label for="years">Select the number of years to predict:</label>
+			<select name="years" id="years">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+			</select>
 		</div>
 
 		<div id="barchart"></div>
