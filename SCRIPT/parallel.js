@@ -39,6 +39,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     //var numYearsToPredict = 2;
 
     var numYearsToPredict =  0;
+    //var rangePrediction = 0;
     //Range di colori preso al sito: https://hihayk.github.io/scale/#20/20/17/82/285/47/0/53/3C8C08/223/57/177/white
     /*let Colors = ["#009179","#008291","#005B91","#003491","#000E91","#000091","#1E0091","#450091","#6B0091","#8F0090","#90006D","#900049","#900026","#8F0004","#8F1800",
                   "#8E3B00","#8E5E01","#8E7F03", "#7B8D04", "#5B8D06","#3C8C08","#499112","#56951C","#629A26","#6D9F31","#79A43B","#83A845","#8EAD4F","#98B259","#A1B663",
@@ -48,7 +49,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
             
     //let Colors = ["#009179","#7B8D04","#DCDAB4"]
-
     //var years = [2000, 2001, 2002];
 
 
@@ -96,11 +96,16 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
     function change_arrayPrediction(){
         d3.select("#parallel").selectAll("*").remove();
-        var rangePrediction = years_dropList.options[years_dropList.selectedIndex].value
-        numYearsToPredict = 0;
-        for(var i = 0; i<parseInt(rangePrediction); i++){
-            numYearsToPredict += 1;
+        numYearsToPredict = years_dropList.options[years_dropList.selectedIndex].value;
+        numYearsToPredict = parseInt(numYearsToPredict);
+        for(var i=0; i<numYearsToPredict; i++){
+            var length = yearsPrevision.length;
+            var currValue = yearsPrevision[length-1]; 
+            //console.log(currValue)
+            var nextValue = currValue + 1;
+            yearsPrevision.push(nextValue)
         }
+        console.log(yearsPrevision)
         Change_In_ParallelPlot();
     }
     
@@ -123,8 +128,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         
         //extract years between first one and second one selected. Then iterate to populate the array years with the years in the selected 
         //range
-        var yearsRange = parseInt(((parseInt(secondYear) + parseInt(numYearsToPredict)) - firstYear) + 1)
-        console.log(yearsRange)
+        var yearsRange = parseInt((parseInt(secondYear) - firstYear) + 1)
+        //console.log(yearsRange)
         var newYear = 0;
         years = [];
         
@@ -133,7 +138,9 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
               years.push(newYear)
         }
         
+
         var country = "Albania"
+        //console.log(yearsPrevision)
         predictNextYear(yearsPrevision, death_Selected, country,numYearsToPredict);
 
         function predictNextYear(yearRange, death_Selected, country, numYearsToPredict){
