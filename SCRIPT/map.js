@@ -73,6 +73,26 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
     }
 
+    var countries_Selected = ["String_Del"]
+    function Click_on_Country(event,d){
+        
+        if (window.event.ctrlKey) {
+            //ctrl was held down during the click
+            var Country_name = d.properties.name
+            if(!countries_Selected.includes(Country_name)){
+                countries_Selected.push(Country_name)
+            }
+            
+            return countries_Selected
+
+        }
+        else{
+            countries_Selected =["String_Del"]
+            return countries_Selected
+        }
+    }
+
+    
 
     //Changes based on TIMELINE and Type of Death
 
@@ -116,11 +136,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         
         geoJsonUrl = "https://gist.githubusercontent.com/spiker830/3eab0cb407031bf9f2286f98b9d0558a/raw/7edae936285e77be675366550e20f9166bed0ed5/europe_features.json"
         
-        function updateChart() {
-            extent = d3.event.selection
-            console.log(extent)
-          }
-        var country_hovered = []
+
+
         d3.json(geoJsonUrl).then(geoJson=> {
             // Tell D3 to render a path for each GeoJSON feature
             svg.selectAll("path")
@@ -128,7 +145,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                 .enter()
                 .append("path")
                 .attr("d", pathGenerator)
-                
                 .attr("fill", function(d){
                     for(var i=0; i<data.length;i++){
                         if (data[i].Country == d.properties.name ){
@@ -156,6 +172,30 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                 .on("mouseover",function(_event,d){
                     MouseOver(_event,d,year_Selected);
                 })
+
+                .on("click",function(_event,d){
+                    Countries_sel = Click_on_Country(_event,d)
+                    d3.selectAll("hidden").remove();
+                    d3.select("body")
+                            .data(Countries_sel)
+                            //Questo .enter cicla sugli elementi in data
+                            .enter()
+                            .append("hidden")
+                            .attr("id",function(d){
+                                for(var i=0;i<Countries_sel.length;i++){
+                                    if(d==Countries_sel[i]){
+                                        return "Selected_Country_" + i
+                                    }
+                                }
+                            })
+                            .attr("value",function(d){
+                                    return d
+                            })
+                    var Variable_of_Number_Country_Sel = document.getElementById("number_of_Country_Selected");
+                    Variable_of_Number_Country_Sel.setAttribute("value", Countries_sel.length-1);
+                    Variable_of_Number_Country_Sel.onchange()
+                    
+                })                
             
                 
             });
@@ -169,8 +209,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 });
 
 
-function funzione_prova(){
-    console.log('prova')
+function Stroke_Country_map(){
+    
     var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
     var map = document.getElementById("map")
     var map_svg = map.getElementsByTagName("path")
