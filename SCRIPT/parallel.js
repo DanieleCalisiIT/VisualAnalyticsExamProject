@@ -168,8 +168,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                             
 
                         }
-                        
-                        console.log(years_predicted)
+
 
                         
                     }
