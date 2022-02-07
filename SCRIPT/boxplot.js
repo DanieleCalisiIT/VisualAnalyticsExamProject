@@ -56,6 +56,18 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         }
         return deathArray;
     }
+
+    function Check_Country(numb_death,death,year){
+        for(var i=0; i<data.length ; i++){
+            if(data[i].Year == year ){
+                
+                if(data[i][death] == numb_death){
+                    return data[i].Country
+                }
+                
+            }
+        }
+    }
     
     function Change_In_Boxplot(){
 
@@ -119,7 +131,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             .attr("y1", yscale(min) )
             .attr("y2", yscale(max) )
             .attr("stroke", "black")
-    
+
         // Show the box
         svg.append("rect")
             .attr("x", center - width/2)
@@ -139,7 +151,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             .attr("y1", function(d){ return(yscale(d))} )
             .attr("y2", function(d){ return(yscale(d))} )
             .attr("stroke", "black")
-        
+
         var jitterWidth = 50
         svg.selectAll("indPoints")
             .data(data_sorted)
@@ -150,6 +162,10 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             .attr("cy", function(d){
                 return(yscale(d))})
             .attr("r", 4)
+            .attr("id_Country",function(d){
+                //console.log(d)
+                return Check_Country(d,death_Selected,year_Selected)
+            })
             .style("fill", "white")
             .attr("stroke", "black")
 
@@ -161,4 +177,37 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
 });
 
+function Stroke_Country_boxplot(){
+    var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
+    var boxp = document.getElementById("boxplot")
+    var boxp_svg = boxp.getElementsByTagName("circle")
+    if(numero_Country_Brushed > 0){
+        
+        for(var i=0; i < boxp_svg.length ; i++){
+            for(let l=1; l<=numero_Country_Brushed;l++){
+                var base = "Selected_Country_"
+                var id_country = base.concat(l)
+                country_parsed = document.getElementById(id_country).getAttribute("value")
+                if(boxp_svg[i].getAttribute("id_Country") === country_parsed){
+                    circle_to_color = boxp_svg[i]
+                    circle_to_color.setAttribute("r","8")
+                    circle_to_color.setAttribute("opacity","1")
+                    circle_to_color.style["fill"] = "blue"
+                    /*circle_to_color[0].style["stroke-width"]="11"
+                    circle_to_color[0].style["stroke"] = "blue"*/
+                }
+            }
 
+        }
+
+    }
+    else{
+        for (let i=0; i < boxp_svg.length; i++){
+            circle_to_color = boxp_svg[i]
+
+            circle_to_color.setAttribute("r","4")
+            circle_to_color.style["fill"] = "white"
+        }
+    }
+    
+}
