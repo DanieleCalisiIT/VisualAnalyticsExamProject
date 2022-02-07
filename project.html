@@ -12,6 +12,7 @@
 		<script src="SCRIPT/mds.js"></script>
 		<script src="SCRIPT/parallel.js"></script>
 		<script src="SCRIPT/barchart.js"></script>
+		<script src="SCRIPT/colorlegend.js"></script>
 
 		
         <style type="text/css">
@@ -54,15 +55,44 @@
 
 			}
 
-			
+			#colorlegendSVG{
+				background-color: #252850;
+				padding-left: 10px;
+				fill: white;  
+				border-color: #3e4199;
+				border-style:solid;
+    			border-width:thick; 
+			}
 
+			#mapcolorlegendSVG{
+				right: 0px;
+				position: absolute;
+				background-color: #252850;
+				fill: white;  
+				border-color: #3e4199;
+				border-style:solid;
+    			border-width:thick; 
+			}
+			
+		
 			#map{
+				position:relative;
 				float:left;
 				width: 50vh;
 
 			}
-			#boxplot{
+
+			#mds{
+				position: relative;
 				float:left;
+				left: 500px;
+			}
+
+			#boxplot{
+				position: relative;
+				float:left;
+				left: 1000px;
+				top: 1000px;
 
 			}
 			.point {
@@ -312,6 +342,8 @@
 		<div id="mds"></div>
 
 		<div id="parallel"></div>
+
+		<div id="colorlegend"></div>
 
 		<div class="wrapper">
 			<div class="values">
