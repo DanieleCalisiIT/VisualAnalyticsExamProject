@@ -33,7 +33,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     */
 
 
-    let years = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016,2017];
+    //let years = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016,2017];
     
     let yearsPrevision = [2012,2013,2014,2015,2016,2017]
     //var numYearsToPredict = 2;
@@ -59,7 +59,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     slider.addEventListener('change', Change_In_ParallelPlot);
 
     var years_dropList = document.getElementById("years");
-    years_dropList.addEventListener('change', change_arrayPrediction);
+    years_dropList.addEventListener('change', Change_In_ParallelBasedOnSlider);
     
 
     let sliderOne = document.getElementById("slider-1");
@@ -78,14 +78,14 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             sliderOne.value = parseInt(sliderTwo.value) - minYearGap;
         }
         displayValOne.textContent = sliderOne.value;
-        //console.log(sliderOne.value)
+        
     }
     sliderTwo.oninput = function slideTwo(){
         if(parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minYearGap){
             sliderTwo.value = parseInt(sliderOne.value) + minYearGap;
         }
         displayValTwo.textContent = sliderTwo.value;
-        //console.log(sliderTwo.value)
+        
     }
 
     //To avoid multiple the generation of multiple parrallel plots each time we change the double slider
@@ -94,19 +94,73 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         Change_In_ParallelPlot();
     }
 
-    function change_arrayPrediction(){
+    /*function change_arrayPrediction(){
         d3.select("#parallel").selectAll("*").remove();
-        numYearsToPredict = years_dropList.options[years_dropList.selectedIndex].value;
-        numYearsToPredict = parseInt(numYearsToPredict);
-        for(var i=0; i<numYearsToPredict; i++){
-            var length = yearsPrevision.length;
-            var currValue = yearsPrevision[length-1]; 
-            //console.log(currValue)
-            var nextValue = currValue + 1;
-            yearsPrevision.push(nextValue)
-        }
-        console.log(yearsPrevision)
+        
+
         Change_In_ParallelPlot();
+    }*/
+
+
+    function predictNextYear(yearRange, death_Selected, country, numYearsToPredict){
+        //yearRange = array degli anni
+
+        var differenceNum = 0;
+        var firstVal = 0;
+        var secondVal = 0;
+        var numerator = 0;
+        var index_country_death = 0;
+        var index_last_year = 0
+        var years_predicted =[]
+        var year_predicted=0
+        for(var i=0; i < data.length; i++){
+            //mi fermo sul paese
+            if(country == data[i].Country){
+                if(yearRange[0]==data[i].Year){
+                    for(var j=0; j<yearRange.length-1 ; j++){
+                        firstVal = data[i+j][death_Selected]
+
+                        secondVal = data[i+j+1][death_Selected]
+                        numerator = numerator +(secondVal - firstVal)
+                        index_last_year = i+j+1
+
+                    }
+                    //yearRange.length-1 perchè il calcolo è sugli intervalli degli anni
+                    //non tutti gli anni flat
+                    index_country_death = numerator / (yearRange.length-1)
+
+                    for(var y=0; y<numYearsToPredict ; y++){
+                        //Se l' array che conterrà i valori degli anni predetti è vuoto, allora il calcolo lo fa sul 2017 (che sarà 2017 + index)
+                        if(years_predicted.length==0){
+                            year_predicted = data[index_last_year][death_Selected] + index_country_death
+                            if(year_predicted>=0){
+                                years_predicted.push(year_predicted)
+                            }
+                            else{
+                                years_predicted.push(0)
+                            }
+                            
+                        }
+                        else{
+                            year_predicted = years_predicted[years_predicted.length-1] + index_country_death
+                            if(year_predicted>=0){
+                                years_predicted.push(year_predicted)
+                            }
+                            else{
+                                years_predicted.push(0)
+                            }
+
+                        }
+                        
+
+                    }
+
+                    
+                }
+            }
+        }
+        
+        return years_predicted
     }
     
     function Change_In_ParallelPlot(){
@@ -129,78 +183,40 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         //extract years between first one and second one selected. Then iterate to populate the array years with the years in the selected 
         //range
         var yearsRange = parseInt((parseInt(secondYear) - firstYear) + 1)
-        //console.log(yearsRange)
+        
         var newYear = 0;
-        years = [];
+        var years = [];
+        var years_with_pred =[];
+        
         
         for(var h=0; h < yearsRange; h++){
               newYear = parseInt(firstYear) + parseInt(h);
               years.push(newYear)
+              years_with_pred.push(newYear)
         }
+
         
-
-        var country = "Albania"
-        //console.log(yearsPrevision)
-        predictNextYear(yearsPrevision, death_Selected, country,numYearsToPredict);
-
-        function predictNextYear(yearRange, death_Selected, country, numYearsToPredict){
-            //yearRange = array degli anni
-
-            var differenceNum = 0;
-            var firstVal = 0;
-            var secondVal = 0;
-            var numerator = 0;
-            var index_country_death = 0;
-            var index_last_year = 0
-            var years_predicted =[]
-            var year_predicted=0
-            for(var i=0; i < data.length; i++){
-                //mi fermo sul paese
-                if(country == data[i].Country){
-                    if(yearRange[0]==data[i].Year){
-                        for(var j=0; j<yearRange.length-1 ; j++){
-                            firstVal = data[i+j][death_Selected]
-
-                            secondVal = data[i+j+1][death_Selected]
-                            numerator = numerator +(secondVal - firstVal)
-                            index_last_year = i+j+1
-
-                        }
-                        //yearRange.length-1 perchè il calcolo è sugli intervalli degli anni
-                        //non tutti gli anni flat
-                        index_country_death = numerator / (yearRange.length-1)
-
-                        for(var y=0; y<numYearsToPredict ; y++){
-                            //Se l' array che conterrà i valori degli anni predetti è vuoto, allora il calcolo lo fa sul 2017 (che sarà 2017 + index)
-                            if(years_predicted.length==0){
-                                year_predicted = data[index_last_year][death_Selected] + index_country_death
-                                if(year_predicted>=0){
-                                    years_predicted.push(year_predicted)
-                                }
-                                else{
-                                    years_predicted.push(0)
-                                }
-                                
-                            }
-                            else{
-                                year_predicted = years_predicted[years_predicted.length-1] + index_country_death
-                                if(year_predicted>=0){
-                                    years_predicted.push(year_predicted)
-                                }
-                                else{
-                                    years_predicted.push(0)
-                                }
-
-                            }
-                            
-
-                        }
-
-                        
-                    }
-                }
+        
+        numYearsToPredict = years_dropList.options[years_dropList.selectedIndex].value;
+        numYearsToPredict = parseInt(numYearsToPredict);
+        if(numYearsToPredict>0){
+            for(var i=0; i<numYearsToPredict; i++){
+                var length = years_with_pred.length;
+                var currValue = years_with_pred[length-1]; 
+                var nextValue = currValue + 1;
+                years_with_pred.push(nextValue)
             }
+
         }
+
+
+        var values_predicted = []
+        for(var i=0; i<Countries.length ; i++){
+            values_predicted.push(predictNextYear(yearsPrevision, death_Selected, Countries[i],numYearsToPredict))
+
+        }
+
+        
 
         // set the dimensions and margins of the graph
         var margin = {top: 30, right: 50, bottom: 10, left: 50},
@@ -222,6 +238,23 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             var year_ = years[l];
             Dict_Of_TotalDeath_Year[year_] = 0
         }
+
+        if(numYearsToPredict>0){
+            var base = 2017
+            for(var i=0; i<numYearsToPredict; i++){
+                var sum_year = 0
+                year_to_add = base + i +1
+                for(var l=0; l<values_predicted.length ; l++){
+
+                    sum_year = sum_year + values_predicted[l][i]
+                }
+                Dict_Of_TotalDeath_Year[year_to_add] = sum_year
+                
+            }
+        }
+    
+
+
         var addendo =0;
         for (var i=0; i<data.length;i++){
 
@@ -250,7 +283,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     .range(Colors)
 
         
-
         //causa di morte selezionata dall'utente
 
 
@@ -262,9 +294,16 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             .range([height, 0])
 
         // Build the X scale -> it find the best position for each Y axis
+        
         var x = d3.scalePoint()
             .range([0, width])
             .domain(years);
+
+        var x_with_pred = d3.scalePoint()
+            .range([0, width])
+            .domain(years_with_pred);
+
+        //var x_with_prevision = 
 
         // Highlight the specie that is hovered
         function highlight(d){
@@ -293,30 +332,96 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
 
         function Create_Points(){
-            var dict = {};
-            var Points_Of_Countries = [];
-            for (var i = 0; i<data.length ; i++){
-                if(Countries.includes(data[i].Country)){
-                    if(years.includes(data[i].Year)){
-                        
-                        for(var l=0; l<years.length ; l++){
-                            var x_ = x(years[l]);
-                            var Norm = 100 *(data[i+l][death_Selected] / Dict_Of_TotalDeath_Year[years[l]])
-                            var y_ = y(Norm);
-                            var Point = [x_,y_]
-                            Points_Of_Countries.push(Point)
+            if(numYearsToPredict>0){
+                var dict = {};
+                var Points_Of_Countries = [];
+                for (var i = 0; i<data.length ; i++){
+                    if(Countries.includes(data[i].Country)){
+                        if(years.includes(data[i].Year)){
+                            
+                            for(var l=0; l<years.length ; l++){
+                                var x_ = x_with_pred(years[l]);
+                                var Norm = 100 *(data[i+l][death_Selected] / Dict_Of_TotalDeath_Year[years[l]])
+                                var y_ = y(Norm);
+                                var Point = [x_,y_]
+                                Points_Of_Countries.push(Point)
+
+                                }
+                                dict[data[i].Country]=Points_Of_Countries
+                                Points_Of_Countries = []
+                                i = i+years.length-1;
 
                             }
-                            dict[data[i].Country]=Points_Of_Countries
-                            Points_Of_Countries = []
-                            i = i+years.length-1;
-
+                            
                         }
                         
+                }
+                var base = 2017
+                for(var i=0; i<Countries.length ; i++){
+                    var array_appogio = []
+                    for(var l=0; l<numYearsToPredict ; l++){
+                        year_to_add = base + l +1
+                        var x_ = x_with_pred(year_to_add);
+                        var Norm = 100 *(values_predicted[i][l] / Dict_Of_TotalDeath_Year[year_to_add])
+                        var y_ = y(Norm);
+                        var Point = [x_,y_]
+                        Points_Of_Countries.push(Point)
                     }
-                    
-            }
 
+                    var array_appogio = dict[Countries[i]]
+                    for(var ind=0; ind<Points_Of_Countries.length;ind++){
+                        array_appogio.push(Points_Of_Countries[ind])
+                    }
+                                
+
+                    console.log(array_appogio)
+                    dict[Countries[i]]=array_appogio
+                    Points_Of_Countries = []
+                }
+
+
+
+
+                /*for(var i=0; i<numYearsToPredict; i++){
+                    year_to_add = base + i +1
+                    for(var l=0; l<values_predicted.length ; l++){
+                        console.log(values_predicted)
+                        var x_ = x(year_to_add);
+                        var Norm = 100 *(values_predicted[l][i] / Dict_Of_TotalDeath_Year[year_to_add])
+                        var y_ = y(Norm);
+                        var Point = [x_,y_]
+                        Points_Of_Countries.push(Point)
+                    }
+                    dict[Countries[i]]=Points_Of_Countries
+                    Points_Of_Countries = []
+                
+                }*/
+            }
+            else{
+                var dict = {};
+                var Points_Of_Countries = [];
+                for (var i = 0; i<data.length ; i++){
+                    if(Countries.includes(data[i].Country)){
+                        if(years.includes(data[i].Year)){
+                            
+                            for(var l=0; l<years.length ; l++){
+                                var x_ = x(years[l]);
+                                var Norm = 100 *(data[i+l][death_Selected] / Dict_Of_TotalDeath_Year[years[l]])
+                                var y_ = y(Norm);
+                                var Point = [x_,y_]
+                                Points_Of_Countries.push(Point)
+
+                                }
+                                dict[data[i].Country]=Points_Of_Countries
+                                Points_Of_Countries = []
+                                i = i+years.length-1;
+
+                            }
+                            
+                        }
+                        
+                }
+            }
             return dict;
         }
 
@@ -351,25 +456,54 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             .on("mouseleave", function(_event,d){
                 doNotHighlight(d)
             })
+        
 
-    // Draw the axis:
-        svg.selectAll("myAxis")
-        // For each dimension of the dataset I add a 'g' element:
-        .data(years).enter()
-        .append("g")
-        .attr("class", "axis")
-        // I translate this element to its right position on the x axis
-        .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
-        // And I build the axis with the call function
-        .each(function(d) { 
-            d3.select(this)
-            .call(d3.axisLeft(y)); })
-        // Add axis title
-        .append("text")
-            .style("text-anchor", "middle")
-            .attr("y", -9)
-            .text(function(d) { return d; })
-            .style("fill", "black")
+        if(numYearsToPredict>0){
+            // Draw the axis:
+            svg.selectAll("myAxis")
+            // For each dimension of the dataset I add a 'g' element:
+            .data(years_with_pred)
+            .enter()
+            .append("g")
+            .attr("class", "axis")
+            // I translate this element to its right position on the x axis
+            .attr("transform", function(d) { return "translate(" + x_with_pred(d) + ")"; })
+            // And I build the axis with the call function
+            .each(function(d) { 
+                d3.select(this)
+                .call(d3.axisLeft(y)); })
+            // Add axis title
+            .append("text")
+                .style("text-anchor", "middle")
+                .attr("y", -9)
+                .text(function(d) { return d; })
+                .style("fill", "black")
+
+        }
+        else{
+            // Draw the axis:
+            svg.selectAll("myAxis")
+            // For each dimension of the dataset I add a 'g' element:
+            .data(years)
+            .enter()
+            .append("g")
+            .attr("class", "axis")
+            // I translate this element to its right position on the x axis
+            .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+            // And I build the axis with the call function
+            .each(function(d) { 
+                d3.select(this)
+                .call(d3.axisLeft(y)); })
+            // Add axis title
+            .append("text")
+                .style("text-anchor", "middle")
+                .attr("y", -9)
+                .text(function(d) { return d; })
+                .style("fill", "black")
+        }
+
+
+
     }
 
     Change_In_ParallelPlot();
