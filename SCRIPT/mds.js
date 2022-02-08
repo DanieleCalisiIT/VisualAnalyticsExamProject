@@ -39,6 +39,9 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     var slider = document.getElementById("Slider_Year");
     slider.addEventListener('change', Change_In_MDS);
 
+    var screenWidth = window.innerWidth
+    var screenHeight = window.innerHeight
+
 
 
 
@@ -125,8 +128,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     function Change_In_MDS(){
 
         MARGIN = 50;
-        height = 300;
-        width = 500;
+        width = (screenWidth/3.8) ;
+        height = (screenHeight/3.2) ;
 
         var death_Selected = mylist.options[mylist.selectedIndex].value;
         var year_Selected = document.getElementById("Slider_Year").value;

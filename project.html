@@ -16,7 +16,38 @@
 
 		
         <style type="text/css">
+			
+			#Div_Slider_Year{
+				position:absolute;
+				top: 0%;
+				left: 30%;
+				font-size: 120%;
+				
+			}
 
+			#Select_Deaths{
+				position:absolute;
+				top: 0%;
+				left: 45%;
+				font-size: 120%;
+			}
+
+			#Country_Name{
+				position:relative;
+				top:-1%;
+				left:0%;
+				margin: 0;
+				width: 20%;
+				font-size: 150%;
+				font-weight: bold;
+			}
+
+			#wrapper_Column_Deaths{
+				position: absolute;
+				top:5%;
+				font-size: 1.5vmin;
+				width: 12%;
+			}
 
 			svg {
 				background-color: white;
@@ -48,12 +79,7 @@
 			}
 
 		
-			#ColumnDeaths{
-				float: left;
-				font-size: 1.5vmin;
-				width: 12%;
-
-			}
+			
 
 			#colorlegendSVG{
 				background-color: #252850;
@@ -77,19 +103,26 @@
 		
 			#map{
 				position:relative;
-				float:left;
+				left: 10%;
 				width: 50vh;
+				
 
 			}
 
 			#mds{
-				position: relative;
-				float:left;
+				position: absolute;
 				left: 500px;
+				bottom:0%;
+			}
+		
+			#parallel{
+				position: absolute;
+				right: 0%;
+				
 			}
 
 			#boxplot{
-				position: relative;
+				position: absolute;
 				float:left;
 				left: 1000px;
 				top: 1000px;
@@ -121,116 +154,120 @@
 			}
 
 			.wrapper{
-				position: relative;
-				width: 75vmin;
-				background-color: #e28d8d;
-				padding: 50px 40px 20px 40px;
-				border-radius: 10px;
-			}
-			.container{
-				position: relative;
-				width: 100%;
-				height: 100px;
-				margin-top: 30px;
-				background-color: aqua;
-			}
+                position: relative;
+                width: 15%;
+                height: 10%;
+                background-color: #e28d8d;
+                padding: 10px 10px 10px 10px;
+                border-radius: 10px;
+            }
+            .container{
+                position: relative;
+                width: 100%;
+                height: 10%;
+                margin-top: 10px;
+                background-color: aqua;
+            }
 
-			input[type="range"]{
-				-webkit-appearance: none;
-				-moz-appearance: none;
-				appearance: none;
-				width: 100%;
-				outline: none;
-				position: absolute;
-				margin: auto;
-				top: 0;
-				bottom: 0;
-				background-color: transparent;
-				pointer-events: none;
-			}
-			.slider-track{
-				width: 100%;
-				height: 5px;
-				position: absolute;
-				background-color: #d5d5d5;
-				margin: auto;
-				top: 0;
-				bottom: 0;
-				border-radius: 5px;
-			}
-			input[type="range"]::-webkit-slider-runnable-track{
-				-webkit-appearance: none;
-				height: 5px;
-			}
-			input[type="range"]::-moz-range-track{
-				-moz-appearance: none;
-				height: 5px;
-			}
-			input[type="range"]::-ms-track{
-				appearance: none;
-				height: 5px;
-			}
-			input[type="range"]::-webkit-slider-thumb{
-				-webkit-appearance: none;
-				height: 1.7em;
-				width: 1.7em;
-				background-color: #3264fe;
-				cursor: pointer;
-				margin-top: -9px;
-				pointer-events: auto;
-				border-radius: 50%;
-			}
-			input[type="range"]::-moz-range-thumb{
-				-webkit-appearance: none;
-				height: 1.7em;
-				width: 1.7em;
-				cursor: pointer;
-				border-radius: 50%;
-				background-color: #3264fe;
-				pointer-events: auto;
-			}
-			input[type="range"]::-ms-thumb{
-				appearance: none;
-				height: 1.7em;
-				width: 1.7em;
-				cursor: pointer;
-				border-radius: 50%;
-				background-color: #3264fe;
-				pointer-events: auto;
-			}
-			input[type="range"]:active::-webkit-slider-thumb{
-				background-color: #ffffff;
-				border: 3px solid #3264fe;
-			}
-			.values{
-				background-color: #3264fe;
-				width: 32%;
-				position: relative;
-				margin: auto;
-				padding: 10px 0;
-				border-radius: 5px;
-				text-align: center;
-				font-weight: 500;
-				font-size: 25px;
-				color: #ffffff;
-			}
-			.values:before{
-				content: "";
-				position: absolute;
-				height: 0;
-				width: 0;
-				border-top: 15px solid #3264fe;
-				border-left: 15px solid transparent;
-				border-right: 15px solid transparent;
-				margin: auto;
-				bottom: -14px;
-				left: 0;
-				right: 0;
-			}
+            input[type="range"]{
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                width: 100%;
+                outline: none;
+                position: absolute;
+                margin: auto;
+                top: 0;
+                bottom: 0;
+                background-color: transparent;
+                pointer-events: none;
+            }
+.slider-track{
+                width: 100%;
+                height: 5px;
+                position: absolute;
+                background-color: #d5d5d5;
+                margin: auto;
+                top: 0;
+                bottom: 0;
+                border-radius: 5px;
+            }
+            input[type="range"]::-webkit-slider-runnable-track{
+                -webkit-appearance: none;
+                height: 5px;
+            }
+            input[type="range"]::-moz-range-track{
+                -moz-appearance: none;
+                height: 5px;
+            }
+            input[type="range"]::-ms-track{
+                appearance: none;
+                height: 5px;
+            }
+            input[type="range"]::-webkit-slider-thumb{
+                -webkit-appearance: none;
+                height: 1.7em;
+                width: 1.7em;
+                background-color: #3264fe;
+                cursor: pointer;
+                margin-top: -9px;
+                pointer-events: auto;
+                border-radius: 50%;
+            }
+            input[type="range"]::-moz-range-thumb{
+                -webkit-appearance: none;
+                height: 1.7em;
+                width: 1.7em;
+                cursor: pointer;
+                border-radius: 50%;
+                background-color: #3264fe;
+                pointer-events: auto;
+            }
+            input[type="range"]::-ms-thumb{
+                appearance: none;
+                height: 1.7em;
+                width: 1.7em;
+                cursor: pointer;
+                border-radius: 50%;
+                background-color: #3264fe;
+                pointer-events: auto;
+            }
+            input[type="range"]:active::-webkit-slider-thumb{
+                background-color: #ffffff;
+                border: 3px solid #3264fe;
+            }
+.values{
+                background-color: #3264fe;
+                width: 72%;
+                position: relative;
+                margin: auto;
+                margin-bottom: 10%;
+                padding: 10px 0;
+                border-radius: 5px;
+                text-align: center;
+                font-weight: 300;
+                font-size: 20px;
+                color: #ffffff;
+            }
+            .values:before{
+                content: "";
+                position: absolute;
+                height: 0;
+                width: 0;
+                border-top: 15px solid #3264fe;
+                border-left: 15px solid transparent;
+                border-right: 15px solid transparent;
+                margin: auto;
+                bottom: -14px;
+                left: 0;
+                right: 0;
+            }
 			
 			#checkYears{
 				opacity: 0;
 			}
+
+			
 		
 		</style>
     
@@ -241,10 +278,46 @@
 		<input id="number_of_Country_Selected" type="hidden" value="0"  onchange="Stroke_Country_mds();Stroke_Country_map();Stroke_Country_boxplot()"/>
 
 
-		<input id="Slider_Year"type="range" value="2005" min="1990" max="2017" oninput="this.nextElementSibling.value = this.value">
-		<output>2005</output>
+
+		<!--<input id="Slider_Year"type="range" value="2005" min="1990" max="2017" oninput="this.nextElementSibling.value = this.value">
+		<output>2005</output>-->
+		<div id="Div_Slider_Year">
+			<b> Select the year: </b>
+			<select id = "Slider_Year" >
+				<option value="1990"> 1990 </option>
+				<option value="1991"> 1991 </option>
+				<option value="1992"> 1992 </option>
+				<option value="1993"> 1993 </option>
+				<option value="1994"> 1994 </option>
+				<option value="1995"> 1995 </option>
+				<option value="1996"> 1996 </option>
+				<option value="1997"> 1997 </option>
+				<option value="1998"> 1998 </option>
+				<option value="1999"> 1999 </option>
+				<option value="2000"> 2000 </option>
+				<option value="2001"> 2001 </option>
+				<option value="2002"> 2002 </option>
+				<option value="2003"> 2003 </option>
+				<option value="2004"> 2004 </option>
+				<option value="2005"> 2005 </option>
+				<option value="2006"> 2006 </option>
+				<option value="2007"> 2007 </option>
+				<option value="2008"> 2008 </option>
+				<option value="2009"> 2009 </option>
+				<option value="2010"> 2010 </option>
+				<option value="2011"> 2011 </option>
+				<option value="2012"> 2012 </option>
+				<option value="2013"> 2013 </option>
+				<option value="2014"> 2014 </option>
+				<option value="2015"> 2015 </option>
+				<option value="2016"> 2016 </option>
+				<option selected="2017" value ="2017" > 2017 </option>
+			</select>
+
+		</div>
+
 		<div id="Select_Deaths">
-			<b> Select the type of death to view in the map: </b>
+			<b> Select the type of death: </b>
 			<select id = "List_Deaths" >
 				<option selected="selected" value ="Unsafe_water_source" > Unsafe water source </option>
 				<option value="Unsafe_sanitation"> Unsafe sanitation </option>
@@ -270,7 +343,8 @@
 
 		</div>
 
-		<h2 id="Country_Name">Country name</h2>
+		<text id="Country_Name">Country name</text>
+
 		<div id= "wrapper_Column_Deaths">
 			<div id="ColumnDeaths">
 				<h5 id="nameDeath">Unsafe water source:</h5>
@@ -344,6 +418,8 @@
 		<div id="parallel"></div>
 
 		<div id="colorlegend"></div>
+
+		
 
 		<div class="wrapper">
 			<div class="values">

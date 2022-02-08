@@ -51,6 +51,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     //let Colors = ["#009179","#7B8D04","#DCDAB4"]
     //var years = [2000, 2001, 2002];
 
+    var screenWidth = window.innerWidth
+    var screenHeight = window.innerHeight
 
     var mylist = document.getElementById("List_Deaths");
     mylist.addEventListener('change', Change_In_ParallelPlot);
@@ -220,8 +222,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         // set the dimensions and margins of the graph
         var margin = {top: 30, right: 50, bottom: 10, left: 50},
-        width = 800 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        width = (screenWidth/2.4) - margin.left - margin.right,
+        height = (screenHeight/2.4) - margin.top - margin.bottom;
         
         var svg = d3.select("#parallel")
                     .append("svg")

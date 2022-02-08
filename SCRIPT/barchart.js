@@ -42,6 +42,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     '#FCE4EC','#F8BBD0','#F48FB1','#F06292','#EC407A','#E91E63','#D81B60','#C2185B','#AD1457','#880E4F','#FF80AB','#FF4081','#F50057','#C51162','#9C27B0','#F3E5F5','#E1BEE7',
     '#CE93D8','#BA68C8','#AB47BC','#9C27B0','#8E24AA',"#FFFF00"] //39
 
+    var screenWidth = window.innerWidth
+    var screenHeight = window.innerHeight
 
     var slider = document.getElementById("Slider_Year");
     slider.addEventListener('change', Change_In_Barchart);
@@ -50,8 +52,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     mylist.addEventListener('change', Change_In_Barchart);
 
     var margin = {top: 0, right: 20, bottom: 0, left: 200},
-        width = 800 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+        width = (screenWidth/2) - margin.left - margin.right,
+        height = (screenHeight/2) - margin.top - margin.bottom;
 
     function isCountrySelected(c){
         for(var k = 0; k < SelectedCountries.length; k++){
@@ -61,6 +63,9 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         }
         return false
     }
+
+    console.log(window.innerHeight)
+    console.log(window.innerWidth)
 
     function NormalizeAndRetrieve(relevantVal){
         

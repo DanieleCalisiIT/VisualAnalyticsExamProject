@@ -42,9 +42,12 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     '#FCE4EC','#F8BBD0','#F48FB1','#F06292','#EC407A','#E91E63','#D81B60','#C2185B','#AD1457','#880E4F','#FF80AB','#FF4081','#F50057','#C51162','#9C27B0','#F3E5F5','#E1BEE7',
     '#CE93D8','#BA68C8','#AB47BC','#9C27B0','#8E24AA',"#FFFF00"] //39
 
+    var screenWidth = window.innerWidth
+    var screenHeight = window.innerHeight
+
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
-        width = 1700 - margin.left - margin.right,
-        height = 100 - margin.top - margin.bottom;
+        width = (screenWidth/1.1) - margin.left - margin.right,
+        height = (screenHeight/9.7) - margin.top - margin.bottom;
 
 
                 
