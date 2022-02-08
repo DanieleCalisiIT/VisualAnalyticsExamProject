@@ -115,11 +115,26 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         let svg = d3.select("#map")
                         .append("svg")
+                        .style("position", "absolute")
                         .attr("viewBox",viewbox)
                         .attr("preserveAspectRatio","xMinYMin meet")
                         /*.attr("width", width)
                         .attr("height", height)
                         .attr("transform", transform)*/
+
+
+
+
+        var legendWidth = 100
+        var legendHeight = 200
+        let svgLegend = d3.select("#map")
+                .append("svg")
+                .attr("id", "mapcolorlegendSVG")
+                .attr("width", legendWidth)
+                .attr("height", legendHeight);
+
+        svgLegend.append("text").attr("x", 0).attr("y", 10).text("MAP COLOR LEGEND").style("font-size", "10px").style("font-family", "American Typewriter, serif")
+            
                         
 
         //Define map projection
