@@ -238,8 +238,9 @@
     
 	
 	<body>
-		<input id="number_of_Country_Selected" type="hidden" value="0"  onchange="Stroke_Country_mds();Stroke_Country_map();Stroke_Country_boxplot()"/>
+		
 
+		<input id="number_of_Country_Selected" type="hidden" value="0"  onchange="Stroke_Country_mds();Stroke_Country_map();Stroke_Country_boxplot();Change_barchart()"/>
 
 		<input id="Slider_Year"type="range" value="2005" min="1990" max="2017" oninput="this.nextElementSibling.value = this.value">
 		<output>2005</output>
@@ -375,7 +376,9 @@
 
 		<div id="barchart"></div>
 		
-		
+		<script type="text/javascript">
+			Change_barchart();
+		</script>
 
 	</body>
 
