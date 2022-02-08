@@ -225,7 +225,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
 
 function Stroke_Country_map(){
-    
+
     var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
     var map = document.getElementById("map")
     var map_svg = map.getElementsByTagName("path")
