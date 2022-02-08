@@ -214,26 +214,27 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     }
                     
                 }
+                    d3.selectAll("hidden").remove();
+                    d3.select("body")
+                        .data(Countries_Brushed)
+                        //Questo .enter cicla sugli elementi in data
+                        .enter()
+                        .append("hidden")
+                        .attr("id",function(d){
+                            for(var i=0;i<Countries_Brushed.length;i++){
+                                if(d==Countries_Brushed[i]){
+                                    return "Selected_Country_" + i
+                                }
+                            }
+                        })
+                        .attr("value",function(d){
+                                return d
+                        })
+                    var Variable_of_Number_Country_Sel = document.getElementById("number_of_Country_Selected");
+                    Variable_of_Number_Country_Sel.setAttribute("value", Countries_Brushed.length-1);
+                    Variable_of_Number_Country_Sel.onchange()   
 
-                d3.selectAll("hidden").remove();
-                var hidden_countries_for_brushing = d3.select("body")
-                                        .data(Countries_Brushed)
-                                        //Questo .enter cicla sugli elementi in data
-                                        .enter()
-                                        .append("hidden")
-                                        .attr("id",function(d){
-                                            for(var i=0;i<Countries_Brushed.length;i++){
-                                                if(d==Countries_Brushed[i]){
-                                                    return "Selected_Country_" + i
-                                                }
-                                            }
-                                        })
-                                        .attr("value",function(d){
-                                                return d
-                                        })
-                var Variable_of_Number_Country_Sel = document.getElementById("number_of_Country_Selected");
-                Variable_of_Number_Country_Sel.setAttribute("value", Countries_Brushed.length-1);
-                Variable_of_Number_Country_Sel.onchange()           
+                        
                
                 
             })
