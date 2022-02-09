@@ -46,8 +46,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     var screenHeight = window.innerHeight
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
-        width = (screenWidth/1.1) - margin.left - margin.right,
-        height = (screenHeight/9.7) - margin.top - margin.bottom;
+        width = (screenWidth/11.5) - margin.left - margin.right,
+        height = (screenHeight/1.23) - margin.top - margin.bottom;
 
 
                 
@@ -64,9 +64,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                 .range(ColorsTest)
 
     
-    svg.append("text").attr("x", 700).attr("y", 20).text("COLOR LEGEND OF THE COUNTRIES").style("font-size", "20px").style("font-family", "American Typewriter, serif")   //x per posizionarlo
-
-    var startingHighRect = 35
+    svg.append("text").attr("x", "13%").attr("y", "2.5%").text("COUNTRIES").style("font-size", "20px").style("font-family", "American Typewriter, serif")   
+    svg.append("text").attr("x", "22%").attr("y", "5.%").text("LEGEND").style("font-size", "20px").style("font-family", "American Typewriter, serif")   
 
     for(var i = 0; i < Countries.length; i++){
         
@@ -74,22 +73,18 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         if (country == "Bosnia and Herzegovina"){
             country = "Bosnia and H."
         }
-        
-        if (i < Countries.length * (1/3)){
-            svg.append("rect").attr("x", 130 * i).attr("y",startingHighRect).attr("width", 15).attr("height", 15).style("fill", color(country))
-            svg.append("text").attr("x", 20 + (130 * i)).attr("y", startingHighRect + 10).text(country).style("font-size", "14px").attr("alignment-baseline","middle")
-        }
 
-        if ((Countries.length * (1/3)) <= i && i < (Countries.length * (2/3))){
-            svg.append("rect").attr("x", 130 * (i - (Countries.length * (1/3)))).attr("y",startingHighRect + 20).attr("width", 15).attr("height", 15).style("fill", color(country))
-            svg.append("text").attr("x", 20 + (130 * (i - (Countries.length * (1/3))))).attr("y", startingHighRect + 30).text(country).style("font-size", "14px").attr("alignment-baseline","middle")
-        }
-
-        if (i >= Countries.length * (2/3)){
-            svg.append("rect").attr("x", 130 * (i - (Countries.length * (2/3)))).attr("y", startingHighRect + 40).attr("width", 15).attr("height", 15).style("fill", color(country))
-            svg.append("text").attr("x", 20 + (130 * (i - (Countries.length * (2/3))))).attr("y", startingHighRect + 50).text(country).style("font-size", "14px").attr("alignment-baseline","middle")
-        }
+        let scaling = 2.39 * i
         
+        
+        svg.append("rect").attr("x", "20%").attr("y", (7 + scaling) + "%").attr("width", "7%").attr("height", "1.5%").style("fill", color(country))
+        svg.append("text").attr("x", "30%").attr("y", (8 + scaling) + "%").text(country).style("font-size", "14px").attr("alignment-baseline","middle")
+
+        //svg.append("rect").attr("x", 130 * i).attr("y",startingHighRect).attr("width", 15).attr("height", 15).style("fill", color(country))
+        //svg.append("text").attr("x", 20 + (130 * i)).attr("y", startingHighRect + 10).text(country).style("font-size", "14px").attr("alignment-baseline","middle")
+      
+
+       
     }
 
     
