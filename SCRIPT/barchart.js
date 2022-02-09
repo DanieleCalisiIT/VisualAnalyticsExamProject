@@ -1,4 +1,5 @@
 function Change_barchart(){
+
     var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
 
     var screenWidth = window.innerWidth
@@ -50,8 +51,7 @@ function Change_barchart(){
             d.Diet_low_in_whole_grains = +d.Diet_low_in_whole_grains; //aggiunto
         });
 
-        d3.selectAll("#barchart").selectAll("*").remove();
-        d3.selectAll("#DivRectStats").remove();
+        
         
         let Array_Deaths = ["Unsafe_water_source","Unsafe_sanitation","Household_air_pollution_from_solid_fuels","Child_wasting","Low_birth_weight_for_gestation",
             "Secondhand_smoke","Alcohol_use","Drug_use","Diet_low_in_fruits","Unsafe_sex","High_fasting_plasma_glucose","High_body_mass_index","High_systolic_blood_pressure",
@@ -133,13 +133,14 @@ function Change_barchart(){
 
         function Change_In_Barchart(){
 
-            //d3.selectAll("svg").remove();
+            d3.selectAll("#barchart").selectAll("*").remove();
+            d3.selectAll("#DivRectStats").remove();
 
 
 
             let year_Selected = document.getElementById("Slider_Year").value;
 
-        
+
 
             var RelevantValues = new Array(SelectedCountries.length);
 
@@ -285,35 +286,8 @@ function Change_barchart(){
                                 .style('opacity', 0);
                                 div_RectStats.html('')
                         });
-
-            /*svg.append("g")
-            .selectAll("g")
-            .data(stackedData)
-            .enter().selectAll("text")   //selecta i rettangoli
-            .data(function(d) {  return d; }) 
-            .enter()  //loop  //entra nell' array di una Nazione
-                        
-            .append("text")
-            .text("ciao")
-            .attr("x", function(d) { 
-                //console.log(d[0]) //originale (fino a 100 o meno)
-                //console.log(x(d[0])) //scalato con width
-                return x(d[0]); })  //d riguarda valori di una morte per quella Nazione
-            .attr("y", function(d) { 
-                if (deathNum == Array_Deaths.length - 1){
-                    deathNum = -1
-                }
-                deathNum++;
-                return y(Array_Deaths[deathNum]); })
-            .attr("font-size", 10)
-            .attr("font-family", "sans-serif")
-            .attr("fill", "black")
-            .attr("opacity", 1) */
             
                             
-            
-            
-
         }
 
         Change_In_Barchart();
