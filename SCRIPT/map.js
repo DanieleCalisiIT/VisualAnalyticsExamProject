@@ -29,14 +29,19 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         "Smoking","Iron_deficiency","Vitamin_A_deficiency","Low_bone_mineral_density","Air_pollution","Outdoor_air_pollution","Diet_high_in_sodium"];
 
     
-    function getMax(arr, prop) {
-    var max;
-    for (var i=0 ; i<arr.length ; i++) {
-        if (max == null || parseInt(arr[i][prop]) > parseInt(max[prop]))
-            max = arr[i];
+    function getMax(death_sel,year_sel) {
+        var max = 0
+        var CountryMax
+        for(var i=0; i<data.length ;i++){
+            if (data[i].Year ==year_sel){
+                if(data[i][death_sel] > max ){
+                    max = data[i][death_sel]
+                    CountryMax = data[i]
+                }
+            }
+        }
+        return CountryMax
     }
-    return max;
-}
     
     var mylist = document.getElementById("List_Deaths");
     var slider = document.getElementById("Slider_Year");
@@ -96,15 +101,22 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
     //Changes based on TIMELINE and Type of Death
 
-    
-
 
     function Change_In_The_Map(){
 
         d3.selectAll("svg").remove();
 
+
+        var maxDeath
+
         var death_Selected = mylist.options[mylist.selectedIndex].value;
         var year_Selected = document.getElementById("Slider_Year").value;
+
+        maxDeath = getMax(death_Selected,year_Selected);
+
+        var color = d3.scaleLinear()
+            .domain([0, maxDeath[death_Selected]])
+            .range(["#ffffb2","#bd0026"]);
 
 
         //Width and height
@@ -121,21 +133,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                         /*.attr("width", width)
                         .attr("height", height)
                         .attr("transform", transform)*/
-
-
-
-
-        var legendWidth = 100
-        var legendHeight = 200
-        let svgLegend = d3.select("#map")
-                .append("svg")
-                .attr("id", "mapcolorlegendSVG")
-                .attr("width", legendWidth)
-                .attr("height", legendHeight);
-
-        svgLegend.append("text").attr("x", 0).attr("y", 10).text("MAP COLOR LEGEND").style("font-size", "10px").style("font-family", "American Typewriter, serif")
             
-                        
 
         //Define map projection
         let geoJsonUrl = ''
@@ -152,7 +150,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         geoJsonUrl = "https://gist.githubusercontent.com/spiker830/3eab0cb407031bf9f2286f98b9d0558a/raw/7edae936285e77be675366550e20f9166bed0ed5/europe_features.json"
         
 
-
+        
         d3.json(geoJsonUrl).then(geoJson=> {
             // Tell D3 to render a path for each GeoJSON feature
             svg.selectAll("path")
@@ -164,12 +162,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     for(var i=0; i<data.length;i++){
                         if (data[i].Country == d.properties.name ){
                             if (data[i].Year == year_Selected ){
-                                var maxDeath = getMax(data, death_Selected);
 
-                                var color = d3.scaleLinear()
-                                    .domain([0, maxDeath[death_Selected]])
-                                    .range(["#ffffb2","#bd0026"]);
-                                
                                 return color(data[i][death_Selected]);
 
                             }
@@ -215,6 +208,22 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                 
             });
 
+    // DA FARE LEGENDA https://medium.datadriveninvestor.com/getting-started-with-d3-js-maps-e721ba6d8560
+    var legendWidth = 100
+    var legendHeight = 200
+    let svgLegend = d3.select("#map")
+            .append("svg")
+            .attr("id", "mapcolorlegendSVG")
+            .attr("width", legendWidth)
+            .attr("height", legendHeight);
+
+    svgLegend.append("text")
+                .attr("x", 0)
+                .attr("y", 10)
+                .text("MAP COLOR LEGEND")
+                .style("font-size", "10px")
+                .style("font-family", "American Typewriter, serif")
+
     }
 
     Change_In_The_Map();
@@ -225,7 +234,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
 
 function Stroke_Country_map(){
-    
+
     var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
     var map = document.getElementById("map")
     var map_svg = map.getElementsByTagName("path")
