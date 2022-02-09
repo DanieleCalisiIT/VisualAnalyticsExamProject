@@ -73,8 +73,8 @@ function Change_barchart(){
         mylist.addEventListener('change', Change_In_Barchart);
 
         var margin = {top: 0, right: 20, bottom: 0, left: 200},
-            width = 800 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+            width = (screenWidth/2) - margin.left - margin.right,
+            height = (screenHeight/2) - margin.top - margin.bottom;
 
         function isCountrySelected(c){
             for(var k = 0; k < SelectedCountries.length; k++){
