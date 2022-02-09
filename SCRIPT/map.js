@@ -45,12 +45,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     
     var mylist = document.getElementById("List_Deaths");
     var slider = document.getElementById("Slider_Year");
-    var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected")
 
-    function prova(){
-        console.log('prova')
-    }
-    
 
     mylist.addEventListener('change', Change_In_The_Map);
     slider.addEventListener('change', Change_In_The_Map);
@@ -114,6 +109,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         maxDeath = getMax(death_Selected,year_Selected);
 
+
         var color = d3.scaleLinear()
             .domain([0, maxDeath[death_Selected]])
             .range(["#ffffb2","#bd0026"]);
@@ -162,7 +158,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     for(var i=0; i<data.length;i++){
                         if (data[i].Country == d.properties.name ){
                             if (data[i].Year == year_Selected ){
-
                                 return color(data[i][death_Selected]);
 
                             }
@@ -209,20 +204,21 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             });
 
     // DA FARE LEGENDA https://medium.datadriveninvestor.com/getting-started-with-d3-js-maps-e721ba6d8560
-    var legendWidth = 100
-    var legendHeight = 200
-    let svgLegend = d3.select("#map")
-            .append("svg")
-            .attr("id", "mapcolorlegendSVG")
-            .attr("width", legendWidth)
-            .attr("height", legendHeight);
-
-    svgLegend.append("text")
-                .attr("x", 0)
-                .attr("y", 10)
-                .text("MAP COLOR LEGEND")
-                .style("font-size", "10px")
-                .style("font-family", "American Typewriter, serif")
+    var legend_x = 380
+    var legend_y = 50
+    
+    svg.append("g")
+    .attr("id", "legend")
+    .attr("transform", "translate(" + legend_x + "," + legend_y+")");
+    
+    var legend = d3.legendColor()
+     .title("N. deaths:")
+     .labelFormat(d3.format(".0f"))
+     .scale(color)
+    
+    
+    svg.select("#legend")
+        .call(legend);
 
     }
 
