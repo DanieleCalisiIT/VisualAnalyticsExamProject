@@ -204,7 +204,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             });
 
     // DA FARE LEGENDA https://medium.datadriveninvestor.com/getting-started-with-d3-js-maps-e721ba6d8560
-    var legend_x = 380
+    var legend_x = 378
     var legend_y = 50
     
     svg.append("g")
