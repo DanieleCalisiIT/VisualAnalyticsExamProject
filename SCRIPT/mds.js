@@ -126,6 +126,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     
     
     function Change_In_MDS(){
+        d3.selectAll("#Country_Name_MDS").remove();
 
         MARGIN = 50;
         width = (screenWidth/3.8) ;
