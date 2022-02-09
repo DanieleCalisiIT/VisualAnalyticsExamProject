@@ -78,9 +78,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         var death_Selected = mylist.options[mylist.selectedIndex].value;
         var year_Selected = document.getElementById("Slider_Year").value;
 
-
-
-
         //Per trovare il massimo e il minimo nell'array e costruirci una scala
         var dataSelected = getDeathForEachCountry(death_Selected, year_Selected);
         //max
@@ -92,13 +89,13 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         var scaleMinimum = dataSelected.reduce(function(a, b) {
             return Math.min(a, b);
         });
-        //console.log(scaleMinimum)
+        console.log(scaleMinimum)
 
         // set the dimensions and margins of the graph. Per mettere due grafici width diventerà widthBoxPlot
         var margin = {top: 30, right: 20, bottom: 110, left: 50},
         width = (screenWidth/2) - margin.left - margin.right,
-        height = (screenHeight/2.3) - margin.top - margin.bottom;
-
+        //height = (screenHeight/2.3) - margin.top - margin.bottom;
+        height =(screenHeight/2.3) - margin.top - margin.bottom;
         // append the svg object to the body of the page
         var svg = d3.select("#boxplot")
             .append("svg")
@@ -120,12 +117,12 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         //Y scale
         var yscale = d3.scaleLinear()
                 .domain([scaleMinimum, scaleMaximum])
-                .range([height, scaleMinimum]);
+                .range([height, 0]);
         svg.call(d3.axisLeft(yscale))
 
         // a few features for the box
         var center = 100
-        var width = 100
+        var width = 90
 
         // Show the main vertical line
         svg.append("line")
