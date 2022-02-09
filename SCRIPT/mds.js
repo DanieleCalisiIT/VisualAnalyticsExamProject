@@ -245,12 +245,12 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         svg.call(brush);
         
-        /*var xscale = d3.scaleLinear()
+        var xscale = d3.scaleLinear()
             .domain([-2, 2])
             .range([35, width-20]);
             
         var x_axis = d3.axisBottom(xscale);
-  
+
         svg.append("g")
             .attr("transform", "translate(-5,270)")
             .call(x_axis)
@@ -263,7 +263,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         svg.append("g")
             .attr("transform", "translate(30,17)")
-            .call(y_axis)*/
+            .call(y_axis)
         
 
 
@@ -329,17 +329,21 @@ function Stroke_Country_mds(){
         
         for(var i=0; i < mds_svg.length ; i++){
             for(let l=1; l<=numero_Country_Brushed;l++){
-                var base = "Selected_Country_"
-                var id_country = base.concat(l)
-                country_parsed = document.getElementById(id_country).getAttribute("value")
-                if(mds_svg[i].getAttribute("id_Country") === country_parsed){
-                    circle_to_color = mds_svg[i].getElementsByTagName("circle")
-                    circle_to_color[0].setAttribute("r","10")
-                    circle_to_color[0].setAttribute("opacity","1")
-                    circle_to_color[0].style["fill"] = "blue"
-                    /*circle_to_color[0].style["stroke-width"]="11"
-                    circle_to_color[0].style["stroke"] = "blue"*/
+                if(mds_svg[i].getAttribute("class")=="point"){
+                    var base = "Selected_Country_"
+                    var id_country = base.concat(l)
+                    country_parsed = document.getElementById(id_country).getAttribute("value")
+                    if(mds_svg[i].getAttribute("id_Country") === country_parsed){
+                        circle_to_color = mds_svg[i].getElementsByTagName("circle")
+                        circle_to_color[0].setAttribute("r","10")
+                        circle_to_color[0].setAttribute("opacity","1")
+                        circle_to_color[0].style["fill"] = "blue"
+                        /*circle_to_color[0].style["stroke-width"]="11"
+                        circle_to_color[0].style["stroke"] = "blue"*/
+                    }
+
                 }
+                
             }
 
         }
@@ -347,9 +351,12 @@ function Stroke_Country_mds(){
     }
     else{
         for (let i=0; i < mds_svg.length; i++){
-            circle_to_color = mds_svg[i].getElementsByTagName("circle")
-            circle_to_color[0].setAttribute("r","6")
-            circle_to_color[0].style["fill"] = "teal"
+            if(mds_svg[i].getAttribute("class")=="point"){
+                circle_to_color = mds_svg[i].getElementsByTagName("circle")
+                circle_to_color[0].setAttribute("r","6")
+                circle_to_color[0].style["fill"] = "teal"
+            }
+            
         }
     }
     
