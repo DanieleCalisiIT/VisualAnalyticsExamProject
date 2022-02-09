@@ -78,12 +78,36 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         
         if (window.event.ctrlKey) {
             //ctrl was held down during the click
-            var Country_name = d.properties.name
-            if(!countries_Selected.includes(Country_name)){
-                countries_Selected.push(Country_name)
+
+            var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
+            if(numero_Country_Brushed > 0){
+                for(let l=1; l<=numero_Country_Brushed;l++){
+                    var base = "Selected_Country_"
+                    var id_country = base.concat(l)
+                    country_parsed = document.getElementById(id_country).getAttribute("value")
+                    if(!countries_Selected.includes(country_parsed)){
+                        countries_Selected.push(country_parsed)
+                    }
+                    }
+                    console.log(countries_Selected)
+                    var Country_name = d.properties.name
+                    if(!countries_Selected.includes(Country_name)){
+                        countries_Selected.push(Country_name)
+                    }
+                    return countries_Selected
+        
+
             }
+
+            else{
+                var Country_name = d.properties.name
+                if(!countries_Selected.includes(Country_name)){
+                    countries_Selected.push(Country_name)
+                }
             
-            return countries_Selected
+                return countries_Selected
+                
+            }  
 
         }
         else{
@@ -234,6 +258,7 @@ function Stroke_Country_map(){
     var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
     var map = document.getElementById("map")
     var map_svg = map.getElementsByTagName("path")
+
 
     if (numero_Country_Brushed > 0){
         for (let i=0; i < map_svg.length; i++){
