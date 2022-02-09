@@ -128,8 +128,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     function Change_In_MDS(){
         d3.selectAll("#Country_Name_MDS").remove();
 
-        MARGIN = 50;
-        width = (screenWidth/3.8) ;
+        MARGIN = 80;
+        width = (screenWidth/3.6) ;
         height = (screenHeight/3.2) ;
 
         var death_Selected = mylist.options[mylist.selectedIndex].value;
@@ -243,7 +243,29 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                 
             })
 
-        svg.call(brush); 
+        svg.call(brush);
+        
+        var xscale = d3.scaleLinear()
+            .domain([-2, 2])
+            .range([35, width-20]);
+            
+        var x_axis = d3.axisBottom(xscale);
+  
+        svg.append("g")
+            .attr("transform", "translate(-5,270)")
+            .call(x_axis)
+
+        var yscale = d3.scaleLinear()
+            .domain([-2, 2])
+            .range([height-50, 0]); 
+            
+        var y_axis = d3.axisLeft(yscale);
+
+        svg.append("g")
+            .attr("transform", "translate(30,17)")
+            .call(y_axis)
+        /*svg.append("g")
+            .call(d3.axisLeft(y).tickSizeOuter(0));*/
 
 
         points = svg.selectAll('.point')
