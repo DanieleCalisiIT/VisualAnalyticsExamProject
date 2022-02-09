@@ -91,15 +91,21 @@
 			}
 
 			#mapcolorlegendSVG{
-				right: 0px;
+				left: 75%;
 				position: absolute;
 				background-color: #252850;
 				fill: white;  
 				border-color: #3e4199;
 				border-style:solid;
     			border-width:thick; 
+				top:1%;
 			}
 			
+			#colorlegend{
+				position:absolute;
+				bottom:0%;
+				top:1000px;
+			}
 		
 			#map{
 				position:relative;
@@ -111,23 +117,30 @@
 
 			#mds{
 				position: absolute;
-				left: 500px;
+				left: 60%;
 				bottom:0%;
 			}
 		
 			#parallel{
 				position: absolute;
-				right: 0%;
-				
+				left: 50%;
+				top: 3%;
 			}
 
 			#boxplot{
 				position: absolute;
 				float:left;
-				left: 1000px;
-				top: 1000px;
-
+				left: 36.5%;
+				top: 3%;
 			}
+
+			#barchart{
+				position:absolute;
+				top: 46%;
+				left: 1%;	
+			}
+
+
 			.point {
 				fill: teal;
 				opacity: 0.8;
@@ -154,12 +167,14 @@
 			}
 
 			.wrapper{
-                position: relative;
-                width: 15%;
+                position: absolute;
+                width: 8.5%;
                 height: 10%;
                 background-color: #e28d8d;
                 padding: 10px 10px 10px 10px;
                 border-radius: 10px;
+				left: 90%;
+				top: 0%;
             }
             .container{
                 position: relative;
@@ -182,7 +197,7 @@
                 background-color: transparent;
                 pointer-events: none;
             }
-.slider-track{
+			.slider-track{
                 width: 100%;
                 height: 5px;
                 position: absolute;
@@ -236,12 +251,12 @@
                 background-color: #ffffff;
                 border: 3px solid #3264fe;
             }
-.values{
+			.values{
                 background-color: #3264fe;
-                width: 72%;
+                width: 84%;
                 position: relative;
                 margin: auto;
-                margin-bottom: 10%;
+                margin-bottom: 15%;
                 padding: 10px 0;
                 border-radius: 5px;
                 text-align: center;
@@ -265,6 +280,9 @@
 			
 			#checkYears{
 				opacity: 0;
+				position:absolute;
+				left:90%;
+				top:13%;
 			}
 
 			
