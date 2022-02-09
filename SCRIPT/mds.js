@@ -252,7 +252,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         var x_axis = d3.axisBottom(xscale);
 
         svg.append("g")
-            .attr("transform", "translate(-5,270)")
+            .attr("transform", "translate(-5,478)")
             .call(x_axis)
 
         var yscale = d3.scaleLinear()
@@ -338,8 +338,6 @@ function Stroke_Country_mds(){
                         circle_to_color[0].setAttribute("r","10")
                         circle_to_color[0].setAttribute("opacity","1")
                         circle_to_color[0].style["fill"] = "blue"
-                        /*circle_to_color[0].style["stroke-width"]="11"
-                        circle_to_color[0].style["stroke"] = "blue"*/
                     }
 
                 }
