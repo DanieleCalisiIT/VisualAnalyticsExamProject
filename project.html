@@ -20,7 +20,7 @@
         <style type="text/css">
 
 			body{
-				background-color: #252850;
+				background-color: #121212;
 				fill: white;  
 				color: white;				
 			}
@@ -62,8 +62,9 @@
 			}
 
 			svg {
-				background-color: #3e4199;
-				
+				background-color: #383838;
+				border-style: solid;
+				border-color: #6E6E6E;
 				
 			}
 
@@ -95,16 +96,14 @@
 			
 
 			#colorlegendSVG{
-				background-color: #252850;
+				background-color: #383838;
 				padding-left: 10px;
 				fill: white;  
-				border-color: rgb(65, 49, 90);
-				border-style:solid;
     			border-width:thick; 
 			}
-
 			
 			
+	
 			#colorlegend{
 				position:absolute;
 				right:0%;
@@ -113,33 +112,34 @@
 			}
 		
 			#map{
-				position:relative;
+				position:absolute;
 				left: 10%;
-				width: 50vh;
+				width: 48vh;
+				height: 15vh;
 				margin-bottom: 1%;
-	
 			}
 
 			#mds{
 				position: absolute;
-				left: 60%;
-				bottom:0%;
+				left: 61%;
+				top:41%;
 				margin-bottom: 0.5%;
 				margin-top: 3%;
 			}
 		
 			#parallel{
 				position: absolute;
-				left: 50%;
-				top: 3%;
+				left: 49.5%;
+				top: 4%;
 				height: 2%;
+				color: white;
 			}
 
 			#boxplot{
 				position: absolute;
 				float:left;
-				left: 36.5%;
-				top:3%;
+				left: 33.6%;
+				top:3.3%;
 				bottom:0%;
 			}
 
@@ -148,7 +148,6 @@
 				top: 46%;
 				left: 1%;
 				margin-top: 1%;	
-				
 			}
 			
 
@@ -181,20 +180,20 @@
 
 			.wrapper{
                 position: absolute;
-                width: 8.5%;
-                height: 9%;
-                background-color: #e28d8d;
+                width: 8%;
+                height: 8%;
+                background-color: #383838;
                 padding: 10px 10px 10px 10px;
-                border-radius: 10px;
+				border-color: #6E6E6E;
+				border-style:solid;
 				left: 90%;
 				top: 0%;
             }
             .container{
                 position: relative;
                 width: 100%;
-                height: 10%;
-                margin-top: 10px;
-                background-color: aqua;
+                height: 7%;
+                margin-top: 5px;
             }
 
             input[type="range"]{
@@ -216,56 +215,56 @@
                 position: absolute;
                 background-color: #d5d5d5;
                 margin: auto;
-                top: 0;
+                top: -10px;
                 bottom: 0;
                 border-radius: 5px;
             }
             input[type="range"]::-webkit-slider-runnable-track{
                 -webkit-appearance: none;
-                height: 5px;
+                height: -7px;
             }
             input[type="range"]::-moz-range-track{
                 -moz-appearance: none;
-                height: 5px;
+                height: -7px;
             }
             input[type="range"]::-ms-track{
                 appearance: none;
-                height: 5px;
+                height: -7px;
             }
             input[type="range"]::-webkit-slider-thumb{
                 -webkit-appearance: none;
-                height: 1.7em;
-                width: 1.7em;
-                background-color: #3264fe;
+                height: 1.4em;
+                width: 1.4em;
+                background-color: #03DAC5;
                 cursor: pointer;
-                margin-top: -9px;
+                margin-top: -8px;
                 pointer-events: auto;
                 border-radius: 50%;
             }
             input[type="range"]::-moz-range-thumb{
                 -webkit-appearance: none;
-                height: 1.7em;
-                width: 1.7em;
+                height: 1.4em;
+                width: 1.4em;
                 cursor: pointer;
                 border-radius: 50%;
-                background-color: #3264fe;
+                background-color: #03DAC5;
                 pointer-events: auto;
             }
             input[type="range"]::-ms-thumb{
                 appearance: none;
-                height: 1.7em;
-                width: 1.7em;
+                height: 1.4em;
+                width: 1.4em;
                 cursor: pointer;
                 border-radius: 50%;
-                background-color: #3264fe;
+                background-color: #03DAC5;
                 pointer-events: auto;
             }
             input[type="range"]:active::-webkit-slider-thumb{
                 background-color: #ffffff;
-                border: 3px solid #3264fe;
+                border: 3px solid #03DAC5;
             }
 			.values{
-                background-color: #3264fe;
+                background-color: #03DAC5;
                 width: 84%;
                 position: relative;
                 margin: auto;
@@ -282,11 +281,11 @@
                 position: absolute;
                 height: 0;
                 width: 0;
-                border-top: 15px solid #3264fe;
-                border-left: 15px solid transparent;
-                border-right: 15px solid transparent;
+                border-top: 10px solid #03DAC5;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
                 margin: auto;
-                bottom: -14px;
+                bottom: -10px;
                 left: 0;
                 right: 0;
             }
@@ -295,7 +294,7 @@
 				opacity: 0;
 				position:absolute;
 				left:90%;
-				top:12%;
+				top:11.5%;
 			}
 
 			
@@ -472,14 +471,13 @@
 			</div>
 		</div>
 		<div id="checkYears">
-			<label for="years">Select the number of years to predict:</label>
+			<label for="years">Select years to predict:</label>
 			<select name="years" id="years">
 				<option value="" selected disabled hidden>Choose here</option>
 				<option value="0">0</option>
 				<option value="1">1</option>
 				<option value="2">2</option>
 				<option value="3">3</option>
-				<option value="4">4</option>
 			</select>
 		</div>
 
