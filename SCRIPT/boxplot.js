@@ -93,7 +93,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         // set the dimensions and margins of the graph. Per mettere due grafici width diventerà widthBoxPlot
         var margin = {top: 30, right: 20, bottom: 110, left: 50},
-        width = (screenWidth/2) - margin.left - margin.right,
+        width = (screenWidth/6.5) - margin.left - margin.right,
         //height = (screenHeight/2.3) - margin.top - margin.bottom;
         height =(screenHeight/2.3) - margin.top - margin.bottom;
         // append the svg object to the body of the page
@@ -121,7 +121,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         svg.call(d3.axisLeft(yscale))
 
         // a few features for the box
-        var center = 100
+        var center = 90
         var width = 90
 
         // Show the main vertical line
