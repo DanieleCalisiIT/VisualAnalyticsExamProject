@@ -259,6 +259,11 @@ function Stroke_Country_map(){
     var map = document.getElementById("map")
     var map_svg = map.getElementsByTagName("path")
 
+    for (let i=0; i < map_svg.length; i++){
+        map_svg[i].style["stroke-width"]="1"
+        map_svg[i].style["stroke"] = "grey"
+    }
+
 
     if (numero_Country_Brushed > 0){
         for (let i=0; i < map_svg.length; i++){
@@ -273,13 +278,13 @@ function Stroke_Country_map(){
             }
         }
 
-    }
+    }/*
     else{
         for (let i=0; i < map_svg.length; i++){
             map_svg[i].style["stroke-width"]="1"
             map_svg[i].style["stroke"] = "grey"
         }
-    }
+    }*/
     
 }
 
