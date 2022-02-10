@@ -111,7 +111,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         var median = d3.quantile(data_sorted, .5)
         var q3 = d3.quantile(data_sorted, .75)
         var interQuantileRange = q3 - q1
-        var min = q1 - 1.5 * interQuantileRange
+        var min = 0
         var max = q1 + 1.5 * interQuantileRange
         
         //Y scale
@@ -181,6 +181,14 @@ function Stroke_Country_boxplot(){
     var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
     var boxp = document.getElementById("boxplot")
     var boxp_svg = boxp.getElementsByTagName("circle")
+
+    for (let i=0; i < boxp_svg.length; i++){
+        circle_to_color = boxp_svg[i]
+
+        circle_to_color.setAttribute("r","4")
+        circle_to_color.style["fill"] = "white"
+    }
+
     if(numero_Country_Brushed > 0){
         
         for(var i=0; i < boxp_svg.length ; i++){
@@ -200,7 +208,7 @@ function Stroke_Country_boxplot(){
 
         }
 
-    }
+    }/*
     else{
         for (let i=0; i < boxp_svg.length; i++){
             circle_to_color = boxp_svg[i]
@@ -208,6 +216,6 @@ function Stroke_Country_boxplot(){
             circle_to_color.setAttribute("r","4")
             circle_to_color.style["fill"] = "white"
         }
-    }
+    }*/
     
 }
