@@ -55,8 +55,9 @@ function Change_barchart(){
         
         let Array_Deaths = ["Unsafe_water_source","Unsafe_sanitation","Household_air_pollution_from_solid_fuels","Child_wasting","Low_birth_weight_for_gestation",
             "Secondhand_smoke","Alcohol_use","Drug_use","Diet_low_in_fruits","Unsafe_sex","High_fasting_plasma_glucose","High_body_mass_index","High_systolic_blood_pressure",
-            "Smoking","Iron_deficiency","Vitamin_A_deficiency","Low_bone_mineral_density","Air_pollution","Outdoor_air_pollution","Diet_high_in_sodium","Diet_low_in_whole_grains"]; //grains da togliere?
+            "Smoking","Iron_deficiency","Vitamin_A_deficiency","Air_pollution","Outdoor_air_pollution","Diet_high_in_sodium"]; //grains da togliere?
         //21
+
         let Countries =["Albania","Austria","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
             "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Macedonia","Malta","Moldova","Montenegro","Netherlands",
             "Norway","Poland","Portugal","Romania","Serbia","Slovakia","Slovenia","Spain","Sweden","Switzerland","Ukraine","United Kingdom"];  //39  //macedonia e UK messe bene  (hungary doppia rimossa)
@@ -100,7 +101,7 @@ function Change_barchart(){
                 }
             }
 
-            //console.log(ArrayTotals)
+            
 
             //relevant values è una matrice CountryXMorte, io devo passare a MorteXCountry, oltre a normalizzare
 
@@ -173,7 +174,7 @@ function Change_barchart(){
             // Add Y axis
             var y = d3.scaleBand()
                 .domain(Array_Deaths)
-                .range([height, 30])
+                .range([30, height])
             svg.append("g")
                 .call(d3.axisLeft(y).tickSizeOuter(0));
 
