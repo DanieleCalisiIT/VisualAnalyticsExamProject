@@ -209,15 +209,16 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                 for(var i=0;i<points_data.length;i++){
                     var x_Point = x(points_data[i][0])
                     var y_point = y(points_data[i][1])
-                    
+
                     if(Starting_x <= x_Point && Starting_y <= Final_y){
                         if(Final_x >= x_Point && Final_y >= y_point){
                             var name_Country = Check_Country(Starting_x,points_data[i],points_data);
                             Countries_Brushed.push(name_Country)
                         }
                     }
-                    
+
                 }
+
                     d3.selectAll("hidden").remove();
                     d3.select("body")
                         .data(Countries_Brushed)
@@ -325,6 +326,16 @@ function Stroke_Country_mds(){
     var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
     var mds = document.getElementById("mds")
     var mds_svg = mds.getElementsByTagName("g")
+    for (let i=0; i < mds_svg.length; i++){
+        if(mds_svg[i].getAttribute("class")=="point"){
+            circle_to_color = mds_svg[i].getElementsByTagName("circle")
+            circle_to_color[0].setAttribute("r","6")
+            circle_to_color[0].style["fill"] = "teal"
+        }
+        
+    }
+
+
     if(numero_Country_Brushed > 0){
         
         for(var i=0; i < mds_svg.length ; i++){
@@ -346,7 +357,7 @@ function Stroke_Country_mds(){
 
         }
 
-    }
+    }/*
     else{
         for (let i=0; i < mds_svg.length; i++){
             if(mds_svg[i].getAttribute("class")=="point"){
@@ -356,6 +367,6 @@ function Stroke_Country_mds(){
             }
             
         }
-    }
+    }*/
     
 }
