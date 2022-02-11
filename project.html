@@ -44,9 +44,8 @@
 
 			#Country_Name{
 				position:relative;
-				top:4%;
+				top:0%;
 				left:0%;
-				margin: 0;
 				width: 20%;
 				font-size: 150%;
 				font-weight: bold;
@@ -54,15 +53,23 @@
 				
 			}
 
+			#ColumnDeaths{
+				position: relative;
+				top:5%
+			}
+
 			#wrapper_Column_Deaths{
 				position: absolute;
-				top:9%;
-				font-size: 1.45vmin;
-				width: 12%;
+				top:3%;
+				font-size: 1.6vmin;
+				width: 8.75%;
+				height: 42.59%;
 				background-color: #383838;
 				padding-left: 0.3%;
 				padding-top: 0.3%;
 				padding-bottom: 0.3%;
+				border-style: solid;
+				border-color: #6E6E6E;
 			}
 
 			svg {
@@ -118,9 +125,11 @@
 			#map{
 				position:absolute;
 				left: 10%;
-				width: 48vh;
+				top:3%;
+				width: 50vh;
 				height: 15vh;
 				margin-bottom: 1%;
+				
 			}
 
 			#mds{
@@ -133,18 +142,25 @@
 		
 			#parallel{
 				position: absolute;
-				left: 49.5%;
-				top: 4%;
+				left: 46.28%;
+				top: 3%;
 				height: 2%;
 				color: white;
+			}
+
+			#years{
+				margin-left: 29%;
+				margin-top: 2%;
+				width: 30%;
 			}
 
 			#boxplot{
 				position: absolute;
 				float:left;
-				left: 33.6%;
-				top:3.3%;
+				left: 34.65%;
+				top:3%;
 				bottom:0%;
+				
 			}
 
 			#barchart{
@@ -184,14 +200,14 @@
 
 			.wrapper{
                 position: absolute;
-                width: 8%;
-                height: 8%;
+                width: 8.2%;
+                height: 10.82%;
                 background-color: #383838;
                 padding: 10px 10px 10px 10px;
 				border-color: #6E6E6E;
 				border-style:solid;
-				left: 90%;
-				top: 0%;
+				left: 90.05%;
+				top: 3%;
             }
             .container{
                 position: relative;
@@ -268,24 +284,22 @@
                 border: 3px solid #03DAC5;
             }
 			.values{
-                background-color: #03DAC5;
+                background-color: #35c2b4;
                 width: 84%;
                 position: relative;
                 margin: auto;
-                margin-bottom: 15%;
-                padding: 10px 0;
-                border-radius: 5px;
+                margin-bottom: 14%;
+                border-radius: 4px;
                 text-align: center;
-                font-weight: 300;
                 font-size: 20px;
-                color: #ffffff;
+				font-weight: bold;
             }
             .values:before{
                 content: "";
                 position: absolute;
                 height: 0;
                 width: 0;
-                border-top: 10px solid #03DAC5;
+                border-top: 10px solid #35c2b4;
                 border-left: 10px solid transparent;
                 border-right: 10px solid transparent;
                 margin: auto;
@@ -297,8 +311,9 @@
 			#checkYears{
 				opacity: 0;
 				position:absolute;
-				left:90%;
+				left: 90.6%;
 				top:11.5%;
+				font-weight: bold;
 			}
 
 			
@@ -378,9 +393,10 @@
 
 		</div>
 
-		<text id="Country_Name">Country name</text>
+		
 
 		<div id= "wrapper_Column_Deaths">
+			<text id="Country_Name">Country name</text>
 			<div id="ColumnDeaths">
 				<h5 id="nameDeath">Unsafe water source:</h5>
 				<h6 id="Unsafe_water_source">NULL</h6>
@@ -418,7 +434,7 @@
 				<h5 id="nameDeath">High BMI:</h5>
 				<h6 id="High_body_mass_index">NULL</h6>
 				<br/>
-				<h5 id="nameDeath">High systolic blood pressure:</h5>
+				<h5 id="nameDeath">High sys. blood press.:</h5>
 				<h6 id="High_systolic_blood_pressure">NULL</h6>
 				<br/>
 				<h5 id="nameDeath">Smoking:</h5>
@@ -474,7 +490,7 @@
 		<div id="checkYears">
 			<label for="years">Select years to predict:</label>
 			<select name="years" id="years">
-				<option value="" selected disabled hidden>Choose here</option>
+				<!--<option value="" selected disabled hidden>Choose here</option>-->
 				<option value="0">0</option>
 				<option value="1">1</option>
 				<option value="2">2</option>

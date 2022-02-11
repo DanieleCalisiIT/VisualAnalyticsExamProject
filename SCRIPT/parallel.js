@@ -222,8 +222,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
         // set the dimensions and margins of the graph. QUI modifica: screenWidth/2.4
         var margin = {top: 30, right: 50, bottom: 10, left: 50},
-        width = (screenWidth/2.5) - margin.left - margin.right,
-        height = (screenHeight/2.4) - margin.top - margin.bottom;
+        width = (screenWidth/2.313) - margin.left - margin.right,
+        height = (screenHeight/2.283) - margin.top - margin.bottom;
         
         var svg = d3.select("#parallel")
                     .append("svg")
