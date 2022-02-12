@@ -73,9 +73,9 @@ function Change_barchart(){
         var mylist = document.getElementById("List_Deaths");
         mylist.addEventListener('change', Change_In_Barchart);
 
-        var margin = {top: 0, right: 20, bottom: 0, left: 200},
-            width = (screenWidth/1.7) - margin.left - margin.right,
-            height = (screenHeight/1.95) - margin.top - margin.bottom;
+        var margin = {top: 5, right: 20, bottom: 0, left: 200},
+            width = (screenWidth/1.644) - margin.left - margin.right,
+            height = (screenHeight/1.945) - margin.top - margin.bottom;
 
         function isCountrySelected(c){
             for(var k = 0; k < SelectedCountries.length; k++){
@@ -234,7 +234,7 @@ function Change_barchart(){
                             deathNum++;
                             return Array_Deaths[deathNum] })
                         
-                        .attr("height",y.bandwidth()-5)  //qui decidi spessore righe
+                        .attr("height",y.bandwidth()-4)  //qui decidi spessore righe
                         .attr("width", function(d) { return x(d[1]) - x(d[0]); })
 
                         //.attr("opacity", 0.5)

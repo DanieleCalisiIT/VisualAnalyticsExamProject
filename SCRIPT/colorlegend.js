@@ -38,7 +38,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
         width = (screenWidth/11.5) - margin.left - margin.right,
-        height = (screenHeight/1.23) - margin.top - margin.bottom;
+        height = (screenHeight/1.2135) - margin.top - margin.bottom;
 
     var mylist = document.getElementById("List_Deaths");
     var slider = document.getElementById("Slider_Year");
