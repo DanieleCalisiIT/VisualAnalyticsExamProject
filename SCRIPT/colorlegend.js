@@ -1,4 +1,4 @@
-d3.csv("DATASET/Deaths_EU.csv").then(function(data){
+/*d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     data.forEach(function(d){
         d["Country"] = d.Entity;
         d.Year = +d.Year; //Convert to date
@@ -23,13 +23,13 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         d.Outdoor_air_pollution = +d.Outdoor_air_pollution;
         d.Diet_high_in_sodium = +d.Diet_high_in_sodium;
         d.Diet_low_in_whole_grains = +d.Diet_low_in_whole_grains; //aggiunto
-    });
+    });*/
 
     let Countries =["Albania","Austria","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
         "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Macedonia","Malta","Moldova","Montenegro","Netherlands",
         "Norway","Poland","Portugal","Romania","Serbia","Slovakia","Slovenia","Spain","Sweden","Switzerland","Ukraine","United Kingdom"];  //39  
 
-    var SelectedCountries =["Albania","Austria","Italy","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria"];  
+    var SelectedCountries =[];  
 
     var DistinctColors = ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a"] //10
 
@@ -40,16 +40,16 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         width = (screenWidth/11.5) - margin.left - margin.right,
         height = (screenHeight/1.7) - margin.top - margin.bottom;
 
-    var mylist = document.getElementById("List_Deaths");
+    /*var mylist = document.getElementById("List_Deaths");
     var slider = document.getElementById("Slider_Year");
-    
-    
-    mylist.addEventListener('change', Change_In_The_ColorLegend);
-    slider.addEventListener('change', Change_In_The_ColorLegend);
 
-    Change_In_The_ColorLegend();
+    mylist.addEventListener('change', Change_In_The_ColorLegend);
+    slider.addEventListener('change', Change_In_The_ColorLegend);*/
+
 
     function Change_In_The_ColorLegend(){
+
+        d3.selectAll("#colorlegendSVG").remove();
                 
         var svg = d3.select("#colorlegend")
                     .append("svg")
@@ -57,8 +57,23 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
                     /*.append("g")
+        
                     .attr("transform","translate(" + margin.left + "," + margin.top + ")");*/    //forse da rimettere
+        
+        var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
 
+            if(numero_Country_Brushed>0){
+                for(let l=1; l<=numero_Country_Brushed;l++){
+                    var base = "Selected_Country_"
+                    var id_country = base.concat(l)
+                    country_parsed = document.getElementById(id_country).getAttribute("value")
+                    SelectedCountries.push(country_parsed)
+                }
+    
+            }
+        
+        console.log(SelectedCountries)
+        
         //fill empty spaces with dummies
         let gap = SelectedCountries.length
         for(var i = 0; i < (10-gap); i ++){
@@ -74,7 +89,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         svg.append("text").attr("x", "22%").attr("y", "13%").text("LEGEND").style("font-size", "20px").style("font-family", "American Typewriter, serif")   
 
         for(var i = 0; i < 10; i++){
-            
+
             let country = SelectedCountries[i]
             
             let countryName = country
@@ -106,5 +121,6 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
     
     }
-
-});
+    Change_In_The_ColorLegend();
+/*
+});*/
