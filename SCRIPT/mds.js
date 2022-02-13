@@ -196,28 +196,52 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             });
 
             
-        
+        var num_Coun=0
         var brush = d3.brush()
             .extent( [ [0,0], [width,height] ] )
             .on("start brush",function(d){
+                var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
                 var Countries_Brushed = ["String_Del"]
                 var Starting_x = d.selection[0][0]
                 var Starting_y = d.selection[0][1]
                 var Final_x = d.selection[1][0]
                 var Final_y = d.selection[1][1]
 
-                for(var i=0;i<points_data.length;i++){
-                    var x_Point = x(points_data[i][0])
-                    var y_point = y(points_data[i][1])
-
-                    if(Starting_x <= x_Point && Starting_y <= Final_y){
-                        if(Final_x >= x_Point && Final_y >= y_point){
-                            var name_Country = Check_Country(Starting_x,points_data[i],points_data);
-                            Countries_Brushed.push(name_Country)
+                //Se si clicca una volta sola si resetta
+                if(Starting_x - Final_x == 0){
+                    Countries_Brushed = Countries_Brushed
+                    
+                }
+                else{
+                    if(numero_Country_Brushed<10){
+                        for(var i=0;i<points_data.length;i++){
+                            var x_Point = x(points_data[i][0])
+                            var y_point = y(points_data[i][1])
+                                if(Starting_x <= x_Point && Starting_y <= Final_y){
+                                    if(Final_x >= x_Point && Final_y >= y_point){
+                                        var name_Country = Check_Country(Starting_x,points_data[i],points_data);
+                                        Countries_Brushed.push(name_Country)
+                                        num_Coun = Countries_Brushed.length
+                                    }
+                                }
+                          
+                            }
+    
+                    }
+                    else{
+    
+                        for(var i=1;i<11;i++){
+                            var base = "Selected_Country_"
+                            var id_country = base.concat(i)
+                            country_parsed = document.getElementById(id_country).getAttribute("value")
+                            Countries_Brushed.push(country_parsed)
+    
                         }
+                        
                     }
 
                 }
+                
 
                     d3.selectAll("hidden").remove();
                     d3.select("body")
