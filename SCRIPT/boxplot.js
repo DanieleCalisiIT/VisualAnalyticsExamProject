@@ -89,7 +89,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         var scaleMinimum = dataSelected.reduce(function(a, b) {
             return Math.min(a, b);
         });
-        console.log(scaleMinimum)
+
 
         // set the dimensions and margins of the graph. Per mettere due grafici width diventerà widthBoxPlot
         var margin = {top: 30, right: 20, bottom: 30, left: 50},
