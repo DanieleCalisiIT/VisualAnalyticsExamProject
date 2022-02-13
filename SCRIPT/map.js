@@ -75,45 +75,52 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
     var countries_Selected = ["String_Del"]
     function Click_on_Country(event,d){
-        
-        if (window.event.ctrlKey) {
-            //ctrl was held down during the click
-
-            var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
-            if(numero_Country_Brushed > 0){
-                for(let l=1; l<=numero_Country_Brushed;l++){
-                    var base = "Selected_Country_"
-                    var id_country = base.concat(l)
-                    country_parsed = document.getElementById(id_country).getAttribute("value")
-                    if(!countries_Selected.includes(country_parsed)){
-                        countries_Selected.push(country_parsed)
-                    }
-                    }
-                    console.log(countries_Selected)
+        var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
+        if(numero_Country_Brushed <11){
+            if (window.event.ctrlKey) {
+                //ctrl was held down during the click
+    
+                
+                if(numero_Country_Brushed > 0){
+                    for(let l=1; l<=numero_Country_Brushed;l++){
+                        var base = "Selected_Country_"
+                        var id_country = base.concat(l)
+                        country_parsed = document.getElementById(id_country).getAttribute("value")
+                        if(!countries_Selected.includes(country_parsed)){
+                            countries_Selected.push(country_parsed)
+                        }
+                        }
+                        var Country_name = d.properties.name
+                        if(!countries_Selected.includes(Country_name)){
+                            countries_Selected.push(Country_name)
+                        }
+                        return countries_Selected
+            
+    
+                }
+    
+                else{
                     var Country_name = d.properties.name
                     if(!countries_Selected.includes(Country_name)){
                         countries_Selected.push(Country_name)
                     }
-                    return countries_Selected
-        
-
-            }
-
-            else{
-                var Country_name = d.properties.name
-                if(!countries_Selected.includes(Country_name)){
-                    countries_Selected.push(Country_name)
-                }
-            
-                return countries_Selected
                 
-            }  
+                    return countries_Selected
+                    
+                }  
+    
+            }
+            else{
+                countries_Selected =["String_Del"]
+                return countries_Selected
+            }
 
         }
         else{
             countries_Selected =["String_Del"]
             return countries_Selected
         }
+        
     }
 
     
