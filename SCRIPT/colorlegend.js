@@ -27,18 +27,18 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
     let Countries =["Albania","Austria","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France",
         "Germany","Greece","Hungary","Iceland","Ireland","Italy","Latvia","Lithuania","Luxembourg","Macedonia","Malta","Moldova","Montenegro","Netherlands",
-        "Norway","Poland","Portugal","Romania","Serbia","Slovakia","Slovenia","Spain","Sweden","Switzerland","Ukraine","United Kingdom"];  //39  //macedonia e UK messe bene  (hungary doppia rimossa)
+        "Norway","Poland","Portugal","Romania","Serbia","Slovakia","Slovenia","Spain","Sweden","Switzerland","Ukraine","United Kingdom"];  //39  
 
-    var ColorsTest = ['#F44336','#FFEBEE','#FFCDD2','#EF9A9A','#E57373','#EF5350','#F44336','#E53935','#D32F2F','#C62828','#B71C1C','#FF8A80','#FF5252','#FF1744','#D50000','#E91E63',
-    '#FCE4EC','#F8BBD0','#F48FB1','#F06292','#EC407A','#E91E63','#D81B60','#C2185B','#AD1457','#880E4F','#FF80AB','#FF4081','#F50057','#C51162','#9C27B0','#F3E5F5','#E1BEE7',
-    '#CE93D8','#BA68C8','#AB47BC','#9C27B0','#8E24AA',"#FFFF00"] //39
+    var SelectedCountries =["Albania","Austria","Italy","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria"];  
+
+    var DistinctColors = ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a"] //10
 
     var screenWidth = window.innerWidth
     var screenHeight = window.innerHeight
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
         width = (screenWidth/11.5) - margin.left - margin.right,
-        height = (screenHeight/1.2135) - margin.top - margin.bottom;
+        height = (screenHeight/1.7) - margin.top - margin.bottom;
 
     var mylist = document.getElementById("List_Deaths");
     var slider = document.getElementById("Slider_Year");
@@ -59,26 +59,43 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                     /*.append("g")
                     .attr("transform","translate(" + margin.left + "," + margin.top + ")");*/    //forse da rimettere
 
+        //fill empty spaces with dummies
+        let gap = SelectedCountries.length
+        for(var i = 0; i < (10-gap); i ++){
+            SelectedCountries.push("Dummy" + i);
+        }
+
         var color = d3.scaleOrdinal()
-                    .domain(Countries)  //non selectedCountries
-                    .range(ColorsTest)
+                    .domain(SelectedCountries)  
+                    .range(DistinctColors)  //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
-        
-        svg.append("text").attr("x", "13%").attr("y", "2.5%").text("COUNTRIES").style("font-size", "20px").style("font-family", "American Typewriter, serif")   
-        svg.append("text").attr("x", "22%").attr("y", "5.%").text("LEGEND").style("font-size", "20px").style("font-family", "American Typewriter, serif")   
+        svg.append("text").attr("x", "19%").attr("y", "5%").text("DYNAMIC").style("font-size", "20px").style("font-family", "American Typewriter, serif")   
+        svg.append("text").attr("x", "13%").attr("y", "9%").text("COUNTRIES").style("font-size", "20px").style("font-family", "American Typewriter, serif")   
+        svg.append("text").attr("x", "22%").attr("y", "13%").text("LEGEND").style("font-size", "20px").style("font-family", "American Typewriter, serif")   
 
-        for(var i = 0; i < Countries.length; i++){
+        for(var i = 0; i < 10; i++){
             
-            let country = Countries[i]
-            if (country == "Bosnia and Herzegovina"){
-                country = "Bosnia and H."
+            let country = SelectedCountries[i]
+            
+            let countryName = country
+            if ((country.charAt(0) == "D") && (country.charAt(1) == "u")){  //check that is dummy
+                countryName = "NULL";
             }
 
-            let scaling = 2.39 * i
+            if (country == "Bosnia and Herzegovina"){
+                countryName = "Bosnia and H."
+            }
+                
+
+            let squaresSeparation = 8 * i
             
             
-            svg.append("rect").attr("x", "20%").attr("y", (7 + scaling) + "%").attr("width", "7%").attr("height", "1.5%").style("fill", color(country))
-            svg.append("text").attr("x", "30%").attr("y", (8 + scaling) + "%").text(country).style("font-size", "14px").attr("alignment-baseline","middle")
+            svg.append("rect").attr("x", "19%").attr("y", (19 + squaresSeparation) + "%").attr("width", "10%").attr("height", "2.8%").style("fill", color(country))
+
+            if(countryName == "NULL")
+                svg.append("text").attr("x", "33%").attr("y", (20.7 + squaresSeparation) + "%").text(countryName).style("font-size", "16px").attr("alignment-baseline","middle").style("opacity", .5);
+            else
+                svg.append("text").attr("x", "33%").attr("y", (20.7 + squaresSeparation) + "%").text(countryName).style("font-size", "16px").attr("alignment-baseline","middle")
 
             //svg.append("rect").attr("x", 130 * i).attr("y",startingHighRect).attr("width", 15).attr("height", 15).style("fill", color(country))
             //svg.append("text").attr("x", 20 + (130 * i)).attr("y", startingHighRect + 10).text(country).style("font-size", "14px").attr("alignment-baseline","middle")

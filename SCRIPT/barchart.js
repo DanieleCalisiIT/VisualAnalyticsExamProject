@@ -66,6 +66,8 @@ function Change_barchart(){
         '#FCE4EC','#F8BBD0','#F48FB1','#F06292','#EC407A','#E91E63','#D81B60','#C2185B','#AD1457','#880E4F','#FF80AB','#FF4081','#F50057','#C51162','#9C27B0','#F3E5F5','#E1BEE7',
         '#CE93D8','#BA68C8','#AB47BC','#9C27B0','#8E24AA',"#FFFF00"] //39
 
+        var DistinctColors = ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a"] //10
+
 
         var slider = document.getElementById("Slider_Year");
         slider.addEventListener('change', Change_In_Barchart);
@@ -76,6 +78,8 @@ function Change_barchart(){
         var margin = {top: 5, right: 20, bottom: 0, left: 200},
             width = (screenWidth/1.644) - margin.left - margin.right,
             height = (screenHeight/1.945) - margin.top - margin.bottom;
+
+        
 
         function isCountrySelected(c){
             for(var k = 0; k < SelectedCountries.length; k++){
@@ -163,6 +167,18 @@ function Change_barchart(){
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform","translate(" + margin.left + "," + margin.top + ")"); //cos'è
+            
+            var textHint = d3.select("#barchartTextHint");
+
+            if(SelectedCountries.length == 0){
+                textHint.style('opacity', 1);
+            }
+            else{
+                textHint.style('opacity', 0);
+            }   
+                
+
+            
 
             // Add X axis
             var x = d3.scaleLinear()
@@ -180,8 +196,8 @@ function Change_barchart(){
 
                 
             var color = d3.scaleOrdinal()
-                .domain(Countries)  //non selectedCountries
-                .range(ColorsTest)
+                .domain(SelectedCountries)  
+                .range(DistinctColors)
 
             normalized_values = NormalizeAndRetrieve(RelevantValues)
 
