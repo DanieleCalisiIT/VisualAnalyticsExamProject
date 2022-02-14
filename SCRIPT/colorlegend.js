@@ -36,9 +36,7 @@
     var screenWidth = window.innerWidth
     var screenHeight = window.innerHeight
 
-    var margin = {top: 0, right: 0, bottom: 0, left: 0},
-        width = (screenWidth/11.5) - margin.left - margin.right,
-        height = (screenHeight/1.7) - margin.top - margin.bottom;
+    
 
     /*var mylist = document.getElementById("List_Deaths");
     var slider = document.getElementById("Slider_Year");
@@ -51,6 +49,10 @@ function Change_In_The_ColorLegend(){
     var SelectedCountries =[];  
 
     d3.selectAll("#colorlegendSVG").remove();
+
+    var margin = {top: 0, right: 0, bottom: 0, left: 0},
+        width = (screenWidth/11.5) - margin.left - margin.right,
+        height = (screenHeight/1.7) - margin.top - margin.bottom;
            
     var svg = d3.select("#colorlegend")
                 .append("svg")
@@ -84,7 +86,7 @@ function Change_In_The_ColorLegend(){
     console.log(SelectedCountries)
     var color = d3.scaleOrdinal()
                 .domain(SelectedCountries)  
-                .range(DistinctColors)  //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                .range(DistinctColors)  
 
     svg.append("text").attr("x", "19%").attr("y", "5%").text("DYNAMIC").style("font-size", "20px").style("font-family", "American Typewriter, serif")   
     svg.append("text").attr("x", "13%").attr("y", "9%").text("COUNTRIES").style("font-size", "20px").style("font-family", "American Typewriter, serif")   
