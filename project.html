@@ -345,7 +345,8 @@
 	<body>
 		
 
-		<input id="number_of_Country_Selected" type="hidden" value="0"  onchange="Stroke_Country_mds();Stroke_Country_map();Stroke_Country_boxplot();Change_barchart();Change_In_The_ColorLegend()"/>
+		<input id="number_of_Country_Selected" type="hidden" value="0"  
+		onchange="Stroke_Country_mds();Stroke_Country_map();Stroke_Country_boxplot();Change_barchart();Change_In_The_ColorLegend();Change_Parallel_Num_countr()"/>
 		<script src="SCRIPT/colorlegend.js"></script>
 
 		<!--<input id="Slider_Year"type="range" value="2005" min="1990" max="2017" oninput="this.nextElementSibling.value = this.value">
@@ -525,6 +526,7 @@
 		<script type="text/javascript">
 			Change_barchart();
 			Change_In_The_ColorLegend();
+			Change_Parallel_Num_countr();
 		</script>
 
 	</body>
