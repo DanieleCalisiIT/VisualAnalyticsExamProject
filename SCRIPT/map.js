@@ -162,7 +162,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
                         .attr("height", height)
                         .attr("transform", transform)*/
             
-
+        
         //Define map projection
         let geoJsonUrl = ''
 
@@ -271,6 +271,12 @@ function Stroke_Country_map(){
         map_svg[i].style["stroke-width"]="1"
         map_svg[i].style["stroke"] = "grey"
     }
+
+    d3.select("#number_Country")
+        .text(function(d){
+            var numb_C = numero_Country_Brushed.concat("/10")
+            return numb_C
+        })
 
 
     if (numero_Country_Brushed > 0){
