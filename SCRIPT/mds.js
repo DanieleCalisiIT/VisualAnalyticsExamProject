@@ -278,7 +278,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         var x_axis = d3.axisBottom(xscale);
 
         svg.append("g")
-            .attr("transform", "translate(-5,478)")
+            .attr("transform", "translate(-5,460)")
             .call(x_axis)
 
         var yscale = d3.scaleLinear()
