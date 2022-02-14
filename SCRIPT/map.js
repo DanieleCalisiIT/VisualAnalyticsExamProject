@@ -76,10 +76,9 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     var countries_Selected = ["String_Del"]
     function Click_on_Country(event,d){
         var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
-        if(numero_Country_Brushed <11){
+        if(numero_Country_Brushed <10){
             if (window.event.ctrlKey) {
                 //ctrl was held down during the click
-    
                 
                 if(numero_Country_Brushed > 0){
                     for(let l=1; l<=numero_Country_Brushed;l++){
@@ -130,7 +129,9 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
     function Change_In_The_Map(){
 
-        d3.selectAll("svg").remove();
+        d3.selectAll("map").remove();
+
+        d3.selectAll("parallel").remove();
 
 
         var maxDeath
