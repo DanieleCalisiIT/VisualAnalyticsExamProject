@@ -81,7 +81,7 @@ function Change_In_The_ColorLegend(){
     for(var i = 0; i < (10-gap); i ++){
         SelectedCountries.push("Dummy" + i);
     }
-    console.log(SelectedCountries)
+
     var color = d3.scaleOrdinal()
                 .domain(SelectedCountries)  
                 .range(DistinctColors)  //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
