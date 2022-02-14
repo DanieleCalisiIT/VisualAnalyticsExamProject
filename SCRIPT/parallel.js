@@ -329,7 +329,7 @@ function Change_Parallel_Num_countr(){
                 d3.selectAll(".line")
                     .transition().duration(100)
 
-                    .style("opacity", "0.1")
+                    .style("opacity", "0.03")
                 // Second the hovered country takes its color
                 d3.selectAll("." + selectedCountry)
                     .transition().duration(100)
@@ -341,7 +341,7 @@ function Change_Parallel_Num_countr(){
             function doNotHighlight(d){
                 var selectedCountry = d.Country
                 d3.selectAll(".line")
-                .transition().duration(200).delay(1000)
+                .transition().duration(200).delay(0)
                 .style("opacity", "1")
             }
 
