@@ -74,6 +74,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     
     function Change_In_Boxplot(){
 
+        d3.selectAll("#boxplot").selectAll("*").remove();
+
 
         var death_Selected = mylist.options[mylist.selectedIndex].value;
         var year_Selected = document.getElementById("Slider_Year").value;
