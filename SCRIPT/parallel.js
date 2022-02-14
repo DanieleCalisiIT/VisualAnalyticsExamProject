@@ -464,6 +464,7 @@ function Change_Parallel_Num_countr(){
                 .attr("d",  path)
                 .style("fill", "none" )
                 .style("stroke", function(d){ return( color(d.Country))} )
+                .style("stroke-width", 3)
                 .style("opacity", 0.5)
                 .on("mouseover", function(_event,d){
                     highlight(d)
