@@ -314,7 +314,8 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
         
 
         enter_points.append('circle')
-                    .attr("r",6);
+                    .attr("r",6)
+                    .style("fill", "#35c2b4");
                     
         
 

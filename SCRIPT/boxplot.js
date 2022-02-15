@@ -141,7 +141,7 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
             .attr("height", (yscale(q1)-yscale(q3)) )
             .attr("width", width )
             .attr("stroke", "black")
-            .style("fill", "#69b3a2")
+            .style("fill", "#35c2b4")
 
         // show median, min and max horizontal lines
         svg.selectAll("toto")
