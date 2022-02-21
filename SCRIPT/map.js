@@ -47,8 +47,15 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     var slider = document.getElementById("Slider_Year");
 
 
-    mylist.addEventListener('change', Change_In_The_Map);
+    //mylist.addEventListener('change', Change_In_The_Map);
+    mylist.addEventListener('change',() => {    
+        Change_In_The_Map();
+        Stroke_Country_map();    
+   });
+    
     slider.addEventListener('change', Change_In_The_Map);
+
+    //mylist.addEventListener('change', Stroke_Country_map);
     //numero_Country_Brushed.addEventListener('change', Change_In_The_Map_W_Brushed)
     
 
@@ -128,10 +135,11 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
 
     function Change_In_The_Map(){
+        
 
-        d3.selectAll("map").remove();
+        d3.selectAll("#map").selectAll("*").remove();
 
-        d3.selectAll("parallel").remove();
+        //d3.selectAll("parallel").remove();
 
 
         var maxDeath
@@ -252,9 +260,14 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
     svg.select("#legend")
         .call(legend);
 
+    setTimeout(Stroke_Country_map, 200)
+
     }
 
+    
+
     Change_In_The_Map();
+    
 
 
 
@@ -262,11 +275,12 @@ d3.csv("DATASET/Deaths_EU.csv").then(function(data){
 
 
 function Stroke_Country_map(){
-
+    
+    
     var numero_Country_Brushed =  document.getElementById("number_of_Country_Selected").value
     var map = document.getElementById("map")
     var map_svg = map.getElementsByTagName("path")
-
+    console.log(map_svg)
     for (let i=0; i < map_svg.length; i++){
         map_svg[i].style["stroke-width"]="1"
         map_svg[i].style["stroke"] = "grey"
@@ -278,14 +292,18 @@ function Stroke_Country_map(){
             return numb_C
         })
 
-
+    
     if (numero_Country_Brushed > 0){
+        //console.log("Cios")
         for (let i=0; i < map_svg.length; i++){
             for(let l=1; l<=numero_Country_Brushed;l++){
                 var base = "Selected_Country_"
                 var id_country = base.concat(l)
+                
                 country_parsed = document.getElementById(id_country).getAttribute("value")
+                
                 if(map_svg[i].getAttribute("id_Country") === country_parsed){
+                    
                     map_svg[i].style["stroke-width"]="3"
                     map_svg[i].style["stroke"] = "blue"
                 }
